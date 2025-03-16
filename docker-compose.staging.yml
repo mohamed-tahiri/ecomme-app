@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: staging_user
+      POSTGRES_PASSWORD: staging_password
+      POSTGRES_DB: staging_ecom_db

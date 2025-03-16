@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: prod_user
+      POSTGRES_PASSWORD: prod_password
+      POSTGRES_DB: prod_ecom_db
+    ports:
+      - "5432:5432"  # Optional: Remove in a real deployment
+
+  adminer:
+    environment:
+      ADMINER_DEFAULT_SERVER: db

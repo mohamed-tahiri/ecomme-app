@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: dev_ecom_db
+    ports:
+      - "5432:5432"  # Exposed for local dev
+
+  adminer:
+    environment:
+      ADMINER_DEFAULT_SERVER: db
