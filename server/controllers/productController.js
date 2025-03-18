@@ -1,4 +1,4 @@
-import { getProducts, getProductById } from '../services/productService.js';
+import { getProducts, getProductById, createProduct } from '../services/productService.js';
 
 /**
  * @swagger
@@ -6,7 +6,6 @@ import { getProducts, getProductById } from '../services/productService.js';
  *   - name: products
  *     description: Operations related to products
  */
-
 
 /**
  * @swagger
@@ -111,4 +110,53 @@ const getProductByIdController = async (req, res) => {
   }
 };
 
-export { getProductsController, getProductByIdController };
+/**
+ * @swagger
+ * /api/v1/products:
+ *   post:
+ *     tags:
+ *       - products
+ *     summary: Create a new product
+ *     description: Adds a new product to the database.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - price
+ *               - stock
+ *               - categoryId
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               stock:
+ *                 type: integer
+ *               categoryId:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Product created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       400:
+ *         description: Invalid input
+ */
+const createProductController = async (req, res) => {
+  try {
+    const product = await createProduct(req.body);
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export { getProductsController, getProductByIdController, createProductController };

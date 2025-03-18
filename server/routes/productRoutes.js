@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProductsController, getProductByIdController } from '../controllers/productController.js';
+import { getProductsController, getProductByIdController, createProductController } from '../controllers/productController.js';
 
 const router = express.Router();
 
@@ -34,7 +34,11 @@ const router = express.Router();
  *         stock: 100
  */
 
-router.get('/', getProductsController);
-router.get('/:id', getProductByIdController);
+router.route('/')
+    .get(getProductsController)
+    .post(createProductController)
+
+router.route('/:id')
+    .get(getProductByIdController);
 
 export default router;

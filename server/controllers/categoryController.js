@@ -1,40 +1,156 @@
-// controllers/categoryController.js
-import Category from '../models/Category.js';
+import {
+  getCategories,
+  getCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from '../services/categoryService.js';
 
-// Create a new category
-export const createCategory = async (req, res) => {
+/**
+ * @swagger
+ * tags:
+ *   name: Categories
+ *   description: API for managing product categories
+ */
+
+/**
+ * @swagger
+ * /api/v1/categories:
+ *   get:
+ *     summary: Get all categories
+ *     tags: [Categories]
+ *     responses:
+ *       200:
+ *         description: A list of categories
+ */
+export const getCategoriesController = async (req, res) => {
   try {
-    const { name, description } = req.body;
-    const newCategory = await Category.create({ name, description });
-    res.status(201).json(newCategory);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to create category' });
+    const { page, limit, name } = req.query;
+    const categories = await getCategories(Number(page), Number(limit), name);
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Get all categories
-export const getCategories = async (req, res) => {
+/**
+ * @swagger
+ * /api/v1/categories/{id}:
+ *   get:
+ *     summary: Get category by ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Category details
+ *       404:
+ *         description: Category not found
+ */
+export const getCategoryByIdController = async (req, res) => {
   try {
-    const categories = await Category.findAll();
-    res.status(200).json(categories);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to retrieve categories' });
+    const category = await getCategoryById(req.params.id);
+    if (!category) return res.status(404).json({ message: 'Category not found' });
+    res.json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Get a category by ID
-export const getCategoryById = async (req, res) => {
+/**
+ * @swagger
+ * /api/v1/categories:
+ *   post:
+ *     summary: Create a new category
+ *     tags: [Categories]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Electronics"
+ *     responses:
+ *       201:
+ *         description: Category created
+ */
+export const createCategoryController = async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id);
-    if (category) {
-      res.status(200).json(category);
-    } else {
-      res.status(404).json({ error: 'Category not found' });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to retrieve category' });
+    const category = await createCategory(req.body);
+    res.status(201).json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * @swagger
+ * /api/v1/categories/{id}:
+ *   put:
+ *     summary: Update a category
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Category updated
+ *       404:
+ *         description: Category not found
+ */
+export const updateCategoryController = async (req, res) => {
+  try {
+    const category = await updateCategory(req.params.id, req.body);
+    if (!category) return res.status(404).json({ message: 'Category not found' });
+    res.json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/**
+ * @swagger
+ * /api/v1/categories/{id}:
+ *   delete:
+ *     summary: Delete a category
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Category deleted
+ *       404:
+ *         description: Category not found
+ */
+export const deleteCategoryController = async (req, res) => {
+  try {
+    const deleted = await deleteCategory(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Category not found' });
+    res.json({ message: 'Category deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

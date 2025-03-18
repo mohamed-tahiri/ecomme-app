@@ -1,3 +1,4 @@
+import Category from '../models/Category.js';
 import Product from '../models/Product.js';
 import { Op } from 'sequelize';
 
@@ -46,4 +47,29 @@ const getProductById = async (id) => {
     }
 };
 
-export { getProducts, getProductById };
+const createProduct = async (productData) => {
+  try {
+    const { name, description, price, stock, categoryId } = productData;
+
+    // Check if category exists
+    const category = await Category.findByPk(categoryId);
+    if (!category) {
+      throw new Error('Category not found');
+    }
+
+    // Create product
+    const product = await Product.create({
+      name,
+      description,
+      price,
+      stock,
+      categoryId,
+    });
+
+    return product;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { getProducts, getProductById, createProduct };
