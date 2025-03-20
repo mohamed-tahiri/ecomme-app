@@ -2,7 +2,7 @@ import express from 'express';
 import {
     createUser,
     getUserById,
-    getUsers
+    getUsers,
 } from '../controllers/userController.js'; // Import all controller functions
 
 const router = express.Router();

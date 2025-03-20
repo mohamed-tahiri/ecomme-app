@@ -1,9 +1,9 @@
 import {
-  getCategories,
-  getCategoryById,
-  createCategory,
-  updateCategory,
-  deleteCategory,
+    getCategories,
+    getCategoryById,
+    createCategory,
+    updateCategory,
+    deleteCategory,
 } from '../services/categoryService.js';
 
 /**
@@ -24,13 +24,17 @@ import {
  *         description: A list of categories
  */
 export const getCategoriesController = async (req, res) => {
-  try {
-    const { page, limit, name } = req.query;
-    const categories = await getCategories(Number(page), Number(limit), name);
-    res.json(categories);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const { page, limit, name } = req.query;
+        const categories = await getCategories(
+            Number(page),
+            Number(limit),
+            name
+        );
+        res.json(categories);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -52,13 +56,14 @@ export const getCategoriesController = async (req, res) => {
  *         description: Category not found
  */
 export const getCategoryByIdController = async (req, res) => {
-  try {
-    const category = await getCategoryById(req.params.id);
-    if (!category) return res.status(404).json({ message: 'Category not found' });
-    res.json(category);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const category = await getCategoryById(req.params.id);
+        if (!category)
+            return res.status(404).json({ message: 'Category not found' });
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -82,12 +87,12 @@ export const getCategoryByIdController = async (req, res) => {
  *         description: Category created
  */
 export const createCategoryController = async (req, res) => {
-  try {
-    const category = await createCategory(req.body);
-    res.status(201).json(category);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const category = await createCategory(req.body);
+        res.status(201).json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -118,13 +123,14 @@ export const createCategoryController = async (req, res) => {
  *         description: Category not found
  */
 export const updateCategoryController = async (req, res) => {
-  try {
-    const category = await updateCategory(req.params.id, req.body);
-    if (!category) return res.status(404).json({ message: 'Category not found' });
-    res.json(category);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const category = await updateCategory(req.params.id, req.body);
+        if (!category)
+            return res.status(404).json({ message: 'Category not found' });
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -146,11 +152,12 @@ export const updateCategoryController = async (req, res) => {
  *         description: Category not found
  */
 export const deleteCategoryController = async (req, res) => {
-  try {
-    const deleted = await deleteCategory(req.params.id);
-    if (!deleted) return res.status(404).json({ message: 'Category not found' });
-    res.json({ message: 'Category deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+    try {
+        const deleted = await deleteCategory(req.params.id);
+        if (!deleted)
+            return res.status(404).json({ message: 'Category not found' });
+        res.json({ message: 'Category deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

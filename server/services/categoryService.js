@@ -6,12 +6,12 @@ import Category from '../models/Category.js';
  * @param {number} limit - Items per page
  * @param {string} name - Filter by name
  */
-export const getCategories = async () => { 
-  const categories = await Category.findAll();
+export const getCategories = async () => {
+    const categories = await Category.findAll();
 
-  return {
-    categories
-  };
+    return {
+        categories,
+    };
 };
 
 /**
@@ -19,7 +19,7 @@ export const getCategories = async () => {
  * @param {string} id - Category ID
  */
 export const getCategoryById = async (id) => {
-  return await Category.findByPk(id);
+    return await Category.findByPk(id);
 };
 
 /**
@@ -27,7 +27,7 @@ export const getCategoryById = async (id) => {
  * @param {object} categoryData - Category details
  */
 export const createCategory = async (categoryData) => {
-  return await Category.create(categoryData);
+    return await Category.create(categoryData);
 };
 
 /**
@@ -36,9 +36,9 @@ export const createCategory = async (categoryData) => {
  * @param {object} updateData - Updated fields
  */
 export const updateCategory = async (id, updateData) => {
-  const category = await Category.findByPk(id);
-  if (!category) return null;
-  return await category.update(updateData);
+    const category = await Category.findByPk(id);
+    if (!category) return null;
+    return await category.update(updateData);
 };
 
 /**
@@ -46,8 +46,8 @@ export const updateCategory = async (id, updateData) => {
  * @param {string} id - Category ID
  */
 export const deleteCategory = async (id) => {
-  const category = await Category.findByPk(id);
-  if (!category) return null;
-  await category.destroy();
-  return true;
+    const category = await Category.findByPk(id);
+    if (!category) return null;
+    await category.destroy();
+    return true;
 };

@@ -3,14 +3,14 @@ import path from 'path';
 
 const envFile = `.env.${process.env.NODE_ENV || 'dev'}`;
 
-dotenv.config({ path:  envFile });
+dotenv.config({ path: envFile });
 
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import express from 'express';
-import { swaggerUi, swaggerSpec } from './config/swagger.js'; 
+import { swaggerUi, swaggerSpec } from './config/swagger.js';
 import { fileURLToPath } from 'url';
-
+import cors from 'cors';
 
 // API Routes
 import indexRouter from './routes/index.js';
@@ -19,6 +19,15 @@ import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 
 const app = express();
+
+// Configuration de CORS
+app.use(
+    cors({
+        origin: ['http://localhost:5173'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
 
 // Middleware setup
 app.use(logger('dev'));
@@ -33,14 +42,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Register routes dynamically
 const apiVersion = '/api/v1';
 const routes = [
-  { path: '/', router: indexRouter },
-  { path: '/users', router: userRoutes },
-  { path: '/products', router: productRoutes },
-  { path: '/categories', router: categoryRoutes },
+    { path: '/', router: indexRouter },
+    { path: '/users', router: userRoutes },
+    { path: '/products', router: productRoutes },
+    { path: '/categories', router: categoryRoutes },
 ];
 
 routes.forEach(({ path, router }) => {
-  app.use(`${apiVersion}${path}`, router);
+    app.use(`${apiVersion}${path}`, router);
 });
 
 // Serve Swagger Docs

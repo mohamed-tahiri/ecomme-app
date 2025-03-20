@@ -11,4 +11,17 @@ import Review from './Review.js';
 import Chat from './Chat.js';
 import Message from './Message.js';
 
-export { User, Address, Product, Category, Cart, CartItem, Order, OrderItem, Payment, Review, Chat, Message };
+export {
+    User,
+    Address,
+    Product,
+    Category,
+    Cart,
+    CartItem,
+    Order,
+    OrderItem,
+    Payment,
+    Review,
+    Chat,
+    Message,
+};

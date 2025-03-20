@@ -1,4 +1,9 @@
-import { getProducts, getProductById, createProduct } from '../services/productService.js';
+import {
+    getProducts,
+    getProductById,
+    getProductBySlug,
+    createProduct,
+} from '../services/productService.js';
 
 /**
  * @swagger
@@ -60,18 +65,19 @@ import { getProducts, getProductById, createProduct } from '../services/productS
  *                       type: integer
  */
 const getProductsController = async (req, res) => {
-  try {
-    const { page, limit, name, price } = req.query;
-    const filters = {};
+    try {
+        const { page, limit, name, price } = req.query;
+        const filters = {};
 
-    if (name) filters.name = name;
-    if (price) filters.price = price.split(',').map((v) => parseFloat(v.trim()));
+        if (name) filters.name = name;
+        if (price)
+            filters.price = price.split(',').map((v) => parseFloat(v.trim()));
 
-    const products = await getProducts(page, limit, filters);
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+        const products = await getProducts(page, limit, filters);
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -99,15 +105,51 @@ const getProductsController = async (req, res) => {
  *         description: Product not found
  */
 const getProductByIdController = async (req, res) => {
-  try {
-    const product = await getProductById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+    try {
+        const product = await getProductById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    res.json(product);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+};
+
+/**
+ * @swagger
+ * /api/v1/products/slug/{slug}:
+ *   get:
+ *     tags:
+ *       - products
+ *     summary: Get a product by Slug
+ *     description: Fetch product details by Slug.
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A product object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: Product not found
+ */
+const getProductBySlugController = async (req, res) => {
+    try {
+        const product = await getProductBySlug(req.params.slug);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 /**
@@ -151,12 +193,17 @@ const getProductByIdController = async (req, res) => {
  *         description: Invalid input
  */
 const createProductController = async (req, res) => {
-  try {
-    const product = await createProduct(req.body);
-    res.status(201).json(product);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+    try {
+        const product = await createProduct(req.body);
+        res.status(201).json(product);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };
 
-export { getProductsController, getProductByIdController, createProductController };
+export {
+    getProductsController,
+    getProductByIdController,
+    getProductBySlugController,
+    createProductController,
+};

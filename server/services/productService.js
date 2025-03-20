@@ -3,39 +3,39 @@ import Product from '../models/Product.js';
 import { Op } from 'sequelize';
 
 const getProducts = async (page = 1, limit = 10, filters = {}) => {
-  try {
-    const where = {};
+    try {
+        const where = {};
 
-    if (filters.name) {
-      where.name = {
-        [Op.iLike]: `%${filters.name}%`, 
-      };
+        if (filters.name) {
+            where.name = {
+                [Op.iLike]: `%${filters.name}%`,
+            };
+        }
+
+        if (filters.price) {
+            where.price = {
+                [Op.between]: filters.price,
+            };
+        }
+
+        const { rows, count } = await Product.findAndCountAll({
+            where,
+            limit,
+            offset: (page - 1) * limit,
+        });
+
+        return {
+            data: rows,
+            pagination: {
+                page,
+                limit,
+                totalCount: count,
+                totalPages: Math.ceil(count / limit),
+            },
+        };
+    } catch (error) {
+        throw error;
     }
-
-    if (filters.price) {
-      where.price = {
-        [Op.between]: filters.price,
-      };
-    }
-
-    const { rows, count } = await Product.findAndCountAll({
-      where,
-      limit,
-      offset: (page - 1) * limit,
-    });
-
-    return {
-      data: rows,
-      pagination: {
-        page,
-        limit,
-        totalCount: count,
-        totalPages: Math.ceil(count / limit),
-      },
-    };
-  } catch (error) {
-    throw error;
-  }
 };
 
 const getProductById = async (id) => {
@@ -47,29 +47,39 @@ const getProductById = async (id) => {
     }
 };
 
-const createProduct = async (productData) => {
-  try {
-    const { name, description, price, stock, categoryId } = productData;
-
-    // Check if category exists
-    const category = await Category.findByPk(categoryId);
-    if (!category) {
-      throw new Error('Category not found');
+const getProductBySlug = async (slug) => {
+    try {
+        const product = await Product.findOne({ where: { slug } });
+        return product;
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
-
-    // Create product
-    const product = await Product.create({
-      name,
-      description,
-      price,
-      stock,
-      categoryId,
-    });
-
-    return product;
-  } catch (error) {
-    throw error;
-  }
 };
 
-export { getProducts, getProductById, createProduct };
+const createProduct = async (productData) => {
+    try {
+        const { name, description, price, stock, categoryId } = productData;
+
+        // Check if category exists
+        const category = await Category.findByPk(categoryId);
+        if (!category) {
+            throw new Error('Category not found');
+        }
+
+        // Create product
+        const product = await Product.create({
+            name,
+            description,
+            price,
+            stock,
+            categoryId,
+        });
+
+        return product;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export { getProducts, getProductById, getProductBySlug, createProduct };
