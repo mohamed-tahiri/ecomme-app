@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../../types/product';
 import { Link } from 'react-router-dom';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'; // Import des icônes
+import { FaCircle, FaShoppingCart } from 'react-icons/fa';
 
 interface ProductItemProps {
     product: Product;
@@ -9,44 +9,51 @@ interface ProductItemProps {
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ product, onAddToCart }) => {
+    const isInStock = product.stock > 0; // Vérifie si le produit est en stock
+
     return (
-        <div className="border p-4 rounded-lg shadow-lg">
+        // <div className="border border-[var(--border-color)] p-2">
+        <div className="p-2">
             <Link to={`/products/${product.slug}`}>
                 <img
                     src={product.imageUrl}
                     alt={product.name}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-44 object-cover"
                 />
-                <h3 className="text-xl font-semibold mt-2">{product.name}</h3>
             </Link>
-            <p className="text-gray-600">{product.description}</p>
-
-            {/* Stock Indicator */}
-            <div className="flex items-center mt-2">
-                {product.stock > 0 ? (
-                    <span className="text-green-600 flex items-center">
-                        <FaCheckCircle className="mr-1" /> En stock
-                    </span>
-                ) : (
-                    <span className="text-red-600 flex items-center">
-                        <FaTimesCircle className="mr-1" /> Rupture de stock
+            <div className="bg-[#f9f9f9] p-2 rounded my-3">
+                <h3 className="product-desc-title mb-3">{product.name}</h3>
+                <p className="product-desc-text">
+                    {product.description.slice(0, 75)}
+                    {product.description.length > 75 ? '...' : ''}
+                </p>
+            </div>
+            <div className="space-y-4 mb-4">
+                <span className="product-price">{product.price} dhs</span>
+                {isInStock && (
+                    <span className="product-stock flex-center">
+                        <FaCircle className="mr-1 h-2 w-2" /> En stock.
                     </span>
                 )}
             </div>
 
-            <div className="flex justify-between items-center mt-4">
-                <span className="text-lg font-bold">${product.price}</span>
-                <button
-                    onClick={() => onAddToCart(product)}
-                    className={`px-4 py-2 rounded ${
-                        product.stock > 0
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                    }`}
-                    disabled={product.stock === 0}
-                >
-                    Ajouter au panier
-                </button>
+            {/* Vérifie si le produit est en stock */}
+            <div>
+                {isInStock ? (
+                    <button
+                        onClick={() => onAddToCart(product)}
+                        className="w-full bg-[var(--primary-button-background)] text-white px-4 py-2 rounded flex-center justify-center"
+                    >
+                        <FaShoppingCart className="mr-2" /> Ajouter au panier
+                    </button>
+                ) : (
+                    <button
+                        disabled
+                        className="bg-[#8a9297] text-white px-4 py-2 rounded flex-center justify-center"
+                    >
+                        Rupture
+                    </button>
+                )}
             </div>
         </div>
     );

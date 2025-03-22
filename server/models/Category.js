@@ -15,6 +15,10 @@ Category.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        descripiton: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         slug: {
             type: DataTypes.STRING,
             allowNull: true,

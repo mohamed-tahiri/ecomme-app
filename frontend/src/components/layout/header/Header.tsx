@@ -5,7 +5,7 @@ const Header: React.FC = () => {
     return (
         <>
             <div className="text-center">Info !</div>
-            <header className="bg-[#002fc4] text-[#ffffff]">
+            <header className="px-[1.875rem] py-6 bg-[#002fc4] text-[#ffffff]">
                 <div className="flex justify-between items-center">
                     <Link to="/" className="text-xl font-bold">
                         SITE.COM

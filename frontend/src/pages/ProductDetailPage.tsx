@@ -37,45 +37,47 @@ const ProductDetailPage: React.FC = () => {
         return <p className="text-center text-gray-600">Produit non trouvé.</p>;
 
     return (
-        <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            {/* Image du produit */}
-            <div className="flex flex-col md:flex-row">
-                <img
-                    src={product.imageUrl || 'https://via.placeholder.com/300'}
-                    alt={product.name}
-                    className="w-full md:w-1/2 h-64 object-cover rounded-lg"
-                />
-                <div className="md:ml-6 mt-4 md:mt-0 flex flex-col justify-between">
-                    {/* Nom et description */}
-                    <h1 className="text-3xl font-bold">{product.name}</h1>
-                    <p className="text-gray-700 mt-2">{product.description}</p>
-
-                    {/* Prix et disponibilité */}
-                    <div className="mt-4">
-                        <p className="text-2xl font-semibold text-green-600">
-                            {product.price} €
-                        </p>
-                        {product.stock > 0 ? (
-                            <p className="text-green-500 mt-1">
-                                En stock ({product.stock} disponibles)
-                            </p>
-                        ) : (
-                            <p className="text-red-500 mt-1">
-                                Rupture de stock
-                            </p>
-                        )}
-                    </div>
-
-                    {/* Catégorie */}
-                    {/* {product.category && (
-                        <p className="mt-4 text-gray-500 text-sm">Catégorie : {product.category.name}</p>
-                    )} */}
-
-                    {/* Bouton d'achat (simulation) */}
-                    <button className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
-                        Ajouter au panier
-                    </button>
+        <div className="grid grid-cols-2 gap-8">
+            <div>
+                <div className="card">
+                    <img
+                        src={
+                            product.imageUrl ||
+                            'https://via.placeholder.com/300'
+                        }
+                        alt={product.name}
+                        className="w-full md:w-1/2 h-64 object-cover rounded-lg"
+                    />
                 </div>
+            </div>
+            <div className="card">
+                {/* Nom et description */}
+                <h1 className="text-3xl font-bold">{product.name}</h1>
+                <p className="text-gray-700 mt-2">{product.description}</p>
+
+                {/* Prix et disponibilité */}
+                <div className="mt-4">
+                    <p className="text-2xl font-semibold text-green-600">
+                        {product.price} €
+                    </p>
+                    {product.stock > 0 ? (
+                        <p className="text-green-500 mt-1">
+                            En stock ({product.stock} disponibles)
+                        </p>
+                    ) : (
+                        <p className="text-red-500 mt-1">Rupture de stock</p>
+                    )}
+                </div>
+
+                {/* Catégorie */}
+                {/* {product.category && (
+                    <p className="mt-4 text-gray-500 text-sm">Catégorie : {product.category.name}</p>
+                )} */}
+
+                {/* Bouton d'achat (simulation) */}
+                <button className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
+                    Ajouter au panier
+                </button>
             </div>
         </div>
     );

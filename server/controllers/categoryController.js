@@ -77,7 +77,10 @@ export const getCategoryBySlugController = async (req, res) => {
  *             properties:
  *               name:
  *                 type: string
- *                 example: "Electronics"
+ *                 example: "Name --"
+ *               descripiton:
+ *                 type: string
+ *                 example: "Description --"
  *               parentCategoryId:
  *                 type: string
  *                 nullable: true
@@ -88,9 +91,13 @@ export const getCategoryBySlugController = async (req, res) => {
  */
 export const createCategoryController = async (req, res) => {
     try {
-        let { name, parentCategoryId } = req.body;
-        if (!parentCategoryId) parentCategoryId = null; // If empty, set to null (indicating a parent category)
-        const category = await createCategory({ name, parentCategoryId });
+        let { name, descripiton, parentCategoryId } = req.body;
+        if (!parentCategoryId) parentCategoryId = null;
+        const category = await createCategory({
+            name,
+            descripiton,
+            parentCategoryId,
+        });
         res.status(201).json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -119,6 +126,9 @@ export const createCategoryController = async (req, res) => {
  *               name:
  *                 type: string
  *                 example: "Updated Category"
+ *               descripiton:
+ *                 type: string
+ *                 example: "Updated Category"
  *               parentCategoryId:
  *                 type: string
  *                 nullable: true
@@ -131,10 +141,11 @@ export const createCategoryController = async (req, res) => {
  */
 export const updateCategoryController = async (req, res) => {
     try {
-        let { name, parentCategoryId } = req.body;
+        let { name, descripiton, parentCategoryId } = req.body;
         if (!parentCategoryId) parentCategoryId = null; // If empty, set to null
         const category = await updateCategory(req.params.id, {
             name,
+            descripiton,
             parentCategoryId,
         });
         if (!category)

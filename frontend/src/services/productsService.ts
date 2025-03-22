@@ -39,7 +39,7 @@ const getProductBySlug = async (slug: string): Promise<Product> => {
 const getProductsBySlugCategory = async (
     slug: string,
     filters: ProductFilters = {}
-): Promise<{ data: Product[]; totalCount: number }> => {
+): Promise<{ data: Product[]; totalCount: number; totalPages: number }> => {
     try {
         const response = await api.get(`/products/category/${slug}`, {
             params: filters,
@@ -47,6 +47,7 @@ const getProductsBySlugCategory = async (
         return {
             data: response.data.data,
             totalCount: response.data.pagination.totalCount,
+            totalPages: response.data.pagination.totalPages,
         };
     } catch (error) {
         console.error(
