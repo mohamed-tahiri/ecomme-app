@@ -2,6 +2,7 @@ import express from 'express';
 import {
     getCategoriesController,
     getCategoryByIdController,
+    getCategoryBySlugController,
     createCategoryController,
     updateCategoryController,
     deleteCategoryController,
@@ -16,5 +17,7 @@ router
     .get(getCategoryByIdController)
     .put(updateCategoryController)
     .delete(deleteCategoryController);
+
+router.route('/slug/:slug').get(getCategoryBySlugController);
 
 export default router;

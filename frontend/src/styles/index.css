@@ -1,1 +1,49 @@
 @import 'tailwindcss';
+
+:root {
+    --default-text-font-size: 15px;
+    --base-text-font-size: 14px;
+    --heading-font-family: Montserrat, sans-serif;
+    --heading-font-weight: 700;
+    --heading-font-style: normal;
+    --text-font-family: Montserrat, sans-serif;
+    --text-font-weight: 500;
+    --text-font-style: normal;
+    --text-font-bolder-weight: 600;
+    --text-link-decoration: underline;
+    --text-color: #677279;
+    --text-color-rgb: 103, 114, 121;
+    --heading-color: #002fc4;
+    --border-color: #e1e3e4;
+    --border-color-rgb: 225, 227, 228;
+    --form-border-color: #d4d6d8;
+    --accent-color: #00badb;
+    --accent-color-rgb: 0, 186, 219;
+    --link-color: #00badb;
+    --link-color-hover: #00798e;
+    --background: #f3f5f6;
+    --blackfriday-background: ;
+    --sale-background: #ffffff;
+    --secondary-background: #ffffff;
+    --secondary-background-rgb: 255, 255, 255;
+    --accent-background: rgba(0, 186, 219, 0.08);
+    --input-background: #ffffff;
+    --error-color: #ff0000;
+    --error-background: rgba(255, 0, 0, 0.07);
+    --success-color: #00aa00;
+    --success-background: rgba(0, 170, 0, 0.11);
+    --primary-button-background: #ff6f0b;
+    --primary-button-text-color: #ffffff;
+    --secondary-button-background: #00badb;
+    --secondary-button-text-color: #ffffff;
+    --header-background: #002fc4;
+    --header-text-color: #ffffff;
+    --footer-background-color: #e7ebee;
+    --footer-heading-text-color: #002fc4;
+    --footer-body-text-color: #677279;
+    --footer-accent-color: #00badb;
+}
+
+body {
+    font-family: var(--text-font-family);
+}

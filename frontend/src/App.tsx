@@ -7,6 +7,7 @@ import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+import CategoryProductsPage from './pages/CategoryProductsPage';
 
 const App: React.FC = () => {
     return (
@@ -16,6 +17,10 @@ const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="products" element={<ProductsPage />} />
+                    <Route
+                        path="collections/:slug"
+                        element={<CategoryProductsPage />}
+                    />
                     <Route
                         path="products/:slug"
                         element={<ProductDetailPage />}

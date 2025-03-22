@@ -1,17 +1,11 @@
 import {
     getCategories,
     getCategoryById,
+    getCategoryBySlug,
     createCategory,
     updateCategory,
     deleteCategory,
 } from '../services/categoryService.js';
-
-/**
- * @swagger
- * tags:
- *   name: Categories
- *   description: API for managing product categories
- */
 
 /**
  * @swagger
@@ -25,12 +19,7 @@ import {
  */
 export const getCategoriesController = async (req, res) => {
     try {
-        const { page, limit, name } = req.query;
-        const categories = await getCategories(
-            Number(page),
-            Number(limit),
-            name
-        );
+        const categories = await getCategories();
         res.json(categories);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -43,21 +32,28 @@ export const getCategoriesController = async (req, res) => {
  *   get:
  *     summary: Get category by ID
  *     tags: [Categories]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Category details
- *       404:
- *         description: Category not found
  */
 export const getCategoryByIdController = async (req, res) => {
     try {
         const category = await getCategoryById(req.params.id);
+        if (!category)
+            return res.status(404).json({ message: 'Category not found' });
+        res.json(category);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+/**
+ * @swagger
+ * /api/v1/categories/{slug}:
+ *   get:
+ *     summary: Get category by SLUG
+ *     tags: [Categories]
+ */
+export const getCategoryBySlugController = async (req, res) => {
+    try {
+        const category = await getCategoryBySlug(req.params.slug);
         if (!category)
             return res.status(404).json({ message: 'Category not found' });
         res.json(category);
@@ -82,13 +78,19 @@ export const getCategoryByIdController = async (req, res) => {
  *               name:
  *                 type: string
  *                 example: "Electronics"
+ *               parentCategoryId:
+ *                 type: string
+ *                 nullable: true
+ *                 example: ""
  *     responses:
  *       201:
  *         description: Category created
  */
 export const createCategoryController = async (req, res) => {
     try {
-        const category = await createCategory(req.body);
+        let { name, parentCategoryId } = req.body;
+        if (!parentCategoryId) parentCategoryId = null; // If empty, set to null (indicating a parent category)
+        const category = await createCategory({ name, parentCategoryId });
         res.status(201).json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -116,6 +118,11 @@ export const createCategoryController = async (req, res) => {
  *             properties:
  *               name:
  *                 type: string
+ *                 example: "Updated Category"
+ *               parentCategoryId:
+ *                 type: string
+ *                 nullable: true
+ *                 example: ""
  *     responses:
  *       200:
  *         description: Category updated
@@ -124,7 +131,12 @@ export const createCategoryController = async (req, res) => {
  */
 export const updateCategoryController = async (req, res) => {
     try {
-        const category = await updateCategory(req.params.id, req.body);
+        let { name, parentCategoryId } = req.body;
+        if (!parentCategoryId) parentCategoryId = null; // If empty, set to null
+        const category = await updateCategory(req.params.id, {
+            name,
+            parentCategoryId,
+        });
         if (!category)
             return res.status(404).json({ message: 'Category not found' });
         res.json(category);
@@ -147,7 +159,7 @@ export const updateCategoryController = async (req, res) => {
  *           type: string
  *     responses:
  *       200:
- *         description: Category deleted
+ *         description: Category deleted successfully
  *       404:
  *         description: Category not found
  */

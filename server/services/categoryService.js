@@ -1,17 +1,38 @@
 import Category from '../models/Category.js';
+import { Op } from 'sequelize';
 
 /**
- * Get all categories with pagination and filtering
- * @param {number} page - Page number
- * @param {number} limit - Items per page
- * @param {string} name - Filter by name
+ * Get all categories
  */
 export const getCategories = async () => {
-    const categories = await Category.findAll();
+    try {
+        const categories = await Category.findAll({
+            include: [
+                {
+                    model: Category,
+                    as: 'subCategories',
+                },
+            ],
+            order: [
+                ['createdAt', 'ASC'], // Tri par 'createdAt' en ordre décroissant
+            ],
+        });
 
-    return {
-        categories,
-    };
+        const parentCategories = categories.filter(
+            (category) => category.parentCategoryId === null
+        );
+
+        parentCategories.forEach((parentCategory) => {
+            parentCategory.subCategories = categories.filter(
+                (category) => category.parentCategoryId === parentCategory.id
+            );
+        });
+
+        return parentCategories;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des catégories:', error);
+        throw error;
+    }
 };
 
 /**
@@ -19,7 +40,20 @@ export const getCategories = async () => {
  * @param {string} id - Category ID
  */
 export const getCategoryById = async (id) => {
-    return await Category.findByPk(id);
+    return await Category.findByPk(id, {
+        include: [{ model: Category, as: 'parentCategory' }],
+    });
+};
+
+/**
+ * Get category by SLUG
+ * @param {string} slug - Category SLUG
+ */
+export const getCategoryBySlug = async (slug) => {
+    return await Category.findOne({
+        where: { slug },
+        include: [{ model: Category, as: 'parentCategory' }],
+    });
 };
 
 /**

@@ -1,6 +1,7 @@
 import express from 'express';
 import {
     getProductsController,
+    getProductsBySlugCategoryController,
     getProductByIdController,
     getProductBySlugController,
     createProductController,
@@ -40,6 +41,8 @@ const router = express.Router();
  */
 
 router.route('/').get(getProductsController).post(createProductController);
+
+router.route('/category/:slug').get(getProductsBySlugCategoryController);
 
 router.route('/:id').get(getProductByIdController);
 

@@ -26,9 +26,6 @@ const getProducts = async (
 const getProductBySlug = async (slug: string): Promise<Product> => {
     try {
         const response = await api.get(`/products/slug/${slug}`);
-
-        console.log(response);
-
         return response.data;
     } catch (error) {
         console.error(
@@ -39,7 +36,29 @@ const getProductBySlug = async (slug: string): Promise<Product> => {
     }
 };
 
+const getProductsBySlugCategory = async (
+    slug: string,
+    filters: ProductFilters = {}
+): Promise<{ data: Product[]; totalCount: number }> => {
+    try {
+        const response = await api.get(`/products/category/${slug}`, {
+            params: filters,
+        });
+        return {
+            data: response.data.data,
+            totalCount: response.data.pagination.totalCount,
+        };
+    } catch (error) {
+        console.error(
+            `Erreur lors de la récupération des produits pour la catégorie (${slug}) :`,
+            error
+        );
+        throw error;
+    }
+};
+
 export default {
     getProducts,
     getProductBySlug,
+    getProductsBySlugCategory,
 };

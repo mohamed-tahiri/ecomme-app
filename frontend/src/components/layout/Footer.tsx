@@ -1,85 +1,114 @@
-import {
-    FaFacebook,
-    FaInstagram,
-    FaLinkedin,
-    FaPhone,
-    FaEnvelope,
-} from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-[#ced4da] text-white py-8">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Section Contact */}
-                    <div>
-                        <h2 className="text-lg font-bold mb-3">
-                            TECHSPACE MAROC
-                        </h2>
-                        <p>
-                            📍 Casablanca: Magasin 15, BV Zerktouni Rue Agadir
-                        </p>
-                        <p>📍 Marrakech: Hay Charaf Al Manar 3, MAG RDC 5</p>
-                        <p className="flex items-center mt-2">
-                            <FaEnvelope className="mr-2 text-blue-400" />
-                            techspace.ma@gmail.com
-                        </p>
-                        <p className="flex items-center">
-                            <FaPhone className="mr-2 text-green-400" />
-                            Service Client : 0664 578 111
-                        </p>
-                        <p className="flex items-center">
-                            <FaPhone className="mr-2 text-red-400" />
-                            Service Réclamation : 0669 881 999
-                        </p>
-                    </div>
-
-                    {/* Section Informations Légales */}
-                    <div>
-                        <h2 className="text-lg font-bold mb-3">
-                            INFORMATIONS FISCALES
-                        </h2>
-                        <p>TECHSPACE GROUP SARL AU</p>
-                        <p>RC : 122587 - MARRAKECH</p>
-                        <p>Taxe professionnelle : 45307423</p>
-                        <p>CNSS : 4008035</p>
-                        <p>IF : 51721336</p>
-                        <p>ICE : 002999298000083</p>
-                        <p className="mt-3">
-                            📍 Adresse : MAGASIN RDC N°01 IMM 468 HAY CHARAF AL
-                            MANAR 3 MARRAKECH
-                        </p>
-                    </div>
-
-                    {/* Section Liens Rapides */}
-                    <div>
-                        <h2 className="text-lg font-bold mb-3">
-                            Collections Populaires
-                        </h2>
-                        <ul className="space-y-2">
-                            <li>💻 PC Gamer</li>
-                            <li>🎮 Consoles</li>
-                            <li>🖥️ Écran</li>
-                            <li>🛠️ Carte graphique</li>
-                            <li>🎧 Nanoleaf</li>
-                            <li>🪑 Chaise Gamer</li>
-                        </ul>
-                        {/* Réseaux Sociaux */}
-                        <div className="flex mt-4 space-x-4">
-                            <FaFacebook className="text-blue-500 text-2xl cursor-pointer" />
-                            <FaInstagram className="text-pink-500 text-2xl cursor-pointer" />
-                            <FaLinkedin className="text-blue-400 text-2xl cursor-pointer" />
-                        </div>
-                    </div>
+        <>
+            <div className="bg-[var(--background)] grid grid-cols-4">
+                <div>
+                    <h2>Livraison à domicile</h2>
+                    <p>Votre commande est preparée et livrée chez vous</p>
                 </div>
-
-                {/* Copyright */}
-                <div className="text-center border-t border-gray-700 mt-6 pt-4 text-sm">
-                    &copy; {new Date().getFullYear()} Techspace.ma - Tous droits
-                    réservés.
+                <div>
+                    <h2>Satisfaction garantie</h2>
+                    <p>
+                        Toujours là pour que vous soyez satisfait de vos achats
+                    </p>
+                </div>
+                <div>
+                    <h2>Assistance client</h2>
+                    <p>Nous somme à votre disposition toute la semaine</p>
+                </div>
+                <div>
+                    <h2>Paiment sécurisés</h2>
+                    <p>Les moyens de paiement proposés sont tous sécurisés</p>
                 </div>
             </div>
-        </footer>
+            <footer className="bg-[#e7ebee] text-[#677279]">
+                <div className="">
+                    <div className="grid grid-cols-1 md:grid-cols-4">
+                        {/* Section Contact */}
+                        <div>
+                            <h2 className="text-lg font-bold text-[#002fc4]">
+                                SITE.COM
+                            </h2>
+                            <p>
+                                Casablanca: Magasin 15, BV Zerktouni Rue Agadir
+                            </p>
+                            <p>Marrakech: Hay Charaf Al Manar 3, MAG RDC 5</p>
+                            <p className="flex items-center ">
+                                SITE.COM@gmail.com
+                            </p>
+                            <p className="flex items-center">
+                                Service Client : 0664 578 111
+                            </p>
+                            <p className="flex items-center">
+                                Service Réclamation : 0669 881 999
+                            </p>
+                        </div>
+
+                        {/* Section Informations Légales */}
+                        <div>
+                            <h2 className="text-lg font-bold text-[#002fc4]">
+                                INFORMATIONS FISCALES
+                            </h2>
+                            <p>SITE.COM GROUP SARL AU</p>
+                            <p>RC : 122587 - MARRAKECH</p>
+                            <p>Taxe professionnelle : 45307423</p>
+                            <p>CNSS : 4008035</p>
+                            <p>IF : 51721336</p>
+                            <p>ICE : 002999298000083</p>
+                            <p className="-3">
+                                Adresse : MAGASIN RDC N°01 IMM 468 HAY CHARAF AL
+                                MANAR 3 MARRAKECH
+                            </p>
+                        </div>
+
+                        {/* Section Informations Légales */}
+                        <div>
+                            <h2 className="text-lg font-bold text-[#002fc4]">
+                                INFORMATIONS
+                            </h2>
+                            <p>SITE.COM GROUP SARL AU</p>
+                            <p>RC : 122587 - MARRAKECH</p>
+                            <p>Taxe professionnelle : 45307423</p>
+                            <p>CNSS : 4008035</p>
+                            <p>IF : 51721336</p>
+                            <p>ICE : 002999298000083</p>
+                            <p className="-3">
+                                Adresse : MAGASIN RDC N°01 IMM 468 HAY CHARAF AL
+                                MANAR 3 MARRAKECH
+                            </p>
+                        </div>
+
+                        {/* Section Liens Rapides */}
+                        <div>
+                            <h2 className="text-lg font-bold text-[#002fc4]">
+                                Collections Populaires
+                            </h2>
+                            <ul className="space-y-2">
+                                <li>PC Gamer</li>
+                                <li>Consoles</li>
+                                <li>Écran</li>
+                                <li>Carte graphique</li>
+                                <li>Nanoleaf</li>
+                                <li>Chaise Gamer</li>
+                            </ul>
+                            {/* Réseaux Sociaux */}
+                            <div className="flex space-x-4">
+                                <FaFacebook className="text-2xl cursor-pointer" />
+                                <FaInstagram className="text-2xl cursor-pointer" />
+                                <FaLinkedin className="text-2xl cursor-pointer" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Copyright */}
+                    <div className="text-left">
+                        &copy; {new Date().getFullYear()} site.com
+                    </div>
+                </div>
+            </footer>
+        </>
     );
 };
 
