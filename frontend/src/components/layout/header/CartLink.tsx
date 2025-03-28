@@ -3,6 +3,7 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { useCart } from '../../../context/CartContext';
 import { useState, useEffect, useRef } from 'react';
 import { Product } from '../../../types/product';
+import CartProductItem from './CartProductItem';
 
 const CartLink = () => {
     const { cart, addToCart, removeFromCart } = useCart();
@@ -79,77 +80,16 @@ const CartLink = () => {
                     </div>
                     <div className="max-h-60 overflow-y-auto">
                         {cart.length > 0 ? (
-                            <ul>
-                                {cart.map(({ product, quantity }) => (
-                                    <li
-                                        key={product.slug}
-                                        className="flex items-center justify-between p-2 border-b border-[var(--header-border-color)]"
-                                    >
-                                        <div className="flex items-start justify-between mt-4 w-full">
-                                            <div className="flex space-x-2">
-                                                <img
-                                                    src={product.imageUrl}
-                                                    alt={product.name}
-                                                    className="w-24 h-24 object-cover rounded"
-                                                />
-                                                <div>
-                                                    <h3 className="product-desc-text">
-                                                        {product.name}
-                                                    </h3>
-                                                    <span className="product-price">
-                                                        {product.price.toFixed(
-                                                            2
-                                                        )}{' '}
-                                                        dhs
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <div className="flex items-center border border-gray-300 rounded w-auto">
-                                                    <button
-                                                        onClick={() =>
-                                                            decreaseQuantity(
-                                                                product
-                                                            )
-                                                        }
-                                                        disabled={quantity <= 1}
-                                                        className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <span className="px-4">
-                                                        {quantity}
-                                                    </span>
-                                                    <button
-                                                        onClick={() =>
-                                                            increaseQuantity(
-                                                                product
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            quantity >=
-                                                            product.stock
-                                                        }
-                                                        className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <button
-                                                    onClick={() =>
-                                                        handleRemoveItem(
-                                                            product.slug
-                                                        )
-                                                    }
-                                                    className="table-card-body-header hover:underline"
-                                                >
-                                                    Supprimer
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                            cart.map(({ product, quantity }) => (
+                                <CartProductItem
+                                    key={product.id}
+                                    product={product}
+                                    quantity={quantity}
+                                    increaseQuantity={increaseQuantity}
+                                    decreaseQuantity={decreaseQuantity}
+                                    handleRemoveItem={handleRemoveItem}
+                                />
+                            ))
                         ) : (
                             <div className="flex items-center justify-center p-5">
                                 <p className="text-center text-gray-500">

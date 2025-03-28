@@ -16,7 +16,7 @@ const SearchProductItem: React.FC<SearchProductItem> = ({
     const [images, setImages] = useState<ProductImage[]>([]);
     const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
         null
-    ); // Default to primary image
+    );
 
     const fetchProductImages = async (productId: string) => {
         try {

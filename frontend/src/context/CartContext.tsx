@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '../types/product';
 
 interface CartItem {
-    product: Product; // Utilisation d'un objet product
+    product: Product;
     quantity: number;
 }
 
@@ -17,7 +17,16 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<CartItem[]>(() => {
+        // Chargement du panier depuis le localStorage si disponible
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    useEffect(() => {
+        // Sauvegarder le panier dans le localStorage chaque fois qu'il change
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
     const addToCart = (product: Product, quantity: number = 1) => {
         setCart((prevCart) => {
