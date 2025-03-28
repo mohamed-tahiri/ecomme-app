@@ -10,15 +10,29 @@ interface ProductFilters {
 
 const getProducts = async (
     filters: ProductFilters = {}
-): Promise<{ data: Product[]; totalCount: number }> => {
+): Promise<{ data: Product[]; totalCount: number; totalPages: number }> => {
     try {
         const response = await api.get('/products', { params: filters });
         return {
             data: response.data.data,
             totalCount: response.data.pagination.totalCount,
+            totalPages: response.data.pagination.totalPages,
         };
     } catch (error) {
         console.error('Erreur lors de la récupération des produits :', error);
+        throw error;
+    }
+};
+
+const getImagesByProduct = async (productId: string): Promise<any[]> => {
+    try {
+        const response = await api.get(`/images/${productId}`);
+        return response.data;
+    } catch (error) {
+        console.error(
+            `Erreur lors de la récupération des images pour le produit (${productId}) :`,
+            error
+        );
         throw error;
     }
 };
@@ -62,4 +76,5 @@ export default {
     getProducts,
     getProductBySlug,
     getProductsBySlugCategory,
+    getImagesByProduct,
 };

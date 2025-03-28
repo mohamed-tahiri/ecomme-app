@@ -17,6 +17,7 @@ import indexRouter from './routes/index.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
+import imagesProductRoutes from './routes/productImagesRoutes.js';
 
 const app = express();
 
@@ -46,6 +47,7 @@ const routes = [
     { path: '/users', router: userRoutes },
     { path: '/products', router: productRoutes },
     { path: '/categories', router: categoryRoutes },
+    { path: '/images', router: imagesProductRoutes },
 ];
 
 routes.forEach(({ path, router }) => {

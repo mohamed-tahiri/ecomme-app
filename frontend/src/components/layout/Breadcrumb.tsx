@@ -18,10 +18,24 @@ const Breadcrumb: React.FC = () => {
 
                     const to = `/${pathnames.slice(0, index + 1).join('/')}`; // Construct the link path
                     return (
-                        <div className="flex" key={index}>
-                            <li className="mr-4">
-                                <span>/</span>
-                            </li>
+                        <div
+                            className="flex items-center space-x-2"
+                            key={index}
+                        >
+                            <svg
+                                focusable="false"
+                                className="pagination-icon icon icon--arrow-right w-2 h-2"
+                                viewBox="0 0 8 12"
+                                role="presentation"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    d="M2 2l4 4-4 4"
+                                    fill="none"
+                                    strokeLinecap="square"
+                                ></path>
+                            </svg>
                             <li>
                                 {index === pathnames.length - 1 ? (
                                     <span>{value}</span> // Display current page as plain text

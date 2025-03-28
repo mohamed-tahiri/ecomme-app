@@ -14,6 +14,7 @@
     --text-color: #677279;
     --text-color-rgb: 103, 114, 121;
     --heading-color: #002fc4;
+    --header-border-color: rgba(163, 175, 239, 0.3);
     --border-color: #e1e3e4;
     --border-color-rgb: 225, 227, 228;
     --form-border-color: #d4d6d8;
@@ -55,12 +56,57 @@ body {
     font-size: 0.8rem;
 }
 
+.header-title {
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.header-element {
+    color: #a3afef;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* --- Estimation */
+.estimation-heading {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* --- Card Page */
+.card-page-heading {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-page-garantie-heading {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.table-card-body-header {
+    color: var(--footer-body-text-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.product-desc {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
 /* --- Card */
 .card-text-heading {
     color: var(--heading-color);
     font-weight: 600;
     font-size: 1.5rem;
 }
+
 .card {
     background-color: white;
     border: 1px solid var(--border-color);
@@ -68,6 +114,18 @@ body {
     padding: 1.25rem 1.563rem;
 }
 
+/* --- Search product item */
+.product-search-heading {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.product-search-price {
+    color: var(--secondary-button-background);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
 /* --- Product */
 .product-desc-title {
     color: var(--footer-body-text-color);
@@ -93,6 +151,24 @@ body {
     font-size: 0.8rem;
 }
 
+/* --- Product Detail */
+.product-detail-header-text {
+    color: var(--heading-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.product-detail-header-element {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.product-detail-price {
+    color: var(--accent-color);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
 /* --- Footer */
 .footer-header-text {
     color: var(--footer-heading-text-color);

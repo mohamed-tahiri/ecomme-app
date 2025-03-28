@@ -57,7 +57,7 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                         return (
                             <li key={name}>
                                 <span
-                                    className="flex-center-between p-4 hover:bg-white/5 rounded-md cursor-pointer relative"
+                                    className="flex-center-between p-4 hover:bg-white/5 rounded cursor-pointer relative"
                                     onClick={() =>
                                         setClicked(isClicked ? null : i)
                                     }
@@ -79,7 +79,7 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                                         {subMenu.map(({ name, icon: Icon }) => (
                                             <li
                                                 key={name}
-                                                className="p-2 flex-center hover:bg-white/5 rounded-md gap-x-2 cursor-pointer"
+                                                className="p-2 flex-center hover:bg-white/5 rounded gap-x-2 cursor-pointer"
                                             >
                                                 {Icon && <Icon size={17} />}
                                                 {name}

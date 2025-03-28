@@ -59,9 +59,10 @@ const ProductsPage: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Nos Produits</h1>
-
+        <div className="card">
+            <div className="border-b">
+                <h2 className="card-text-heading">Nos Produits</h2>
+            </div>
             {/* Barre de recherche */}
             <input
                 type="text"

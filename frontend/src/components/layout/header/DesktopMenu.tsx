@@ -54,7 +54,7 @@ export default function DesktopMenu({ menu }: DesktopMenuProps) {
             onMouseLeave={() => setIsHovered(false)}
             className="relative"
         >
-            <span className="flex items-center gap-1 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-md">
+            <span className="flex items-center gap-1 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded">
                 <Link to={`/collections/${menu.slug}`}>{menu.name}</Link>
                 {hasSubMenu && (
                     <ChevronDown className="mt-0.5 transition-transform duration-200" />
@@ -63,7 +63,7 @@ export default function DesktopMenu({ menu }: DesktopMenuProps) {
 
             {hasSubMenu && (
                 <motion.div
-                    className="absolute left-0 mt-2 bg-white shadow-lg rounded-lg p-4"
+                    className="absolute left-0 mt-2 bg-white shadow-lg rounded p-4"
                     initial="exit"
                     animate={isHovered ? 'enter' : 'exit'}
                     variants={subMenuVariants}
@@ -80,7 +80,7 @@ export default function DesktopMenu({ menu }: DesktopMenuProps) {
                                     )}
                                 <div className="flex items-center gap-3 group">
                                     {submenu.icon && (
-                                        <div className="bg-gray-100 p-2 rounded-md group-hover:bg-gray-200 transition">
+                                        <div className="bg-gray-100 p-2 rounded group-hover:bg-gray-200 transition">
                                             <submenu.icon />
                                         </div>
                                     )}
