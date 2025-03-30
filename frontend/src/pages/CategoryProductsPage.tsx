@@ -4,7 +4,6 @@ import api from '../services/productsService'; // Import the api service
 import { getCategoryBySlug } from '../services/categoryService'; // Import the api service
 import ProductList from '../components/products/ProductList';
 import { Product } from '../types/product';
-import { CartItem } from '../types/cart';
 import CategoryDetail from '../components/categories/CategoryDetail';
 import Pagination from '../components/pagination/Pagination';
 
@@ -12,8 +11,6 @@ const CategoryProductsPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>(); // Get the category slug from the URL
     const [category, setCategory] = useState<Category>();
     const [products, setProducts] = useState<Product[]>([]);
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [total, setTotal] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
@@ -55,22 +52,6 @@ const CategoryProductsPage: React.FC = () => {
         }
     }, [slug, page, searchTerm, priceRange]);
 
-    const handleAddToCart = (product: Product) => {
-        setCartItems((prevItems) => {
-            const itemIndex = prevItems.findIndex(
-                (item) => item.product.id === product.id
-            );
-            if (itemIndex > -1) {
-                const newItems = [...prevItems];
-                newItems[itemIndex].quantity += 1;
-                return newItems;
-            }
-            return [...prevItems, { product, quantity: 1 }];
-        });
-
-        setTotal((prevTotal) => prevTotal + product.price);
-    };
-
     return (
         <div className="grid grid-cols-4 gap-8">
             <div className="card">
@@ -101,10 +82,7 @@ const CategoryProductsPage: React.FC = () => {
                 ) : error ? (
                     <p className="text-red-500">{error}</p>
                 ) : (
-                    <ProductList
-                        products={products}
-                        onAddToCart={handleAddToCart}
-                    />
+                    <ProductList products={products} />
                 )}
 
                 {/* Pagination */}

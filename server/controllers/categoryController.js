@@ -142,7 +142,7 @@ export const createCategoryController = async (req, res) => {
 export const updateCategoryController = async (req, res) => {
     try {
         let { name, descripiton, parentCategoryId } = req.body;
-        if (!parentCategoryId) parentCategoryId = null; // If empty, set to null
+        if (!parentCategoryId) parentCategoryId = null;
         const category = await updateCategory(req.params.id, {
             name,
             descripiton,

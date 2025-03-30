@@ -8,7 +8,6 @@ import { ProductImage } from '../../types/productImage';
 
 interface ProductItemProps {
     product: Product;
-    onAddToCart: (product: Product) => void;
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {

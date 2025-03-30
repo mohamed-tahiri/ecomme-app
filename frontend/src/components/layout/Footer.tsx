@@ -185,8 +185,8 @@ const Footer: React.FC = () => {
                             <p>IF : XXXX-XXXX</p>
                             <p>ICE : XXXX-XXXX-XXXX-XXXX</p>
                             <p>
-                                Adresse : MAGASIN RDC N°01 IMM 468 HAY CHARAF AL
-                                MANAR 3 MARRAKECH
+                                Adresse : XXXX-XXXX-XXXX-XXXX
+                                XXXX-XXXX-XXXX-XXXX
                             </p>
                         </div>
 
@@ -205,7 +205,7 @@ const Footer: React.FC = () => {
                             <h2 className="footer-header-text">
                                 Collections Populaires
                             </h2>
-                            <ul>
+                            <ul className="space-y-2">
                                 <li>PC Gamer</li>
                                 <li>Consoles</li>
                                 <li>Écran</li>

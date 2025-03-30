@@ -26,7 +26,7 @@ const CartLink = () => {
         removeFromCart(slug);
     };
 
-    // Close the dropdown if clicked outside
+    // Ferme le dropdown si l'utilisateur clique en dehors
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -37,10 +37,7 @@ const CartLink = () => {
             }
         };
 
-        // Add event listener for clicks
         document.addEventListener('mousedown', handleClickOutside);
-
-        // Cleanup event listener on component unmount
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -71,7 +68,7 @@ const CartLink = () => {
             {isOpen && (
                 <div
                     ref={dropdownRef} // Attach the ref here
-                    className="absolute right-0 mt-2 w-[27rem] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50"
+                    className="absolute right-0 mt-2 w-[27rem] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50 transition-opacity duration-300 opacity-100 space-y-4 before:absolute before:-top-2 before:right-2 before:-translate-x-1/2 before:w-0 before:h-0 before:border-l-8 before:border-r-8 before:border-b-8 before:border-l-transparent before:border-r-transparent before:border-b-white"
                 >
                     <div className="text-center">
                         <p className="p-2 rounded bg-[var(--background)] text-[var(--heading-color)]">

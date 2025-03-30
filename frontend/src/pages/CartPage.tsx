@@ -4,8 +4,11 @@ import Garantie from '../components/cart/Garantie';
 import AddToPanier from '../components/cart/AddToPanier';
 import CommandCart from '../components/cart/CommandCart';
 import Estimation from '../components/cart/Estimation';
+import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
+import RecentlyViewedProducts from '../components/products/RecentlyViewedProducts';
 
 const CartPage: React.FC = () => {
+    const { recentlyViewed } = useRecentlyViewed();
     const { cart } = useCart(); // Récupérer les éléments du panier depuis le contexte
 
     return (
@@ -23,6 +26,7 @@ const CartPage: React.FC = () => {
                 </div>
             </div>
             <AddToPanier />
+            <RecentlyViewedProducts products={recentlyViewed} />
         </div>
     );
 };

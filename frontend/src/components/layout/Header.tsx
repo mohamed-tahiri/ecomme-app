@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Navbar from './header/Navbar';
 import CartLink from './header/CartLink';
 import SearchBar from './header/SearchBar';
+import ContactLink from './header/ContactLink';
+import LoginLink from './header/LoginLink';
 
 const urgentMessages = [
     "🔥 Promo spéciale aujourd'hui !",
@@ -53,21 +55,10 @@ const Header: React.FC = () => {
                     <nav>
                         <ul className="flex items-center space-x-4 h-14">
                             <li className="header-title px-[2rem] flex flex-col justify-center h-full">
-                                <h2 className="header-element">
-                                    Services Client
-                                </h2>
-                                <p>0664 578 111 / 0669881999</p>
+                                <ContactLink />
                             </li>
                             <li className="header-title px-[2rem] border-l border-gray-300 flex flex-col justify-center h-full">
-                                <Link
-                                    to="/products"
-                                    className="hover:text-gray-300"
-                                >
-                                    <h2 className="header-element">
-                                        Connexion / Inscription
-                                    </h2>
-                                    <p>Mon compte</p>
-                                </Link>
+                                <LoginLink />
                             </li>
                             <li className="header-title px-[2rem] border-l border-gray-300 flex items-center space-x-2 h-full">
                                 <CartLink />
@@ -79,7 +70,6 @@ const Header: React.FC = () => {
                 <Navbar />
             </div>
 
-            {/* Ajout d'un padding pour éviter que le contenu soit caché */}
             <div className={isScrolled ? 'pt-[140px]' : ''}>
                 {/* Contenu de la page */}
             </div>

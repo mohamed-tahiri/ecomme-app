@@ -73,6 +73,10 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
                     </Link>
                     <div>
                         <h3 className="product-desc-text">{product.name}</h3>
+                        <p className="product-desc">
+                            {product.description.slice(0, 20)}
+                            {product.description.length > 20 ? '...' : ''}
+                        </p>
                         <span className="product-price">
                             {product.price.toFixed(2)} dhs
                         </span>
