@@ -6,3 +6,7 @@ services:
       POSTGRES_USER: staging_user
       POSTGRES_PASSWORD: staging_password
       POSTGRES_DB: staging_ecom_db
+
+  server:
+    environment:
+      - NODE_ENV=stage

@@ -1,7 +1,28 @@
+# version: "3.8"
+
+# services:
+#   # PostgreSQL Database
+#   db:
+#     image: postgres:15
+#     restart: always
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+#   # Adminer for Database Management
+#   adminer:
+#     image: adminer
+#     restart: always
+#     ports:
+#       - "8080:8080"
+
+# volumes:
+#   postgres_data:
+
 version: "3.8"
 
 services:
-  # PostgreSQL Database
   db:
     image: postgres:15
     restart: always
@@ -10,12 +31,32 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # Adminer for Database Management
   adminer:
     image: adminer
     restart: always
     ports:
       - "8080:8080"
 
+  server:
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    restart: always
+    volumes:
+      - server_data:/app  # Crée un volume pour persister les données du serveur
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    restart: always
+
 volumes:
   postgres_data:
+  server_data:  # Déclare un volume nommé pour le serveur
