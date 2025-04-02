@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import LoginCart from '../../auth/LoginCart';
+import RegisterCart from '../../auth/RegisterCart';
+import ForgetPasswordCart from '../../auth/ForgetPasswordCart';
 
-const LoginLink = () => {
+const LoginLink: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [activeCart, setActiveCart] = useState<
+        'login' | 'register' | 'forget'
+    >('login');
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     // Ferme le dropdown si l'utilisateur clique en dehors
@@ -56,26 +61,17 @@ const LoginLink = () => {
             {isOpen && (
                 <div
                     ref={dropdownRef}
-                    className="absolute mt-2 w-[20rem] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50 transition-opacity duration-300 opacity-100 space-y-4 before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-0 before:h-0 before:border-l-8 before:border-r-8 before:border-b-8 before:border-l-transparent before:border-r-transparent before:border-b-white"
+                    className="absolute mt-2 w-[20rem] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50 transition-opacity duration-300 opacity-100"
                 >
-                    {/* Triangle en haut */}
-                    <div className="flex flex-col items-center">
-                        <h5 className="card-page-garantie-heading">
-                            Connexion
-                        </h5>
-                        <p className="mt-2 text-center px-2">
-                            Entrez votre email et votre mot de passe :
-                        </p>
-                    </div>
-
-                    {/* Bouton de connexion */}
-                    <div>
-                        <Link to={'/contact'}>
-                            <button className="font-semibold cursor-pointer w-full text-center flex items-center justify-center bg-[var(--primary-button-background)] text-white py-2 px-4 rounded flex-center">
-                                Se connecter
-                            </button>
-                        </Link>
-                    </div>
+                    {activeCart === 'login' && (
+                        <LoginCart setActiveCart={setActiveCart} />
+                    )}
+                    {activeCart === 'register' && (
+                        <RegisterCart setActiveCart={setActiveCart} />
+                    )}
+                    {activeCart === 'forget' && (
+                        <ForgetPasswordCart setActiveCart={setActiveCart} />
+                    )}
                 </div>
             )}
         </div>
