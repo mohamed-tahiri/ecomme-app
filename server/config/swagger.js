@@ -11,7 +11,20 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: `http://localhost:${process.env.PORT | 3000}`,
+            description: 'Local',
+            url: `http://localhost:${process.env.PORT || 3000}`, // ✅ Corrected OR operator
+        },
+        {
+            description: 'Development',
+            url: process.env.DEV_URL || 'http://localhost:5001',
+        },
+        {
+            description: 'Staging',
+            url: process.env.STAGING_URL || 'http://staging.example.com',
+        },
+        {
+            description: 'Production',
+            url: process.env.PROD_URL || 'https://api.example.com',
         },
     ],
 };

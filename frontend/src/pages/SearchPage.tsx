@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Product } from '../types/product';
 import api from '../services/productsService'; // Import the api service
 import ProductList from '../components/products/ProductList';
-import { CartItem } from '../types/cart';
 import Pagination from '../components/pagination/Pagination';
 
 const SearchPage: React.FC = () => {
@@ -11,7 +10,6 @@ const SearchPage: React.FC = () => {
     const searchQuery = searchParams.get('q') || ''; // Récupérer le paramètre 'q' de l'URL
 
     const [products, setProducts] = useState<Product[]>([]);
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
@@ -45,21 +43,6 @@ const SearchPage: React.FC = () => {
         }
     }, [searchQuery, page]);
 
-    // Fonction pour ajouter un produit au panier
-    const handleAddToCart = (product: Product) => {
-        setCartItems((prevItems) => {
-            const itemIndex = prevItems.findIndex(
-                (item) => item.product.id === product.id
-            );
-            if (itemIndex > -1) {
-                const newItems = [...prevItems];
-                newItems[itemIndex].quantity += 1;
-                return newItems;
-            }
-            return [...prevItems, { product, quantity: 1 }];
-        });
-    };
-
     return (
         <div className="card">
             <div className="border-b border-[var(--border-color)] pb-4 mb-4">
@@ -73,10 +56,7 @@ const SearchPage: React.FC = () => {
             ) : error ? (
                 <p className="text-red-500">{error}</p>
             ) : products.length > 0 ? (
-                <ProductList
-                    products={products}
-                    onAddToCart={handleAddToCart}
-                />
+                <ProductList products={products} />
             ) : (
                 <p>Aucun produit trouvé.</p>
             )}

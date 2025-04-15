@@ -1,10 +1,7 @@
-type ForgetPasswordCartProps = {
-    setActiveCart: (cart: 'login' | 'register' | 'forget') => void;
-};
+import { useAuth } from '../../context/AuthContext';
 
-const ForgetPasswordCart: React.FC<ForgetPasswordCartProps> = ({
-    setActiveCart,
-}) => {
+const ForgetPasswordCart: React.FC<{}> = () => {
+    const { setActiveCart } = useAuth();
     return (
         <div className="space-y-4">
             <div className="flex flex-col items-center">
@@ -20,7 +17,7 @@ const ForgetPasswordCart: React.FC<ForgetPasswordCartProps> = ({
                     className="w-full border border-gray-300 py-3 px-2"
                 />
             </div>
-            <button className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded">
+            <button className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded cursor-pointer">
                 Récupérer
             </button>
             <div className="text-xs text-center space-y-2">

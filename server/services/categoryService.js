@@ -1,5 +1,4 @@
 import Category from '../models/Category.js';
-import { Op } from 'sequelize';
 
 /**
  * Get all categories

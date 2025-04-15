@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   db:
     environment:
@@ -10,3 +8,7 @@ services:
   server:
     environment:
       - NODE_ENV=stage
+      
+  frontend:
+    environment:
+      - VITE_API_URL=http://server:5001/api/v1

@@ -1,8 +1,34 @@
-type RegisterCartProps = {
-    setActiveCart: (cart: 'login' | 'register' | 'forget') => void;
-};
+import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
-const RegisterCart: React.FC<RegisterCartProps> = ({ setActiveCart }) => {
+const RegisterCart: React.FC<{}> = () => {
+    const { register: contextRegister, setActiveCart } = useAuth();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+
+    const handleRegister = async () => {
+        try {
+            setLoading(true);
+            setError('');
+            setSuccess('');
+            await contextRegister(name, email, password);
+
+            setSuccess('Inscription réussie ! Vous pouvez vous connecter.');
+
+            setTimeout(() => {
+                setSuccess('');
+            }, 3000);
+        } catch (err: any) {
+            setError('Une erreur est survenue lors de l’inscription.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex flex-col items-center">
@@ -15,28 +41,35 @@ const RegisterCart: React.FC<RegisterCartProps> = ({ setActiveCart }) => {
             </div>
             <div className="mb-6 space-y-3">
                 <input
-                    placeholder="Prenom"
+                    placeholder="Nom complet"
                     type="text"
-                    className="w-full border border-gray-300 py-3 px-2"
-                />
-                <input
-                    placeholder="Nom"
-                    type="password"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
                 <input
                     placeholder="Email"
                     type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
                 <input
                     placeholder="Mot de passe"
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {success && <p className="text-green-600 text-sm">{success}</p>}
             </div>
-            <button className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded">
-                Créer mon compte
+            <button
+                disabled={loading}
+                onClick={handleRegister}
+                className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded cursor-pointer"
+            >
+                {loading ? 'Inscription...' : 'Créer mon compte'}
             </button>
             <div className="text-xs text-center space-y-2">
                 <p>

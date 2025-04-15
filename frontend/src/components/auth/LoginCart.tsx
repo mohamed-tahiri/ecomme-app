@@ -1,8 +1,36 @@
+import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+
 type LoginCartProps = {
-    setActiveCart: (cart: 'login' | 'register' | 'forget') => void;
+    onLogin: (user: { email: string; role: string; name: string }) => void;
 };
 
-const LoginCart: React.FC<LoginCartProps> = ({ setActiveCart }) => {
+const LoginCart: React.FC<LoginCartProps> = ({ onLogin }) => {
+    const { login: contextLogin, setActiveCart } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+
+    const handleLogin = async () => {
+        try {
+            setLoading(true);
+            setError('');
+            await contextLogin(email, password);
+
+            setSuccess('Connexion réussie !');
+            setTimeout(() => setSuccess(''), 3000);
+
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            onLogin(user);
+        } catch (err: any) {
+            setError('Email ou mot de passe incorrect');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="space-y-4">
             <div className="flex flex-col items-center">
@@ -15,16 +43,26 @@ const LoginCart: React.FC<LoginCartProps> = ({ setActiveCart }) => {
                 <input
                     placeholder="Votre email"
                     type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
                 <input
                     placeholder="Votre mot de passe"
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {success && <p className="text-green-500 text-sm">{success}</p>}
             </div>
-            <button className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded">
-                Se connecter
+            <button
+                disabled={loading}
+                onClick={handleLogin}
+                className="w-full bg-[var(--primary-button-background)] text-white py-2 rounded cursor-pointer"
+            >
+                {loading ? 'Connexion...' : 'Se connecter'}
             </button>
             <div className="text-xs text-center space-y-2">
                 <p>

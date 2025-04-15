@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // To get the category slug from the URL
+import { useParams } from 'react-router-dom';
 import api from '../services/productsService'; // Import the api service
 import { getCategoryBySlug } from '../services/categoryService'; // Import the api service
 import ProductList from '../components/products/ProductList';
 import { Product } from '../types/product';
 import CategoryDetail from '../components/categories/CategoryDetail';
 import Pagination from '../components/pagination/Pagination';
+import NoProductFound from '../components/products/NoProductFound';
 
 const CategoryProductsPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>(); // Get the category slug from the URL
@@ -81,16 +82,20 @@ const CategoryProductsPage: React.FC = () => {
                     <p>Chargement en cours...</p>
                 ) : error ? (
                     <p className="text-red-500">{error}</p>
+                ) : products.length === 0 ? (
+                    <NoProductFound />
                 ) : (
                     <ProductList products={products} />
                 )}
 
                 {/* Pagination */}
-                <Pagination
-                    currentPage={page}
-                    totalPages={totalPages}
-                    onPageChange={setPage}
-                />
+                {totalPages > 1 && (
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                    />
+                )}
             </div>
         </div>
     );

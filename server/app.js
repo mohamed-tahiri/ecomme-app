@@ -14,6 +14,7 @@ import cors from 'cors';
 
 // API Routes
 import indexRouter from './routes/index.js';
+import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
@@ -24,7 +25,7 @@ const app = express();
 // Configuration de CORS
 app.use(
     cors({
-        origin: ['http://localhost:5173'],
+        origin: ['http://localhost:5173', 'http://localhost:3000'],
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization'],
     })
@@ -44,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const apiVersion = '/api/v1';
 const routes = [
     { path: '/', router: indexRouter },
+    { path: '/auth', router: authRoutes },
     { path: '/users', router: userRoutes },
     { path: '/products', router: productRoutes },
     { path: '/categories', router: categoryRoutes },

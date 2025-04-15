@@ -1,62 +1,62 @@
-# version: "3.8"
-
-# services:
-#   # PostgreSQL Database
-#   db:
-#     image: postgres:15
-#     restart: always
-#     ports:
-#       - "5432:5432"
-#     volumes:
-#       - postgres_data:/var/lib/postgresql/data
-
-#   # Adminer for Database Management
-#   adminer:
-#     image: adminer
-#     restart: always
-#     ports:
-#       - "8080:8080"
-
-# volumes:
-#   postgres_data:
-
-version: "3.8"
-
 services:
   db:
     image: postgres:15
-    restart: always
+    container_name: db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
+    # networks:
+    #   - ecom_network
+    # healthcheck:
+    #   test: ["CMD", "pg_isready", "-U", "dev_user"]
+    #   interval: 5s
+    #   timeout: 3s
+    #   retries: 5
 
   adminer:
     image: adminer
-    restart: always
+    container_name: adminer
     ports:
       - "8080:8080"
-
-  server:
-    build:
-      context: ./server
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
     restart: always
-    volumes:
-      - server_data:/app  # Crée un volume pour persister les données du serveur
+    # networks:
+    #   - ecom_network  # Ajoute adminer au réseau personnalisé
 
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - server
-    restart: always
+#   server:
+#     build:
+#       context: ./server
+#     container_name: server
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     ports:
+#       - "5001:3000"
+#     volumes:
+#       - server_data:/app
+#     restart: always
+#     networks:
+#       - ecom_network  # Ajoute le serveur au réseau personnalisé
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#       args:
+#         VITE_API_URL: http://localhost:5001/api/v1
+#     container_name: frontend
+#     ports:
+#       - "3000:80"
+#     depends_on:
+#       - server
+#     restart: always
+#     networks:
+#       - ecom_network  # Ajoute le frontend au réseau personnalisé
 
 volumes:
   postgres_data:
-  server_data:  # Déclare un volume nommé pour le serveur
+#   server_data:
+
+# networks:
+#   ecom_network:
+#     driver: bridge  # Crée un réseau personnalisé avec le driver "bridge"

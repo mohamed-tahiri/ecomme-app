@@ -9,6 +9,13 @@ import {
 
 /**
  * @swagger
+ * tags:
+ *   - name: Categories
+ *     description: Operations related to products
+ */
+
+/**
+ * @swagger
  * /api/v1/categories:
  *   get:
  *     summary: Get all categories
