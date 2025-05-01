@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
     }, []);
 
     return (
-        <nav className="px-[1.875rem] bg-[#ffffff] header-body-text border border-b border-[#e1e3e4]">
+        <nav className="px-[1.875rem] py-2 bg-[#ffffff] header-body-text border border-b border-[#e1e3e4]">
             <ul className="gap-x-1 flex-center">
                 {categories.map((category) => (
                     <DesktopMenu key={category.id} menu={category} />

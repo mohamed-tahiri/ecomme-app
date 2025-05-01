@@ -6,21 +6,38 @@ const envFile = `.env.${process.env.NODE_ENV || 'dev'}`;
 dotenv.config({ path: envFile });
 
 import cookieParser from 'cookie-parser';
-import logger from 'morgan';
 import express from 'express';
 import { swaggerUi, swaggerSpec } from './config/swagger.js';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import helmet from 'helmet';
+import logger from './utils/logger.js';
+import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
 
 // API Routes
 import indexRouter from './routes/index.js';
 import authRoutes from './routes/authRoutes.js';
+import orderRoutes from './routes/orderRoute.js';
 import userRoutes from './routes/userRoutes.js';
+import storeRoutes from './routes/storeRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import imagesProductRoutes from './routes/productImagesRoutes.js';
+import router from './routes/index.js';
 
 const app = express();
+
+// // limit each IP to 100 requests per 15 mins
+app.use(
+    rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 1000,
+    })
+);
+
+// Helmet
+app.use(helmet());
 
 // Configuration de CORS
 app.use(
@@ -31,8 +48,15 @@ app.use(
     })
 );
 
+// Logger
+app.use(morgan('combined', { stream: logger.stream }));
+
+app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.originalUrl}`);
+    next();
+});
+
 // Middleware setup
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -46,7 +70,9 @@ const apiVersion = '/api/v1';
 const routes = [
     { path: '/', router: indexRouter },
     { path: '/auth', router: authRoutes },
+    { path: '/order', router: orderRoutes },
     { path: '/users', router: userRoutes },
+    { path: '/stores', router: storeRoutes },
     { path: '/products', router: productRoutes },
     { path: '/categories', router: categoryRoutes },
     { path: '/images', router: imagesProductRoutes },

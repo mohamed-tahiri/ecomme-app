@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 
 const CommandCart = () => {
@@ -10,7 +11,7 @@ const CommandCart = () => {
     );
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             <div className="card">
                 <div className="border-b border-[var(--border-color)] card-page-garantie-heading flex items-center justify-between">
                     <h2 className="">Total</h2>
@@ -19,6 +20,12 @@ const CommandCart = () => {
                 <div className="p-4">
                     <p>Taxes et livraison calculées au moment de payer</p>
                 </div>
+                <Link
+                    to={'/order'}
+                    className="w-full flex items-center justify-center bg-[var(--primary-button-background)] cursor-pointer text-white py-3 flex-center"
+                >
+                    Commander
+                </Link>
             </div>
             <div className="flex items-center justify-center gap-2">
                 <div className="h-5 w-5 text-gray-900">

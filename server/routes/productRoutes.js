@@ -5,7 +5,10 @@ import {
     getProductByIdController,
     getProductBySlugController,
     createProductController,
+    getProductsByVendorController,
+    getProductsBySlugStoreController,
 } from '../controllers/productController.js';
+import { authenticate } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -40,9 +43,18 @@ const router = express.Router();
  *         stock: 100
  */
 
-router.route('/').get(getProductsController).post(createProductController);
+router
+    .route('/')
+    .get(getProductsController)
+    .post(authenticate, createProductController);
 
 router.route('/category/:slug').get(getProductsBySlugCategoryController);
+
+router.route('/store/:slug').get(getProductsBySlugStoreController);
+
+router
+    .route('/vendor/:vendorId')
+    .get(authenticate, getProductsByVendorController);
 
 router.route('/:id').get(getProductByIdController);
 

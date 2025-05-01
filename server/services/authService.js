@@ -1,27 +1,27 @@
 // services/auth.service.js
 import bcrypt from 'bcrypt';
-import  { 
-    generateAccessToken, 
-    generateRefreshToken, 
-    verifyRefreshToken
+import {
+    generateAccessToken,
+    generateRefreshToken,
+    verifyRefreshToken,
 } from '../utils/jwt.js';
 import User from '../models/User.js';
 import { sendMail } from './mailService.js';
 
-export const register = async ({ email, name, password }) => {  
-    const exists = await User.findOne({ 
-        where: { 
-            email
-        } 
+export const register = async ({ email, name, password }) => {
+    const exists = await User.findOne({
+        where: {
+            email,
+        },
     });
-    
+
     if (exists) throw new Error('User already exists');
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await User.create({ 
+    const user = await User.create({
         name,
-        email, 
-        password: hashedPassword 
+        email,
+        password: hashedPassword,
     });
 
     // Optionally send verification email
@@ -35,12 +35,12 @@ export const register = async ({ email, name, password }) => {
 };
 
 export const login = async ({ email, password }) => {
-    const user = await User.findOne({ 
+    const user = await User.findOne({
         where: {
-            email
-        } 
+            email,
+        },
     });
-    
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new Error('Invalid email or password');
     }
@@ -54,13 +54,18 @@ export const login = async ({ email, password }) => {
     return {
         accessToken,
         refreshToken,
-        user: { id: user.id, email: user.email, role: user.role, name: user.name },
+        user: {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            name: user.name,
+        },
     };
 };
-  
+
 export const refresh = async (token) => {
     const payload = verifyRefreshToken(token);
-    const user = await User.findById(payload.userId);
+    const user = await User.findByPk(payload.userId);
     if (!user || user.refreshToken !== token) {
         throw new Error('Invalid refresh token');
     }
@@ -68,7 +73,7 @@ export const refresh = async (token) => {
     const newAccessToken = generateAccessToken(user);
     return { accessToken: newAccessToken };
 };
-  
+
 export const logout = async (userId) => {
     try {
         // Find and update the user by ID

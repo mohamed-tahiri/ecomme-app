@@ -60,10 +60,13 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
                 />
             </Link>
             <div className="bg-[#f9f9f9] p-2 rounded my-3">
-                <h3 className="product-desc-title mb-3">{product.name}</h3>
+                <h3 className="product-desc-title mb-3">
+                    {product.name.slice(0, 20)}
+                    {product.name.length > 20 ? '...' : ''}
+                </h3>
                 <p className="product-desc-text">
-                    {product.description.slice(0, 75)}
-                    {product.description.length > 75 ? '...' : ''}
+                    {product.description.slice(0, 45)}
+                    {product.description.length > 45 ? '...' : ''}
                 </p>
             </div>
             <div className="space-y-4 mb-4">
@@ -78,7 +81,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
             <button
                 onClick={() => addToCart(product)}
                 disabled={!isInStock}
-                className={`w-full px-4 py-2 rounded flex-center justify-center ${
+                className={`w-full px-4 py-2 rounded flex-center justify-center cursor-pointer ${
                     isInStock
                         ? 'bg-[var(--primary-button-background)] text-white'
                         : 'bg-[#8a9297] text-white'

@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 
-const NoProductFound = () => {
+interface NoFoundProps {
+    message?: string;
+    buttonLabel?: string;
+    redirectTo?: string;
+}
+
+const NoFound = ({ message, buttonLabel, redirectTo = '/' }: NoFoundProps) => {
     return (
         <div className="flex flex-col justify-center items-center p-[4rem] space-y-12">
             <div className="flex flex-col justify-center items-center">
@@ -28,20 +34,18 @@ const NoProductFound = () => {
                         0
                     </div>
                 </div>
-                <h3 className="text-[.8rem]">
-                    Aucun produit trouvé dans cette catégorie
-                </h3>
+                <h3 className="text-[.8rem]">{message}</h3>
             </div>
             <div>
                 <Link
-                    to={'/'}
+                    to={redirectTo}
                     className="bg-[var(--primary-button-background)] text-white px-6 py-4 font-semibold text-[.9rem]"
                 >
-                    Explorer les produits
+                    {buttonLabel}
                 </Link>
             </div>
         </div>
     );
 };
 
-export default NoProductFound;
+export default NoFound;

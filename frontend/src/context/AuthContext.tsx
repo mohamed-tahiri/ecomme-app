@@ -1,13 +1,8 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import {
-    AuthResponse,
-    login,
-    register,
-    logout,
-    refreshToken,
-} from '../services/authService';
+import { AuthResponse, login, register, logout } from '../services/authService';
 
 interface User {
+    id: string;
     email: string;
     name: string;
     role: string;
@@ -21,7 +16,6 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     register: (name: string, email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
-    refreshAuthToken: () => Promise<void>;
     activeCart: 'login' | 'register' | 'forget' | 'info';
     setActiveCart: React.Dispatch<
         React.SetStateAction<'login' | 'register' | 'forget' | 'info'>
@@ -82,21 +76,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     // Déconnexion de l'utilisateur
     const handleLogout = async () => {
         await logout();
+
         setUser(null);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user');
         setAuth(null);
         setActiveCart('login');
-    };
-
-    // Rafraîchir le token d'authentification
-    const handleRefreshAuthToken = async () => {
-        if (!auth?.refreshToken) return;
-        const refreshed = await refreshToken(auth.refreshToken);
-        localStorage.setItem('access_token', refreshed.accessToken);
-        localStorage.setItem('refresh_token', refreshed.refreshToken);
-        setAuth(refreshed);
     };
 
     return (
@@ -109,7 +92,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 login: handleLogin,
                 register: handleRegister,
                 logout: handleLogout,
-                refreshAuthToken: handleRefreshAuthToken,
                 activeCart,
                 setActiveCart,
             }}

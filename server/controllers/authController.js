@@ -1,10 +1,5 @@
-import {
-    register,
-    login,
-    logout,
-    refresh
-} from '../services/authService.js';
-  
+import { register, login, logout, refresh } from '../services/authService.js';
+
 /**
  * @swagger
  * tags:
@@ -48,7 +43,7 @@ export const registerController = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-  
+
 /**
  * @swagger
  * /api/v1/auth/login:
@@ -64,7 +59,7 @@ export const loginController = async (req, res) => {
         res.status(401).json({ message: error.message });
     }
 };
-  
+
 /**
  * @swagger
  * /api/v1/auth/refresh:
@@ -74,13 +69,13 @@ export const loginController = async (req, res) => {
  */
 export const refreshTokenController = async (req, res) => {
     try {
-        const newAccessToken = await refresh(req.body.refreshToken);
-        res.status(200).json({ accessToken: newAccessToken });
+        const accessToken = await refresh(req.body.refreshToken);
+        res.status(200).json(accessToken);
     } catch (error) {
         res.status(403).json({ message: error.message });
     }
 };
-  
+
 /**
  * @swagger
  * /api/v1/auth/logout:
@@ -96,4 +91,3 @@ export const logoutController = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-  

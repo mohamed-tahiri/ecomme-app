@@ -5,5 +5,17 @@ export interface Product {
     price: number;
     stock: number;
     description: string;
-    imageUrl: string;
+    store: {
+        slug: string;
+        name: string;
+        description: string;
+    };
+    vendor: {
+        name: string;
+        email: string;
+    };
+    Category: {
+        name: string;
+        descripiton: string;
+    };
 }

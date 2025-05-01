@@ -9,6 +9,7 @@ interface CartProductItemProps {
     increaseQuantity: (product: CartItem['product']) => void;
     decreaseQuantity: (product: CartItem['product']) => void;
     handleRemoveItem: (slug: string) => void;
+    isReadOnly?: boolean;
 }
 
 const CartProductItem: React.FC<CartProductItemProps> = ({
@@ -16,6 +17,7 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
     increaseQuantity,
     decreaseQuantity,
     handleRemoveItem,
+    isReadOnly = false,
 }) => {
     const [images, setImages] = useState<ProductImage[]>([]);
     const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
@@ -77,29 +79,35 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
                 </div>
             </td>
             <td className="p-8 text-center">
-                <div className="flex items-center justify-center border border-gray-300 rounded w-fit mx-auto">
-                    <button
-                        onClick={() => decreaseQuantity(item.product)}
-                        disabled={item.quantity <= 1}
-                        className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
-                    >
-                        -
-                    </button>
+                {isReadOnly ? (
                     <span className="px-4">{item.quantity}</span>
-                    <button
-                        onClick={() => increaseQuantity(item.product)}
-                        disabled={item.quantity >= item.product.stock}
-                        className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
-                    >
-                        +
-                    </button>
-                </div>
-                <button
-                    onClick={() => handleRemoveItem(item.product.slug)}
-                    className="table-card-body-header hover:underline"
-                >
-                    Supprimer
-                </button>
+                ) : (
+                    <>
+                        <div className="flex items-center justify-center border border-gray-300 rounded w-fit mx-auto">
+                            <button
+                                onClick={() => decreaseQuantity(item.product)}
+                                disabled={item.quantity <= 1}
+                                className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
+                            >
+                                -
+                            </button>
+                            <span className="px-4">{item.quantity}</span>
+                            <button
+                                onClick={() => increaseQuantity(item.product)}
+                                disabled={item.quantity >= item.product.stock}
+                                className="px-3 py-1 hover:bg-gray-300 disabled:opacity-50"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <button
+                            onClick={() => handleRemoveItem(item.product.slug)}
+                            className="table-card-body-header hover:underline"
+                        >
+                            Supprimer
+                        </button>
+                    </>
+                )}
             </td>
             <td className="p-8 text-right font-medium">
                 {(item.product.price * item.quantity).toFixed(2)} dhs

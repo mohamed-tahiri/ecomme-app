@@ -5,16 +5,14 @@ import {
     registerController,
     loginController,
     refreshTokenController,
-    logoutController
+    logoutController,
 } from '../controllers/authController.js';
-import { 
-    authenticate 
-} from '../middlewares/authMiddleware.js';
+import { authenticate } from '../middlewares/authMiddleware.js';
 import validate from '../middlewares/validateMiddleware.js';
-import { 
-    registerSchema, 
-    loginSchema, 
-    refreshSchema
+import {
+    registerSchema,
+    loginSchema,
+    refreshSchema,
 } from '../validators/authValidators.js';
 
 const router = express.Router();

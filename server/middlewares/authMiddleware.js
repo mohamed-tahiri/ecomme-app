@@ -13,14 +13,14 @@ export const authenticate = (req, res, next) => {
         req.user = payload;
         next();
     } catch {
-        res.status(403).json({ message: 'Invalid token' });
+        res.status(401).json({ message: 'Invalid token' });
     }
 };
 
 export const authorize = (roles = []) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
-        return res.status(403).json({ message: 'Forbidden' });
+            return res.status(403).json({ message: 'Forbidden' });
         }
         next();
     };

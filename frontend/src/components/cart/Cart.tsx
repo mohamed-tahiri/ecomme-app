@@ -4,9 +4,10 @@ import CartProductItem from './CartProductItem';
 
 interface CartProps {
     items: CartItem[];
+    isReadOnly?: boolean;
 }
 
-const Cart: React.FC<CartProps> = ({ items }) => {
+const Cart: React.FC<CartProps> = ({ items, isReadOnly = false }) => {
     const { addToCart, removeFromCart } = useCart();
 
     const increaseQuantity = (product: CartItem['product']) => {
@@ -48,6 +49,7 @@ const Cart: React.FC<CartProps> = ({ items }) => {
                                 increaseQuantity={increaseQuantity}
                                 decreaseQuantity={decreaseQuantity}
                                 handleRemoveItem={handleRemoveItem}
+                                isReadOnly={isReadOnly}
                             />
                         ))}
                     </tbody>

@@ -4,6 +4,8 @@ import {
     getProductById,
     getProductBySlug,
     createProduct,
+    getProductsByVendor,
+    getProductsBySlugStore,
 } from '../services/productService.js';
 
 /**
@@ -191,6 +193,222 @@ const getProductsBySlugCategoryController = async (req, res) => {
 
 /**
  * @swagger
+ * /api/v1/products/store/{slug}:
+ *   get:
+ *     tags:
+ *       - products
+ *     summary: Get a list of products by category slug
+ *     description: Returns a list of products in a specific category using the category slug, with pagination and optional filters.
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The slug of the category.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: The page number for pagination.
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: The number of items per page.
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: The name filter for products.
+ *       - in: query
+ *         name: price
+ *         schema:
+ *           type: string
+ *           example: "100,200"
+ *         description: The price filter for products, given as a comma-separated range (e.g., "100,200").
+ *     responses:
+ *       200:
+ *         description: A list of products with pagination info.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Product'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     totalCount:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
+ *       404:
+ *         description: Category not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category not found"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "An unexpected error occurred"
+ */
+const getProductsBySlugStoreController = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const { page, limit, name, price } = req.query;
+        const filters = {};
+
+        if (name) filters.name = name;
+        if (price)
+            filters.price = price.split(',').map((v) => parseFloat(v.trim()));
+
+        const products = await getProductsBySlugStore(
+            slug,
+            page,
+            limit,
+            filters
+        );
+        res.json(products);
+    } catch (error) {
+        if (error.message === 'Store not found') {
+            res.status(404).json({ message: 'Store not found' });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
+    }
+};
+
+/**
+ * @swagger
+ * /api/v1/products/vendor/{vendorId}:
+ *   get:
+ *     tags:
+ *       - products
+ *     summary: Get a list of products by category slug
+ *     description: Returns a list of products in a specific category using the category slug, with pagination and optional filters.
+ *     parameters:
+ *       - in: path
+ *         name: vendorId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The id of the vendor.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: The page number for pagination.
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: The number of items per page.
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: The name filter for products.
+ *       - in: query
+ *         name: price
+ *         schema:
+ *           type: string
+ *           example: "100,200"
+ *         description: The price filter for products, given as a comma-separated range (e.g., "100,200").
+ *     responses:
+ *       200:
+ *         description: A list of products with pagination info.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Product'
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     totalCount:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
+ *       404:
+ *         description: Category not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Category not found"
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "An unexpected error occurred"
+ */
+const getProductsByVendorController = async (req, res) => {
+    try {
+        const { vendorId } = req.params;
+        const { page, limit, name, price } = req.query;
+        const filters = {};
+
+        if (name) filters.name = name;
+        if (price)
+            filters.price = price.split(',').map((v) => parseFloat(v.trim()));
+
+        const products = await getProductsByVendor(
+            vendorId,
+            page,
+            limit,
+            filters
+        );
+        res.json(products);
+    } catch (error) {
+        if (error.message === 'Category not found') {
+            res.status(404).json({ message: 'Category not found' });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
+    }
+};
+
+/**
+ * @swagger
  * /api/v1/products/{id}:
  *   get:
  *     tags:
@@ -291,6 +509,10 @@ const getProductBySlugController = async (req, res) => {
  *                 type: integer
  *               categoryId:
  *                 type: string
+ *               storeId:
+ *                 type: string
+ *               vendorId:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Product created successfully
@@ -313,6 +535,8 @@ const createProductController = async (req, res) => {
 export {
     getProductsController,
     getProductsBySlugCategoryController,
+    getProductsBySlugStoreController,
+    getProductsByVendorController,
     getProductByIdController,
     getProductBySlugController,
     createProductController,

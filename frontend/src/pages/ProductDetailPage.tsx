@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Product } from '../types/product';
 import api from '../services/productsService';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -40,6 +40,7 @@ const ProductDetailPage: React.FC = () => {
                 const productData = await api.getProductBySlug(slug);
                 addRecentlyViewed(productData);
                 setProduct(productData);
+                console.log(productData);
             }
         } catch (error) {
             console.error('Erreur lors du chargement du produit:', error);
@@ -124,9 +125,35 @@ const ProductDetailPage: React.FC = () => {
                     <Livraison />
                 </div>
                 <div className="card">
-                    <h1 className="product-detail-header-text pb-4 border-b border-gray-300">
-                        {product.name}
-                    </h1>
+                    <div className="pb-4 border-b border-gray-300">
+                        <h1 className="product-detail-header-text mb-2">
+                            {product.name}
+                        </h1>
+                        <div className="text-[.8rem] flex space-x-3">
+                            {product?.store && (
+                                <div className="flex items-center border-r border-gray-300 pr-4">
+                                    <h2 className="">
+                                        <span className="uppercase">
+                                            Boutique :{' '}
+                                        </span>
+                                        <Link
+                                            to={`/boutique/${product.store.slug}`}
+                                            className="font-semibold text-[var(--primary-button-background)]"
+                                        >
+                                            {product.store.name}
+                                        </Link>
+                                    </h2>
+                                </div>
+                            )}
+                            <h2 className="">
+                                <span className="uppercase">Vendeur : </span>
+                                <span className="font-semibold text-[var(--primary-button-background)]">
+                                    {product?.vendor?.name} |{' '}
+                                    {product?.vendor?.email}
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
                     <h1 className="table-card-body-header py-4 border-b border-gray-300">
                         {product.description}
                     </h1>
@@ -176,7 +203,7 @@ const ProductDetailPage: React.FC = () => {
 
                     <button
                         onClick={() => addToCart(product, quantity)}
-                        className="bg-[var(--primary-button-background)] text-white py-2 px-4 rounded flex-center"
+                        className="bg-[var(--primary-button-background)] cursor-pointer text-white py-2 px-4 rounded flex-center"
                     >
                         <FaShoppingCart className="mr-2" /> Ajouter au panier
                     </button>

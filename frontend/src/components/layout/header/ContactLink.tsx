@@ -84,23 +84,6 @@ const ContactLink = () => {
                             </button>
                         </Link>
                     </div>
-                    <div className="text-center space-y-2">
-                        <div className="text-sm text-gray-600 cursor-pointer hover:underline">
-                            Nouveau client ?{' '}
-                            <Link to="/register" className="text-blue-600">
-                                Créez votre compte
-                            </Link>
-                        </div>
-                        <div className="text-sm text-gray-600 cursor-pointer hover:underline">
-                            Mot de passe perdu ?{' '}
-                            <Link
-                                to="/reset-password"
-                                className="text-blue-600"
-                            >
-                                Récupérer mon mot de passe
-                            </Link>
-                        </div>
-                    </div>
                 </div>
             )}
         </div>

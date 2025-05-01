@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
-import { AuthResponse } from '../services/authService';
+import { refreshToken } from './authService';
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL, // Uses the environment variable
@@ -21,7 +20,6 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        const { auth, refreshAuthToken } = useAuth();
 
         if (
             error.response &&
@@ -30,20 +28,21 @@ api.interceptors.response.use(
         ) {
             originalRequest._retry = true;
 
-            if (auth?.refreshToken) {
-                try {
-                    await refreshAuthToken();
+            try {
+                const refresh_token = localStorage.getItem('refresh_token');
+                if (refresh_token) {
+                    const data = await refreshToken(refresh_token);
 
-                    const token = localStorage.getItem('access_token');
-                    originalRequest.headers['Authorization'] =
-                        `Bearer ${token}`;
+                    localStorage.setItem('access_token', data.accessToken);
+
+                    originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
                     return api(originalRequest);
-                } catch (refreshError) {
-                    console.error(
-                        'Erreur de rafraîchissement du token',
-                        refreshError
-                    );
                 }
+            } catch (refreshError) {
+                console.error(
+                    'Erreur de rafraîchissement du token',
+                    refreshError
+                );
             }
         }
 

@@ -11,10 +11,16 @@ import ContactPage from '../pages/ContactPage'; // Ensure this page is imported
 import NotFoundPage from '../pages/NotFoundPage';
 import Layout from '../components/layout/Layout';
 import ProfileLayout from '../components/profile/ProfileLayout';
-import OrderPage from '../pages/OrderPage';
+import OrderListPage from '../pages/OrderListPage';
 import AnnouncementPage from '../pages/AnnouncementPage';
 import LayoutAdmin from '../components/admin/layout/LayoutAdmin';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
+import OrderPage from '../pages/OrderPage';
+import CreateAnnouncementPage from '../pages/CreateAnnouncementPage';
+import ProductsPage from '../pages/ProductsPage';
+import MesStoresPage from '../pages/MesStoresPage';
+import CreateStorePage from '../pages/CreateStorePage';
+import BoutiquePage from '../pages/BoutiquePage';
 
 const router = createBrowserRouter([
     {
@@ -34,12 +40,24 @@ const router = createBrowserRouter([
                 element: <CategoryProductsPage />,
             },
             {
+                path: 'collections',
+                element: <ProductsPage />,
+            },
+            {
+                path: 'boutique/:slug',
+                element: <BoutiquePage />,
+            },
+            {
                 path: 'search',
                 element: <SearchPage />,
             },
             {
                 path: 'cart',
                 element: <CartPage />,
+            },
+            {
+                path: 'order',
+                element: <OrderPage />,
             },
             {
                 path: 'contact',
@@ -59,11 +77,33 @@ const router = createBrowserRouter([
                         children: [
                             {
                                 path: 'commandes',
-                                element: <OrderPage />,
+                                element: <OrderListPage />,
                             },
                             {
                                 path: 'annonces',
-                                element: <AnnouncementPage />,
+                                children: [
+                                    {
+                                        path: '',
+                                        element: <AnnouncementPage />,
+                                    },
+                                    {
+                                        path: 'new',
+                                        element: <CreateAnnouncementPage />,
+                                    },
+                                ],
+                            },
+                            {
+                                path: 'stores',
+                                children: [
+                                    {
+                                        path: '',
+                                        element: <MesStoresPage />,
+                                    },
+                                    {
+                                        path: 'new',
+                                        element: <CreateStorePage />,
+                                    },
+                                ],
                             },
                         ],
                     },

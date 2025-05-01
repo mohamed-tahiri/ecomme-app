@@ -6,7 +6,7 @@ import ProductList from '../components/products/ProductList';
 import { Product } from '../types/product';
 import CategoryDetail from '../components/categories/CategoryDetail';
 import Pagination from '../components/pagination/Pagination';
-import NoProductFound from '../components/products/NoProductFound';
+import NotFound from '../components/NotFound';
 
 const CategoryProductsPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>(); // Get the category slug from the URL
@@ -83,7 +83,11 @@ const CategoryProductsPage: React.FC = () => {
                 ) : error ? (
                     <p className="text-red-500">{error}</p>
                 ) : products.length === 0 ? (
-                    <NoProductFound />
+                    <NotFound
+                        message="Aucun produit trouvé dans cette catégorie"
+                        buttonLabel="Explorer les produits"
+                        redirectTo="/collections"
+                    />
                 ) : (
                     <ProductList products={products} />
                 )}

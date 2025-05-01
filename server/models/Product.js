@@ -1,7 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db.js';
 import Category from './Category.js';
-import slugify from 'slugify'; // You'll need to install the slugify package
+import slugify from 'slugify';
+import Store from './Store.js';
+import User from './User.js';
 
 class Product extends Model {}
 
@@ -42,6 +44,22 @@ Product.init(
             allowNull: true,
             unique: true,
         },
+        storeId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Store,
+                key: 'id',
+            },
+            allowNull: true,
+        },
+        vendorId: {
+            type: DataTypes.UUID,
+            references: {
+                model: User,
+                key: 'id',
+            },
+            allowNull: true,
+        },
     },
     { sequelize, modelName: 'products' }
 );
@@ -64,5 +82,7 @@ Product.beforeUpdate((product) => {
 });
 
 Product.belongsTo(Category, { foreignKey: 'categoryId' });
+Product.belongsTo(Store, { foreignKey: 'storeId', as: 'store' });
+Product.belongsTo(User, { foreignKey: 'vendorId', as: 'vendor' });
 
 export default Product;

@@ -1,4 +1,5 @@
 import api from './api';
+import { clearTokens } from './authTokenService';
 
 export interface LoginRequest {
     email: string;
@@ -15,10 +16,15 @@ export interface AuthResponse {
     accessToken: string;
     refreshToken: string;
     user: {
+        id: string;
         email: string;
         role: string;
         name: string;
     };
+}
+
+export interface RefreshResponse {
+    accessToken: string;
 }
 
 // Connexion utilisateur
@@ -61,11 +67,12 @@ export const forgetPassword = async (email: string): Promise<void> => {
 };
 
 // Rafraîchir le token
-export const refreshToken = async (token: string): Promise<AuthResponse> => {
+export const refreshToken = async (token: string): Promise<RefreshResponse> => {
     try {
-        const response = await api.post('/auth/refresh-token', {
-            refresh_token: token,
+        const response = await api.post('/auth/refresh', {
+            refreshToken: token,
         });
+
         return response.data;
     } catch (error) {
         console.error('Erreur lors du rafraîchissement du token :', error);
@@ -76,6 +83,8 @@ export const refreshToken = async (token: string): Promise<AuthResponse> => {
 export const logout = async (): Promise<void> => {
     try {
         await api.post('/auth/logout');
+
+        clearTokens();
     } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
         throw error;
