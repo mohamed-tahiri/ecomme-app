@@ -24,7 +24,6 @@ import storeRoutes from './routes/storeRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import imagesProductRoutes from './routes/productImagesRoutes.js';
-import router from './routes/index.js';
 
 const app = express();
 

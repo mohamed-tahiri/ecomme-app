@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Store } from '../../types/store';
 import ContactStoreForm from './ContactStoreForm';
 
@@ -23,49 +23,81 @@ const StorePage: React.FC<Props> = ({ store }) => {
             const rect = box.getBoundingClientRect();
             const parentTop = containerRef.current!.getBoundingClientRect().top;
             const bottom = rect.bottom - parentTop;
-            if (bottom > maxBottom) {
-                maxBottom = bottom;
-            }
+            maxBottom = Math.max(maxBottom, bottom);
         });
 
         setHeight(maxBottom);
     }, []);
 
     return (
-        <div ref={containerRef} style={{ height }} className="relative">
-            <div
-                data-box
-                className="h-64 rounded-xl bg-indigo-500 absolute z-10 top-0 left-0 flex items-center justify-center text-white"
-            >
+        <div ref={containerRef} style={{ height }} className="relative mb-4">
+            {/* Cover */}
+            <div data-box className="absolute top-0 left-0 w-full h-64 z-10">
                 <img
                     src={store.cover || DEFAULT_COVER}
-                    alt="Cover"
-                    className="w-full h-64 object-cover"
+                    alt="Couverture"
+                    className="w-full h-full object-cover rounded-t-xl"
                 />
             </div>
+
+            {/* Store Info & Contact */}
             <div
                 data-box
-                className="h-auto rounded-xl absolute z-20 top-56 left-0 items-start justify-center grid grid-cols-3 gap-5"
+                className="absolute top-56 px-10 left-0 z-20 w-full grid grid-cols-3 gap-5"
             >
-                <div className="col-span-2">
-                    <div className=" flex items-center space-x-4">
+                <div className="col-span-2 bg-white rounded-xl p-6 space-y-6">
+                    {/* Logo and Name */}
+                    <div className="flex items-center space-x-4">
                         <img
                             src={store.logo || DEFAULT_LOGO}
                             alt="Logo"
-                            className="w-16 h-16 rounded-full border-2 border-white object-cover"
+                            className="w-16 h-16 border-2 border-white object-cover"
                         />
-                        <div className="text-white">
+                        <div>
                             <h1 className="text-2xl font-bold">{store.name}</h1>
                             {store.description && (
                                 <p className="text-sm">{store.description}</p>
                             )}
                         </div>
                     </div>
-                    <div className="p-6 bg-white shadow-md mt-8">
-                        <h2>Test</h2>
+
+                    {/* Description */}
+                    <div>
+                        <h2>Groupe Péricaud Automobiles</h2>
+                        <h3 className="font-semibold">
+                            Vente véhicules multi-marques
+                        </h3>
+                        <p>
+                            Retrouvez nos concessions automobiles Alfa Romeo,
+                            Audi, Jaguar, Land Rover, Jeep, Seat, Skoda, Suzuki,
+                            Volkswagen, Volkswagen Utilitaires et Rent à Limoges
+                            (Zone Nord)... etc.
+                        </p>
+                    </div>
+
+                    {/* Info */}
+                    <div className="text-sm text-gray-700">
+                        <p>
+                            <strong>SIREN :</strong> 320686454
+                        </p>
+                        <p>
+                            <strong>Adresse :</strong> 1 rue Edouard Goursat,
+                            87000 Limoges
+                        </p>
+                        <p>
+                            <strong>Horaires :</strong> Lun-Ven 8h-12h /
+                            14h-19h, Sam 9h-12h / 14h-18h30
+                        </p>
+                        <p>
+                            <strong>Statut :</strong> Membre depuis juillet
+                            2016, 17 abonnés, dernière activité il y a 20
+                            heures.
+                        </p>
                     </div>
                 </div>
-                <div className="">
+
+                {/* Contact Form */}
+                <div className="bg-white rounded-xl p-4">
                     <ContactStoreForm />
                 </div>
             </div>

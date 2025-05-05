@@ -43,7 +43,7 @@ const Header: React.FC = () => {
             {/* Le div devient fixed au scroll, mais header garde son style */}
             <div
                 className={`transition-all duration-300 
-                ${isScrolled ? 'fixed top-0 left-0 w-full z-50' : 'relative'}`}
+                ${isScrolled ? 'fixed top-0 left-0 w-full z-40' : 'relative'}`}
             >
                 {/* Header garde son background */}
                 <header className="flex justify-between items-center bg-[#002fc4] text-[#ffffff] px-[1.875rem] py-4">

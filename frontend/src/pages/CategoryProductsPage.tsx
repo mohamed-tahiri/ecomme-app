@@ -7,6 +7,7 @@ import { Product } from '../types/product';
 import CategoryDetail from '../components/categories/CategoryDetail';
 import Pagination from '../components/pagination/Pagination';
 import NotFound from '../components/NotFound';
+import ProductFilter from '../components/filter/ProductFilter';
 
 const CategoryProductsPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>(); // Get the category slug from the URL
@@ -55,25 +56,12 @@ const CategoryProductsPage: React.FC = () => {
 
     return (
         <div className="grid grid-cols-4 gap-8">
-            <div className="card">
-                <h1 className="card-text-heading">Filter</h1>
-
-                <input
-                    type="text"
-                    placeholder="Rechercher un produit..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border p-2 rounded mb-4 w-full"
-                />
-
-                <input
-                    type="text"
-                    placeholder="Prix min,max (ex: 100,200)"
-                    value={priceRange}
-                    onChange={(e) => setPriceRange(e.target.value)}
-                    className="border p-2 rounded mb-4 w-full"
-                />
-            </div>
+            <ProductFilter
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+            />
 
             <div className="col-span-3 card">
                 <CategoryDetail category={category!} />

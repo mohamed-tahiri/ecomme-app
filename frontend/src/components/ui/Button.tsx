@@ -10,7 +10,7 @@ export const Button: React.FC<Props> = ({ children, className, ...props }) => {
         <button
             {...props}
             className={classNames(
-                'px-6 py-2 rounded-md font-semibold transition cursor-pointer',
+                'rounded py-2 transition cursor-pointer',
                 props.disabled
                     ? 'bg-gray-300 text-gray-600'
                     : 'bg-[var(--primary-button-background)] text-white ',

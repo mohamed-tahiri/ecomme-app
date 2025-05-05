@@ -58,12 +58,14 @@ import {
 const uploadProductImageController = async (req, res) => {
     try {
         const { productId } = req.params;
-        const { imageUrl, isPrimary } = req.body;
+        const { isPrimary } = req.body;
+        const file = req.file;
 
-        const image = await uploadProductImage(productId, {
-            imageUrl,
-            isPrimary,
-        });
+        if (!file) {
+            return res.status(400).json({ message: 'No image file uploaded' });
+        }
+
+        const image = await uploadProductImage(productId, isPrimary, file);
         res.status(201).json(image);
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button } from '../ui/Button';
 
 const ContactStoreForm: React.FC = () => {
     const [form, setForm] = useState({
@@ -12,13 +13,14 @@ const ContactStoreForm: React.FC = () => {
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form submitted:', form);
-        // Appeler ici un service d’envoi
+        // Appeler ici un service d’envoi réel
     };
 
     return (
@@ -34,6 +36,7 @@ const ContactStoreForm: React.FC = () => {
                     onChange={handleChange}
                     required
                     className="w-full border rounded px-3 py-2"
+                    placeholder="Votre nom"
                 />
             </div>
 
@@ -46,6 +49,7 @@ const ContactStoreForm: React.FC = () => {
                     onChange={handleChange}
                     required
                     className="w-full border rounded px-3 py-2"
+                    placeholder="exemple@mail.com"
                 />
             </div>
 
@@ -57,46 +61,8 @@ const ContactStoreForm: React.FC = () => {
                     value={form.phone}
                     onChange={handleChange}
                     className="w-full border rounded px-3 py-2"
+                    placeholder="06 00 00 00 00"
                 />
-            </div>
-
-            <div>
-                <label className="block mb-1">
-                    Quel est l’objet de votre demande ?
-                </label>
-                <div className="space-y-2">
-                    <label className="flex items-center space-x-2">
-                        <input
-                            type="radio"
-                            name="subject"
-                            value="achat"
-                            checked={form.subject === 'achat'}
-                            onChange={handleChange}
-                            required
-                        />
-                        <span>Un projet d’achat</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                        <input
-                            type="radio"
-                            name="subject"
-                            value="essai"
-                            checked={form.subject === 'essai'}
-                            onChange={handleChange}
-                        />
-                        <span>Un essai de véhicule</span>
-                    </label>
-                    <label className="flex items-center space-x-2">
-                        <input
-                            type="radio"
-                            name="subject"
-                            value="reprise"
-                            checked={form.subject === 'reprise'}
-                            onChange={handleChange}
-                        />
-                        <span>Une reprise de véhicule</span>
-                    </label>
-                </div>
             </div>
 
             <div>
@@ -107,15 +73,13 @@ const ContactStoreForm: React.FC = () => {
                     onChange={handleChange}
                     rows={4}
                     className="w-full border rounded px-3 py-2"
+                    placeholder="Bonjour, je souhaite avoir plus d'infos..."
                 />
             </div>
 
-            <button
-                type="submit"
-                className="bg-[var(--primary-button-background)] text-white px-4 py-2 rounded"
-            >
+            <Button type="submit" className="w-full">
                 Envoyer
-            </button>
+            </Button>
 
             <p className="text-xs text-gray-500 mt-2">
                 Me renseigner sur les finalités du traitement de mes données

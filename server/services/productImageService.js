@@ -1,18 +1,22 @@
 // services/productImageService.js
 import Product from '../models/Product.js';
-import ProductImage from '../models/ProductImage.js'; // Assure-toi de créer ce modèle pour gérer les images des produits.
+import ProductImage from '../models/ProductImage.js';
+import { getFileMetadata, updateFile } from './fileService.js';
 
-const uploadProductImage = async (productId, data) => {
+const uploadProductImage = async (productId, data, file) => {
     try {
         const product = await Product.findByPk(productId);
         if (!product) {
             throw new Error('Product not found');
         }
 
+        const fileData = getFileMetadata(file);
+
         const imageData = {
-            ...data,
+            isPrimary: data,
             altText: product.name,
             productId,
+            imageUrl: fileData.path,
         };
 
         const newImage = await ProductImage.create(imageData);

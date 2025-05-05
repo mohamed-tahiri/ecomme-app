@@ -63,7 +63,7 @@ export default function DesktopMenu({ menu }: DesktopMenuProps) {
 
             {hasSubMenu && (
                 <motion.div
-                    className="absolute left-0 mt-2 bg-white shadow-lg rounded p-4"
+                    className="z-20 absolute left-0 mt-2 bg-white shadow-lg rounded p-4"
                     initial="exit"
                     animate={isHovered ? 'enter' : 'exit'}
                     variants={subMenuVariants}
