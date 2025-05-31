@@ -7,23 +7,25 @@ dotenv.config({ path: envFile });
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import { swaggerUi, swaggerSpec } from './config/swagger.js';
+import { swaggerUi, swaggerSpec } from './config/swagger.config.js';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import helmet from 'helmet';
-import logger from './utils/logger.js';
+import logger from './utils/logger.utils.js';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 
 // API Routes
-import indexRouter from './routes/index.js';
-import authRoutes from './routes/authRoutes.js';
-import orderRoutes from './routes/orderRoute.js';
-import userRoutes from './routes/userRoutes.js';
-import storeRoutes from './routes/storeRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js';
-import imagesProductRoutes from './routes/productImagesRoutes.js';
+import indexRouter from './routes/index.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import paymentCartRoutes from './routes/paymentCart.route.js';
+import orderRoutes from './routes/order.route.js';
+import userRoutes from './routes/user.routes.js';
+import storeRoutes from './routes/store.routes.js';
+import productRoutes from './routes/product.routes.js';
+import categoryRoutes from './routes/category.routes.js';
+import addressesRoutes from './routes/address.routes.js';
+import imagesProductRoutes from './routes/productImages.routes.js';
 
 const app = express();
 
@@ -68,6 +70,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 const apiVersion = '/api/v1';
 const routes = [
     { path: '/', router: indexRouter },
+    { path: '/addresses', router: addressesRoutes },
+    { path: '/payment-carts', router: paymentCartRoutes },
     { path: '/auth', router: authRoutes },
     { path: '/order', router: orderRoutes },
     { path: '/users', router: userRoutes },

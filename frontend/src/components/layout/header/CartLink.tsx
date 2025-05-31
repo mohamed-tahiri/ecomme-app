@@ -104,7 +104,7 @@ const CartLink = () => {
                             Panier
                         </Link>
                         <Link
-                            to="/checkout"
+                            to="/order"
                             onClick={() => setIsOpen(false)} // Close the dropdown
                             className="text-center w-1/2 bg-[var(--primary-button-background)] hover:opacity-90 text-white py-2 rounded-r"
                         >

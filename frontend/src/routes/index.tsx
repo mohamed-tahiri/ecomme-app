@@ -57,7 +57,13 @@ const router = createBrowserRouter([
             },
             {
                 path: 'order',
-                element: <OrderPage />,
+                element: <PrivateRoute allowedRoles={['ROLE_CUSTOMER']} />,
+                children: [
+                    {
+                        path: '',
+                        element: <OrderPage />,
+                    },
+                ],
             },
             {
                 path: 'contact',

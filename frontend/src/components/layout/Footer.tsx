@@ -13,14 +13,14 @@ const Footer: React.FC = () => {
                         >
                             <g
                                 transform="translate(1 1)"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 fill="none"
-                                fill-rule="evenodd"
+                                fillRule="evenodd"
                             >
                                 <path
                                     d="M5 10H2M5 15H4"
                                     stroke="#00badb"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                 ></path>
                                 <path
                                     stroke="#002fc4"
@@ -29,23 +29,23 @@ const Footer: React.FC = () => {
                                 <path
                                     d="M0 5h5"
                                     stroke="#00badb"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                 ></path>
                                 <path
                                     stroke="#002fc4"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                     d="M0 0h9v4"
                                 ></path>
                                 <circle
                                     stroke="#002fc4"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                     cx="14"
                                     cy="17"
                                     r="3"
                                 ></circle>
                                 <path
                                     stroke="#002fc4"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                     d="M13 7v2h2"
                                 ></path>
                             </g>
@@ -65,20 +65,16 @@ const Footer: React.FC = () => {
                             viewBox="0 0 24 23"
                             role="presentation"
                         >
-                            <g
-                                stroke-width="1.5"
-                                fill="none"
-                                fill-rule="evenodd"
-                            >
+                            <g strokeWidth="1.5" fill="none" fillRule="evenodd">
                                 <path
                                     d="M17 1c-2.1 0-3.9 1.1-5 2.7C10.9 2.1 9.1 1 7 1 3.7 1 1 3.7 1 7c0 6 11 15 11 15s11-9 11-15c0-3.3-2.7-6-6-6z"
                                     stroke="#002fc4"
-                                    stroke-linecap="square"
+                                    strokeLinecap="square"
                                 ></path>
                                 <path
                                     d="M16 5c1.65 0 3 1.35 3 3"
                                     stroke="#00badb"
-                                    stroke-linecap="round"
+                                    strokeLinecap="round"
                                 ></path>
                             </g>
                         </svg>
@@ -101,10 +97,10 @@ const Footer: React.FC = () => {
                             role="presentation"
                         >
                             <g
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 fill="none"
-                                fill-rule="evenodd"
-                                stroke-linecap="square"
+                                fillRule="evenodd"
+                                strokeLinecap="square"
                             >
                                 <path
                                     d="M10 17H4c-1.7 0-3 1.3-3 3v3h12v-3c0-1.7-1.3-3-3-3zM7 14c-1.7 0-3-1.3-3-3v-1c0-1.7 1.3-3 3-3s3 1.3 3 3v1c0 1.7-1.3 3-3 3z"
@@ -132,10 +128,10 @@ const Footer: React.FC = () => {
                             role="presentation"
                         >
                             <g
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 fill="none"
-                                fill-rule="evenodd"
-                                stroke-linecap="square"
+                                fillRule="evenodd"
+                                strokeLinecap="square"
                             >
                                 <path
                                     d="M1 5h22M1 9h22M9 17H3c-1.105 0-2-.895-2-2V3c0-1.105.895-2 2-2h18c1.105 0 2 .895 2 2v10M5 13h5"

@@ -10,14 +10,14 @@ const Estimation = () => {
                     >
                         <g
                             transform="translate(1 1)"
-                            stroke-width="2"
+                            strokeWidth="2"
                             fill="none"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                         >
                             <path
                                 d="M5 10H2M5 15H4"
                                 stroke="#00badb"
-                                stroke-linecap="square"
+                                strokeLinecap="square"
                             ></path>
                             <path
                                 stroke="#002fc4"
@@ -26,23 +26,23 @@ const Estimation = () => {
                             <path
                                 d="M0 5h5"
                                 stroke="#00badb"
-                                stroke-linecap="square"
+                                strokeLinecap="square"
                             ></path>
                             <path
                                 stroke="#002fc4"
-                                stroke-linecap="square"
+                                strokeLinecap="square"
                                 d="M0 0h9v4"
                             ></path>
                             <circle
                                 stroke="#002fc4"
-                                stroke-linecap="square"
+                                strokeLinecap="square"
                                 cx="14"
                                 cy="17"
                                 r="3"
                             ></circle>
                             <path
                                 stroke="#002fc4"
-                                stroke-linecap="square"
+                                strokeLinecap="square"
                                 d="M13 7v2h2"
                             ></path>
                         </g>

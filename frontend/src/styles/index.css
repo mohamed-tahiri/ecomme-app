@@ -100,6 +100,20 @@ body {
     font-size: 0.8rem;
 }
 
+/* --- Swiper */
+.swiper-button-prev {
+    display: none !important; /* Cache la flèche gauche */
+}
+
+.swiper-button-next {
+    transition: opacity 0.3s ease;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    display: none;
+}
+
 /* --- Card */
 .card-text-heading {
     color: var(--heading-color);
