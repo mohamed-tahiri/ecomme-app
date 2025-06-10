@@ -1,9 +1,8 @@
-import { Outlet } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import Breadcrumb from './Breadcrumb';
+import Header from '../components/layout/Header';
+import Breadcrumb from '../components/layout/Breadcrumb';
+import Footer from '../components/layout/Footer';
 
-const Layout: React.FC = () => {
+const ConfigurateurPCWithoutLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
@@ -11,13 +10,11 @@ const Layout: React.FC = () => {
                 <div className="hidden my-6 md:block">
                     <Breadcrumb />
                 </div>
-                <main>
-                    <Outlet />
-                </main>
+                <div></div>
             </div>
             <Footer />
         </div>
     );
 };
 
-export default Layout;
+export default ConfigurateurPCWithoutLayout;

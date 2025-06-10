@@ -41,7 +41,7 @@ const SpaceProductItem: React.FC<ProductItemProps> = ({ product }) => {
     }, [product]);
 
     return (
-        <div className="p-4">
+        <div className="p-4 w-[14.5rem]">
             <Link to={`/products/${product.slug}`}>
                 <img
                     src={selectedImage?.imageUrl}

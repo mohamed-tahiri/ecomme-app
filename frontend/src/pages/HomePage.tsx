@@ -8,13 +8,17 @@ const HomePage: React.FC = () => {
     return (
         <div className="space-y-6 mb-5">
             <HomeSlider />
-            <Type />
-            <PopularCollection />
+            <div className="px-[1.875rem] md:px-0 space-y-6">
+                <Type />
+                <PopularCollection />
+            </div>
             <Space />
             <Space />
             <Space />
             <Space />
-            <Marques />
+            <div className="px-[1.875rem] md:px-0">
+                <Marques />
+            </div>
         </div>
     );
 };

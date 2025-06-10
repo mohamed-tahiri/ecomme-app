@@ -30,7 +30,7 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
     const userId = auth?.user.id ?? '';
 
     const [paymentMethod, setPaymentMethod] = useState<'card' | 'cod'>('cod');
-    const [savedCard, setSavedCard] = useState<PaymentCart | null>(null);
+    const [savedCard, setSavedCard] = useState<PaymentCart[] | null>(null);
     const [showCardForm, setShowCardForm] = useState(false);
 
     const [form, setForm] = useState<CardForm>(initialForm);
@@ -106,7 +106,9 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
                 cvv: form.cvv,
                 cardHolder: form.cardName,
             });
-            setSavedCard(newCard);
+
+            console.log(newCard);
+
             setShowCardForm(false);
             setForm(initialForm);
             setValidationErrors({});
@@ -150,7 +152,10 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
                 <div className="space-y-4 border-t pt-4">
                     {savedCard && !showCardForm ? (
                         <>
-                            <CardPreview card={savedCard} />
+                            {savedCard &&
+                                savedCard.map((card) => (
+                                    <CardPreview card={card} key={card.id} /> // Assuming 'card' has a unique 'id'
+                                ))}
                             <button
                                 type="button"
                                 onClick={() => setShowCardForm(true)}

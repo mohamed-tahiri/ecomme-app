@@ -45,24 +45,46 @@ const CartLink = () => {
 
     return (
         <div className="relative">
-            {/* Bouton Panier */}
-            <button
+            <div className="hidden xl:block">
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="relative flex items-center space-x-2"
+                >
+                    <div className="relative cursor-pointer">
+                        <FiShoppingCart className="text-3xl" />
+
+                        {/* Badge pour afficher le nombre d'articles */}
+                        {totalItems > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-[var(--primary-button-background)] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                                {totalItems}
+                            </span>
+                        )}
+                    </div>
+
+                    <span>Panier</span>
+                </button>
+            </div>
+
+            <div
+                className="block xl:hidden cursor-pointer select-none"
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative flex items-center space-x-2"
             >
-                <div className="relative cursor-pointer">
-                    <FiShoppingCart className="text-3xl" />
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="relative flex items-center space-x-2"
+                >
+                    <div className="relative cursor-pointer">
+                        <FiShoppingCart className="text-3xl" />
 
-                    {/* Badge pour afficher le nombre d'articles */}
-                    {totalItems > 0 && (
-                        <span className="absolute -top-2 -right-2 bg-[var(--primary-button-background)] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                            {totalItems}
-                        </span>
-                    )}
-                </div>
-
-                <span>Panier</span>
-            </button>
+                        {/* Badge pour afficher le nombre d'articles */}
+                        {totalItems > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-[var(--primary-button-background)] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                                {totalItems}
+                            </span>
+                        )}
+                    </div>
+                </button>
+            </div>
 
             {/* Menu déroulant */}
             {isOpen && (

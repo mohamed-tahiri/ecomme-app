@@ -4,6 +4,7 @@ import RegisterCart from '../../auth/RegisterCart';
 import ForgetPasswordCart from '../../auth/ForgetPasswordCart';
 import InfoCart from '../../auth/InfoCart';
 import { useAuth } from '../../../context/AuthContext';
+import { FaRegUser } from 'react-icons/fa6';
 
 const LoginLink: React.FC = () => {
     const { activeCart, user, logout: contextLogout } = useAuth();
@@ -42,36 +43,45 @@ const LoginLink: React.FC = () => {
 
     return (
         <div className="relative">
-            <h2 className="header-element">
-                {user ? `Bonjour ${user.name}` : 'Connexion / Inscription'}
-            </h2>
+            <div className="hidden xl:block">
+                <h2 className="header-element">
+                    {user ? `Bonjour ${user.name}` : 'Connexion / Inscription'}
+                </h2>
 
-            {/* Bouton cliquable */}
+                {/* Bouton cliquable */}
+                <div
+                    className="flex items-center gap-2 cursor-pointer select-none"
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    <p className="font-semibold">Mon compte</p>
+                    <div
+                        className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    >
+                        <svg
+                            focusable="false"
+                            className="icon icon--arrow-bottom"
+                            viewBox="0 0 12 8"
+                            role="presentation"
+                        >
+                            <path
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                d="M10 2L6 6 2 2"
+                                fill="none"
+                                strokeLinecap="square"
+                            />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
             <div
-                className="flex items-center gap-2 cursor-pointer select-none"
-                aria-expanded={isOpen}
-                aria-haspopup="true"
+                className="block xl:hidden cursor-pointer select-none"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <p>Mon compte</p>
-                <div
-                    className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                >
-                    <svg
-                        focusable="false"
-                        className="icon icon--arrow-bottom"
-                        viewBox="0 0 12 8"
-                        role="presentation"
-                    >
-                        <path
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            d="M10 2L6 6 2 2"
-                            fill="none"
-                            strokeLinecap="square"
-                        />
-                    </svg>
-                </div>
+                <FaRegUser size={24} className="text-white" />
             </div>
 
             {/* Menu déroulant */}

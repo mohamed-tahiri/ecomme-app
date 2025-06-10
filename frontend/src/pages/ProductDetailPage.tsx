@@ -91,7 +91,7 @@ const ProductDetailPage: React.FC = () => {
 
     return (
         <>
-            <div className="grid grid-cols-2 gap-8">
+            <div className="md:grid md:grid-cols-2 md:gap-8 p-[1.875rem] md:px-0">
                 <div className="space-y-6">
                     <div className="card grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-x-4">
                         <div className="flex flex-col space-y-4">

@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '../ui/Button';
 
 interface ProductFilterProps {
+    className?: string;
     searchTerm: string;
     setSearchTerm: (value: string) => void;
     priceRange: string;
@@ -18,6 +19,7 @@ interface ProductFilterProps {
 }
 
 const ProductFilter: React.FC<ProductFilterProps> = ({
+    className = '', // <== Valeur par défaut vide
     searchTerm,
     setSearchTerm,
     priceRange,
@@ -32,7 +34,7 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
     onApply,
 }) => {
     return (
-        <div className="card self-start">
+        <div className={`card self-start ${className}`}>
             <h1 className="card-text-heading">Filtres</h1>
 
             <input

@@ -44,7 +44,7 @@ const SearchPage: React.FC = () => {
     }, [searchQuery, page]);
 
     return (
-        <div className="card">
+        <div className="card m-[1.875rem] md:m-0">
             <div className="border-b border-[var(--border-color)] pb-4 mb-4">
                 <h2 className="card-text-heading">
                     Produits pour "{searchQuery}"
@@ -61,12 +61,15 @@ const SearchPage: React.FC = () => {
                 <p>Aucun produit trouvé.</p>
             )}
 
-            {/* Pagination */}
-            <Pagination
-                currentPage={page}
-                totalPages={totalPages}
-                onPageChange={setPage}
-            />
+            {products.length > 0 ? (
+                <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    onPageChange={setPage}
+                />
+            ) : (
+                <></>
+            )}
         </div>
     );
 };

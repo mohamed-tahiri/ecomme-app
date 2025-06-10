@@ -7,6 +7,7 @@ type CardPreviewProps = {
 };
 
 const CardPreview: React.FC<CardPreviewProps> = ({ card }) => {
+    console.log(card);
     return (
         <div className="relative bg-gradient-to-r from-[#28313B] to-[#485563] text-white rounded-xl p-5 shadow-lg w-full max-w-sm">
             {/* Chip */}

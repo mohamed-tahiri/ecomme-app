@@ -3,8 +3,8 @@ import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 const Footer: React.FC = () => {
     return (
         <footer className="footer-body-text">
-            <div className="bg-[var(--background)] grid grid-cols-4 px-[1.875rem] py-8">
-                <div className="flex items-center justify-center">
+            <div className="bg-[var(--background)] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 px-[1.875rem] py-8">
+                <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
                     <div className="w-12 h-12">
                         <svg
                             focusable="false"
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                         <p>Votre commande est preparée et livrée chez vous</p>
                     </div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
                     <div className="w-12 h-12">
                         <svg
                             focusable="false"
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center justify-center ">
+                <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
                     <div className="w-12 h-12">
                         <svg
                             focusable="false"
@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
                         <p>Nous somme à votre disposition toute la semaine</p>
                     </div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
                     <div className="w-12 h-12">
                         <svg
                             focusable="false"

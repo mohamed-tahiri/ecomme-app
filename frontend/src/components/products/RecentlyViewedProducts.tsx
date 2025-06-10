@@ -11,9 +11,9 @@ const RecentlyViewedProducts: React.FC<RecentlyViewedProductsProps> = ({
     if (products.length === 0) return null;
 
     return (
-        <div className="mt-8">
+        <div className="md:mt-8 md:px-0 px-[1.875rem]">
             <h2 className="card-page-heading">Vu récemment</h2>
-            <div className="card grid grid-cols-5">
+            <div className="card flex items-center md:grid md:grid-cols-5">
                 {products.map((product) => (
                     <ProductItem key={product.id} product={product} />
                 ))}

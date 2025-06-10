@@ -5,7 +5,7 @@ import api from './api';
 // Récupérer la carte de paiement d'un utilisateur
 export const getPaymentCartByUser = async (
     userId: string
-): Promise<PaymentCart | null> => {
+): Promise<PaymentCart[] | null> => {
     try {
         const response = await api.get(`payment-carts/user/${userId}`);
         return response.data;

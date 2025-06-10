@@ -43,7 +43,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     }, [product]);
 
     return (
-        <div className="p-2">
+        <div className="p-2 w-[14.5rem] md:w-auto">
             <Link to={`/products/${product.slug}`}>
                 <img
                     src={selectedImage?.imageUrl}

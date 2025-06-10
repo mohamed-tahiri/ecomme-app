@@ -8,11 +8,11 @@ interface ProductListProps {
 
 const SpaceProductList: React.FC<ProductListProps> = ({ products }) => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 bg-white h-full rounded-[.1rem]">
+        <div className="flex items-center md:grid md:grid-cols-4 bg-white rounded-[.1rem] m-1">
             {products.map((product) => (
                 <div
                     key={product.id}
-                    className="border-r border-[var(--border-color)]"
+                    className="border-r border-[var(--border-color)] last:border-r-0"
                 >
                     <SpaceProductItem product={product} />
                 </div>

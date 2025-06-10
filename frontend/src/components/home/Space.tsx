@@ -58,8 +58,10 @@ const Space = () => {
             {/* Colonne gauche avec image de fond */}
             <div className="relative p-4 flex flex-col justify-between">
                 <div>
-                    <h2 className="text-xl font-bold mb-2">ORDI SPACE</h2>
-                    <p className="mb-4">
+                    <h2 className="text-lg md:text-xl font-semibold mb-2">
+                        ORDI SPACE
+                    </h2>
+                    <p className="text-[.8rem] md:text-[.9rem] mb-4">
                         Que vous êtes Architecte, Infographiste, Modeleur ou
                         Gamer, découvrez une large sélection d'ordinateurs
                         choisi par Techspace.ma
@@ -71,7 +73,7 @@ const Space = () => {
             </div>
 
             {/* Colonne droite */}
-            <div className="col-span-2 p-2">
+            <div className="flex overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 p-2 col-span-2 lg:col-span-2">
                 <SpaceProductList products={products} />
             </div>
         </div>

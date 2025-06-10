@@ -55,41 +55,42 @@ const CategoryProductsPage: React.FC = () => {
     }, [slug, page, searchTerm, priceRange]);
 
     return (
-        <div className="grid grid-cols-4 gap-8">
-            <ProductFilter
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-            />
-
-            <div className="col-span-3 card">
-                <CategoryDetail category={category!} />
-
-                {loading ? (
-                    <p>Chargement en cours...</p>
-                ) : error ? (
-                    <p className="text-red-500">{error}</p>
-                ) : products.length === 0 ? (
-                    <NotFound
-                        message="Aucun produit trouvé dans cette catégorie"
-                        buttonLabel="Explorer les produits"
-                        redirectTo="/collections"
+        <>
+            {loading ? (
+                <p>Chargement en cours...</p>
+            ) : error ? (
+                <p className="text-red-500">{error}</p>
+            ) : products.length === 0 ? (
+                <NotFound
+                    message="Aucun produit trouvé dans cette catégorie"
+                    buttonLabel="Explorer les produits"
+                    redirectTo="/collections"
+                />
+            ) : (
+                <div className="md:grid md:grid-cols-4 md:gap-8 p-[1.875rem] md:px-0">
+                    <ProductFilter
+                        className="hidden md:block"
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        priceRange={priceRange}
+                        setPriceRange={setPriceRange}
                     />
-                ) : (
-                    <ProductList products={products} />
-                )}
 
-                {/* Pagination */}
-                {totalPages > 1 && (
-                    <Pagination
-                        currentPage={page}
-                        totalPages={totalPages}
-                        onPageChange={setPage}
-                    />
-                )}
-            </div>
-        </div>
+                    <div className="col-span-3 card">
+                        <CategoryDetail category={category!} />
+                        <ProductList products={products} />
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <Pagination
+                                currentPage={page}
+                                totalPages={totalPages}
+                                onPageChange={setPage}
+                            />
+                        )}
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 

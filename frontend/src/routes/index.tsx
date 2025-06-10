@@ -21,8 +21,14 @@ import ProductsPage from '../pages/ProductsPage';
 import MesStoresPage from '../pages/MesStoresPage';
 import CreateStorePage from '../pages/CreateStorePage';
 import BoutiquePage from '../pages/BoutiquePage';
+import ConfigurateurPCWithoutLayout from '../pages/ConfigurateurPCWithoutLayout';
 
 const router = createBrowserRouter([
+    // Route SANS le Layout
+    {
+        path: '/collections/configurateur-pc',
+        element: <ConfigurateurPCWithoutLayout />, // Rendu sans le Layout
+    },
     {
         path: '/',
         element: <Layout />,

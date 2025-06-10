@@ -11,25 +11,29 @@ const OrderPage: React.FC = () => {
     const { cart } = useCart(); // Récupérer les éléments du panier depuis le contexte
 
     return (
-        <div className="space-y-4">
-            <h2 className="card-text-heading">
-                Récapitulatif de votre commande
-            </h2>
-            <p>Merci pour votre achat ! Voici les détails de votre commande.</p>
+        <>
+            <div className="space-y-4 p-[1.875rem] md:p-0">
+                <h2 className="card-text-heading">
+                    Récapitulatif de votre commande
+                </h2>
+                <p>
+                    Merci pour votre achat ! Voici les détails de votre
+                    commande.
+                </p>
 
-            <div className="grid grid-cols-4 gap-8">
-                <div className="col-span-3 space-y-4">
-                    <Cart items={cart} isReadOnly />
-                    <LivraisonInfo />
-                    <PaiementInfo />
-                    <div className="col-span-1">
-                        <Estimation showTitle />
+                <div className="md:grid md:grid-cols-4 md:gap-8">
+                    <div className="md:col-span-3 space-y-4">
+                        <Cart items={cart} isReadOnly />
+                        <LivraisonInfo />
+                        <PaiementInfo />
+                        <div className="col-span-1">
+                            <Estimation showTitle />
+                        </div>
                     </div>
                 </div>
             </div>
-
             <RecentlyViewedProducts products={recentlyViewed} />
-        </div>
+        </>
     );
 };
 
