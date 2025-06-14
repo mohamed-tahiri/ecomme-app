@@ -67,7 +67,9 @@ const ContactLink = () => {
             {isOpen && (
                 <div
                     ref={dropdownRef}
-                    className="absolute mt-2 w-[20rem] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50 transition-opacity duration-300 opacity-100 space-y-4 before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-0 before:h-0 before:border-l-8 before:border-r-8 before:border-b-8 before:border-l-transparent before:border-r-transparent before:border-b-white"
+                    className="absolute right-0 mt-2 w-[20rem] max-w-[95vw] bg-white text-[var(--text-color)] shadow-lg rounded p-3 z-50 transition-opacity duration-300 opacity-100 space-y-4
+                    before:absolute before:-top-2 before:right-1 before:w-0 before:h-0
+                    before:border-l-8 before:border-r-8 before:border-b-8 before:border-l-transparent before:border-r-transparent before:border-b-white"
                 >
                     <div className="flex flex-col items-center">
                         <h5 className="card-page-garantie-heading">

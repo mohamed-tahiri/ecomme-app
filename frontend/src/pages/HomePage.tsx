@@ -1,3 +1,4 @@
+import HomePageReviews from '../components/avisproducts/ProductsReviews';
 import HomeSlider from '../components/home/HomeSlider';
 import Marques from '../components/home/Marques';
 import PopularCollection from '../components/home/PopularCollection';
@@ -16,7 +17,8 @@ const HomePage: React.FC = () => {
             <Space />
             <Space />
             <Space />
-            <div className="px-[1.875rem] md:px-0">
+            <div className="px-[1.875rem] md:px-0 space-y-6">
+                <HomePageReviews />
                 <Marques />
             </div>
         </div>

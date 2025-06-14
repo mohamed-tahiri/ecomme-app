@@ -17,6 +17,7 @@ import rateLimit from 'express-rate-limit';
 
 // API Routes
 import indexRouter from './routes/index.routes.js';
+import reviewsRoutes from './routes/review.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import paymentCartRoutes from './routes/paymentCart.route.js';
 import orderRoutes from './routes/order.route.js';
@@ -70,6 +71,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const apiVersion = '/api/v1';
 const routes = [
     { path: '/', router: indexRouter },
+    { path: '/reviews', router: reviewsRoutes },
     { path: '/addresses', router: addressesRoutes },
     { path: '/payment-carts', router: paymentCartRoutes },
     { path: '/auth', router: authRoutes },

@@ -6,8 +6,10 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { ProductImage } from '../types/productImage';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
-import RecentlyViewedProducts from '../components/products/RecentlyViewedProducts';
+import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedProducts';
 import Livraison from '../components/products/Livraison';
+import ReviewScore from '../components/avisproducts/ReviewScore';
+import ReviewDetails from '../components/avisproducts/ReviewDetails';
 
 const ProductDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -91,20 +93,25 @@ const ProductDetailPage: React.FC = () => {
 
     return (
         <>
-            <div className="md:grid md:grid-cols-2 md:gap-8 p-[1.875rem] md:px-0">
-                <div className="space-y-6">
+            <div className="md:grid md:grid-cols-12 md:gap-6 p-[1.875rem] md:px-0">
+                {/* Colonne gauche : images + livraison */}
+                <div className="col-span-8 space-y-6">
                     <div className="card grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-x-4">
                         <div className="flex flex-col space-y-4">
                             {images.map((image, index) => (
                                 <div
                                     key={index}
-                                    onClick={() => handleImageSelect(image)} // Handle click to select the image
+                                    onClick={() => handleImageSelect(image)}
                                     className="cursor-pointer"
                                 >
                                     <img
                                         src={image.imageUrl}
                                         alt={image.altText}
-                                        className={`w-full h-16 object-contain rounded transition-all duration-300 ${selectedImage === image ? 'border-2 border-[var(--secondary-button-background)]' : ''}`}
+                                        className={`w-full h-16 object-contain rounded transition-all duration-300 ${
+                                            selectedImage === image
+                                                ? 'border-2 border-[var(--secondary-button-background)]'
+                                                : ''
+                                        }`}
                                     />
                                 </div>
                             ))}
@@ -115,101 +122,117 @@ const ProductDetailPage: React.FC = () => {
                                     src={
                                         selectedImage?.imageUrl ||
                                         'https://via.placeholder.com/300'
-                                    } // Use selected image URL
-                                    alt="Primary Image"
+                                    }
+                                    alt="Primary"
                                     className="w-full h-full object-contain"
                                 />
                             </div>
                         </div>
                     </div>
+
                     <Livraison />
                 </div>
-                <div className="card">
-                    <div className="pb-4 border-b border-gray-300">
-                        <h1 className="product-detail-header-text mb-2">
-                            {product.name}
-                        </h1>
-                        <div className="text-[.8rem] flex space-x-3">
-                            {product?.store && (
-                                <div className="flex items-center border-r border-gray-300 pr-4">
-                                    <h2 className="">
+
+                {/* Colonne droite : sticky card */}
+                <div className="col-span-4">
+                    <div className="sticky top-36">
+                        <div className="card">
+                            <div className="pb-4 border-b border-gray-300">
+                                <h1 className="product-detail-header-text mb-2">
+                                    {product.name}
+                                </h1>
+                                <div className="text-[.8rem] flex space-x-3">
+                                    {product?.store && (
+                                        <div className="flex items-center border-r border-gray-300 pr-4">
+                                            <h2>
+                                                <span className="uppercase">
+                                                    Boutique :{' '}
+                                                </span>
+                                                <Link
+                                                    to={`/boutique/${product.store.slug}`}
+                                                    className="font-semibold text-[var(--primary-button-background)]"
+                                                >
+                                                    {product.store.name}
+                                                </Link>
+                                            </h2>
+                                        </div>
+                                    )}
+                                    <h2>
                                         <span className="uppercase">
-                                            Boutique :{' '}
+                                            Vendeur :{' '}
                                         </span>
-                                        <Link
-                                            to={`/boutique/${product.store.slug}`}
-                                            className="font-semibold text-[var(--primary-button-background)]"
-                                        >
-                                            {product.store.name}
-                                        </Link>
+                                        <span className="font-semibold text-[var(--primary-button-background)]">
+                                            {product?.vendor?.name} |{' '}
+                                            {product?.vendor?.email}
+                                        </span>
                                     </h2>
                                 </div>
-                            )}
-                            <h2 className="">
-                                <span className="uppercase">Vendeur : </span>
-                                <span className="font-semibold text-[var(--primary-button-background)]">
-                                    {product?.vendor?.name} |{' '}
-                                    {product?.vendor?.email}
-                                </span>
-                            </h2>
-                        </div>
-                    </div>
-                    <h1 className="table-card-body-header py-4 border-b border-gray-300">
-                        {product.description}
-                    </h1>
-                    <div className="mt-4 space-y-4">
-                        <div className="flex-center space-x-2">
-                            <h3 className="product-detail-header-element mr-6">
-                                Prix
-                            </h3>
-                            <p className="product-detail-price">
-                                {product.price} dhs
-                            </p>
-                        </div>
-
-                        <div className="flex-center space-x-2">
-                            <h3 className="product-detail-header-element mr-6">
-                                Quantité
-                            </h3>
-                            <div className="flex items-center border border-gray-300 rounded w-auto">
-                                <button
-                                    onClick={decreaseQuantity}
-                                    disabled={quantity <= 1}
-                                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-                                >
-                                    -
-                                </button>
-                                <span className="px-4">{quantity}</span>
-                                <button
-                                    onClick={increaseQuantity}
-                                    disabled={quantity >= product.stock}
-                                    className="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-                                >
-                                    +
-                                </button>
                             </div>
+                            <h1 className="table-card-body-header py-4 border-b border-gray-300">
+                                {product.description}
+                            </h1>
+
+                            <div className="mt-4 space-y-4">
+                                <div className="flex-center space-x-2">
+                                    <h3 className="product-detail-header-element mr-6">
+                                        Prix
+                                    </h3>
+                                    <p className="product-detail-price">
+                                        {product.price} dhs
+                                    </p>
+                                </div>
+                                <ReviewScore productid={product.id} />
+
+                                <div className="flex-center space-x-2">
+                                    <h3 className="product-detail-header-element mr-6">
+                                        Quantité
+                                    </h3>
+                                    <div className="flex items-center border border-gray-300 rounded w-auto">
+                                        <button
+                                            onClick={decreaseQuantity}
+                                            disabled={quantity <= 1}
+                                            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                        >
+                                            -
+                                        </button>
+                                        <span className="px-4">{quantity}</span>
+                                        <button
+                                            onClick={increaseQuantity}
+                                            disabled={quantity >= product.stock}
+                                            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {product.stock > 0 ? (
+                                    <p className="text-green-500 mt-1">
+                                        En stock ({product.stock} disponibles)
+                                    </p>
+                                ) : (
+                                    <p className="text-red-500 mt-1">
+                                        Rupture de stock
+                                    </p>
+                                )}
+                            </div>
+
+                            <button
+                                onClick={() => addToCart(product, quantity)}
+                                className="bg-[var(--primary-button-background)] cursor-pointer text-white py-2 px-4 rounded flex-center mt-4"
+                            >
+                                <FaShoppingCart className="mr-2" /> Ajouter au
+                                panier
+                            </button>
                         </div>
-
-                        {product.stock > 0 ? (
-                            <p className="text-green-500 mt-1">
-                                En stock ({product.stock} disponibles)
-                            </p>
-                        ) : (
-                            <p className="text-red-500 mt-1">
-                                Rupture de stock
-                            </p>
-                        )}
                     </div>
-
-                    <button
-                        onClick={() => addToCart(product, quantity)}
-                        className="bg-[var(--primary-button-background)] cursor-pointer text-white py-2 px-4 rounded flex-center"
-                    >
-                        <FaShoppingCart className="mr-2" /> Ajouter au panier
-                    </button>
                 </div>
             </div>
-            <RecentlyViewedProducts products={recentlyViewed} />
+
+            <div className="space-y-6">
+                <ReviewDetails productid={product.id} />
+                <RecentlyViewedProducts products={recentlyViewed} />
+            </div>
         </>
     );
 };

@@ -3,9 +3,10 @@ import { Product } from '../types/product';
 
 interface ProductFilters {
     name?: string;
-    price?: string; // Exemple: "100,200"
     page?: number;
     limit?: number;
+    minPrice?: number;
+    maxPrice?: number;
 }
 
 interface CreateProductPayload {

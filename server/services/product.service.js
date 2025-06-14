@@ -31,7 +31,15 @@ const buildWhereClause = (filters = {}) => {
     }
 
     if (filters.price) {
-        where.price = { [Op.between]: filters.price };
+        if (filters.price.min != null && filters.price.max != null) {
+            where.price = {
+                [Op.between]: [filters.price.min, filters.price.max],
+            };
+        } else if (filters.price.min != null) {
+            where.price = { [Op.gte]: filters.price.min };
+        } else if (filters.price.max != null) {
+            where.price = { [Op.lte]: filters.price.max };
+        }
     }
 
     return where;

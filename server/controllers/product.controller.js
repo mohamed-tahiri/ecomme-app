@@ -168,17 +168,22 @@ const getProductsController = async (req, res) => {
 const getProductsBySlugCategoryController = async (req, res) => {
     try {
         const { slug } = req.params;
-        const { page, limit, name, price } = req.query;
+        const { page = 1, limit = 10, name, minPrice, maxPrice } = req.query;
+
         const filters = {};
 
         if (name) filters.name = name;
-        if (price)
-            filters.price = price.split(',').map((v) => parseFloat(v.trim()));
+
+        if (minPrice || maxPrice) {
+            filters.price = {};
+            if (minPrice) filters.price.min = parseFloat(minPrice);
+            if (maxPrice) filters.price.max = parseFloat(maxPrice);
+        }
 
         const products = await getProductsBySlugCategory(
             slug,
-            page,
-            limit,
+            parseInt(page),
+            parseInt(limit),
             filters
         );
         res.json(products);

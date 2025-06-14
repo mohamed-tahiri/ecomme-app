@@ -1,4 +1,3 @@
-// src/components/filters/ProductFilter.tsx
 import React from 'react';
 import { Button } from '../ui/Button';
 
@@ -6,8 +5,10 @@ interface ProductFilterProps {
     className?: string;
     searchTerm: string;
     setSearchTerm: (value: string) => void;
-    priceRange: string;
-    setPriceRange: (value: string) => void;
+    minPrice: string;
+    setMinPrice: (value: string) => void;
+    maxPrice: string;
+    setMaxPrice: (value: string) => void;
     sortBy: string;
     setSortBy: (value: string) => void;
     availableOnly: boolean;
@@ -15,15 +16,16 @@ interface ProductFilterProps {
     minRating: number;
     setMinRating: (value: number) => void;
     onReset: () => void;
-    onApply: () => void;
 }
 
 const ProductFilter: React.FC<ProductFilterProps> = ({
-    className = '', // <== Valeur par défaut vide
+    className = '',
     searchTerm,
     setSearchTerm,
-    priceRange,
-    setPriceRange,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
     sortBy,
     setSortBy,
     availableOnly,
@@ -31,11 +33,10 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
     minRating,
     setMinRating,
     onReset,
-    onApply,
 }) => {
     return (
         <div className={`card self-start ${className}`}>
-            <h1 className="card-text-heading">Filtres</h1>
+            <h1 className="hidden md:block card-text-heading">Filtres</h1>
 
             <input
                 type="text"
@@ -45,13 +46,24 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
                 className="border p-2 rounded mb-4 w-full"
             />
 
-            <input
-                type="text"
-                placeholder="Prix min,max (ex: 100,200)"
-                value={priceRange}
-                onChange={(e) => setPriceRange(e.target.value)}
-                className="border p-2 rounded mb-4 w-full"
-            />
+            <div className="flex gap-4 mb-4">
+                <input
+                    type="number"
+                    min="0"
+                    placeholder="Prix min"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    className="border p-2 rounded w-full"
+                />
+                <input
+                    type="number"
+                    min="0"
+                    placeholder="Prix max"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    className="border p-2 rounded w-full"
+                />
+            </div>
 
             <select
                 value={sortBy}
@@ -91,16 +103,9 @@ const ProductFilter: React.FC<ProductFilterProps> = ({
                 </select>
             </label>
 
-            <div className="grid grid-cols-2 gap-6">
-                <Button
-                    disabled
-                    onClick={onReset}
-                    className="bg-gray-300 text-gray-600"
-                >
-                    Réinitialiser
-                </Button>
-                <Button onClick={onApply}>Appliquer</Button>
-            </div>
+            <Button className="w-full" onClick={onReset}>
+                Réinitialiser
+            </Button>
         </div>
     );
 };

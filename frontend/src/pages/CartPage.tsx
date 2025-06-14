@@ -5,7 +5,7 @@ import AddToPanier from '../components/cart/AddToPanier';
 import CommandCart from '../components/cart/CommandCart';
 import Estimation from '../components/cart/Estimation';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
-import RecentlyViewedProducts from '../components/products/RecentlyViewedProducts';
+import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedProducts';
 
 const CartPage: React.FC = () => {
     const { recentlyViewed } = useRecentlyViewed();

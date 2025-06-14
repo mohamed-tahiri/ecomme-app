@@ -1,7 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import RecentlyViewedProducts from '../products/RecentlyViewedProducts';
+import RecentlyViewedProducts from '../recentlyviewed/RecentlyViewedProducts';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { FaPlus } from 'react-icons/fa';
 

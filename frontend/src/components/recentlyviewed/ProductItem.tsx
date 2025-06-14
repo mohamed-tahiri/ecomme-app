@@ -43,8 +43,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
     }, [product]);
 
     return (
-        <div className="grid grid-cols-4 gap-4 w-full md:flex md:flex-col md:gap-0 md:p-2 md:w-auto border-b pb-4 mb-4 border-[var(--header-border-color)]">
-            <Link className="" to={`/products/${product.slug}`}>
+        <div className="p-2 w-[14.5rem] md:w-auto">
+            <Link to={`/products/${product.slug}`}>
                 <img
                     src={selectedImage?.imageUrl}
                     alt={selectedImage?.altText}
@@ -59,38 +59,37 @@ const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
                     }
                 />
             </Link>
-            <div className="col-span-3">
-                <div className=" md:bg-[#f9f9f9] md:p-2 md:rounded md:my-3 md:h-[6rem]">
-                    <h3 className="product-desc-title mb-3">
-                        {product.name.slice(0, 20)}
-                        {product.name.length > 20 ? '...' : ''}
-                    </h3>
-                    <p className="product-desc-text">
-                        {product.description.slice(0, 45)}
-                        {product.description.length > 45 ? '...' : ''}
-                    </p>
-                </div>
-                <div className="space-y-4 mb-4">
-                    <span className="product-price">{product.price} dhs</span>
-                    {isInStock && (
-                        <span className="product-stock flex-center">
-                            <FaCircle className="mr-1 h-2 w-2" /> En stock.
-                        </span>
-                    )}
-                </div>
-                <button
-                    onClick={() => addToCart(product)}
-                    disabled={!isInStock}
-                    className={`w-full px-4 py-2 rounded flex-center justify-center cursor-pointer ${
-                        isInStock
-                            ? 'bg-[var(--primary-button-background)] text-white'
-                            : 'bg-[#8a9297] text-white'
-                    }`}
-                >
-                    <FaShoppingCart className="mr-2" />{' '}
-                    {isInStock ? 'Ajouter au panier' : 'Rupture'}
-                </button>
+            <div className="bg-[#f9f9f9] p-2 rounded my-3 h-[6rem]">
+                <h3 className="product-desc-title mb-3">
+                    {product.name.slice(0, 20)}
+                    {product.name.length > 20 ? '...' : ''}
+                </h3>
+                <p className="product-desc-text">
+                    {product.description.slice(0, 45)}
+                    {product.description.length > 45 ? '...' : ''}
+                </p>
             </div>
+            <div className="space-y-4 mb-4">
+                <span className="product-price">{product.price} dhs</span>
+                {isInStock && (
+                    <span className="product-stock flex-center">
+                        <FaCircle className="mr-1 h-2 w-2" /> En stock.
+                    </span>
+                )}
+            </div>
+
+            <button
+                onClick={() => addToCart(product)}
+                disabled={!isInStock}
+                className={`w-full px-4 py-2 rounded flex-center justify-center cursor-pointer ${
+                    isInStock
+                        ? 'bg-[var(--primary-button-background)] text-white'
+                        : 'bg-[#8a9297] text-white'
+                }`}
+            >
+                <FaShoppingCart className="mr-2" />{' '}
+                {isInStock ? 'Ajouter au panier' : 'Rupture'}
+            </button>
         </div>
     );
 };

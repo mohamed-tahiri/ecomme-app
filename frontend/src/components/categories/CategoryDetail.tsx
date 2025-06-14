@@ -1,21 +1,59 @@
+// CategoryDetail.tsx
+
+import React, { useState } from 'react';
+import ProductFilter from '../filter/ProductFilter';
+
 interface CategoryDetailProps {
-    category: Category | undefined; // Permet `category` d'être `undefined`
+    category: Category | undefined;
+    searchTerm: string;
+    setSearchTerm: (value: string) => void;
+    minPrice: string;
+    setMinPrice: (value: string) => void;
+    maxPrice: string;
+    setMaxPrice: (value: string) => void;
+    sortBy: string;
+    setSortBy: (value: string) => void;
+    availableOnly: boolean;
+    setAvailableOnly: (value: boolean) => void;
+    minRating: number;
+    setMinRating: (value: number) => void;
+    onReset: () => void;
 }
 
-const CategoryDetail: React.FC<CategoryDetailProps> = ({ category }) => {
+const CategoryDetail: React.FC<CategoryDetailProps> = ({
+    category,
+    searchTerm,
+    setSearchTerm,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    sortBy,
+    setSortBy,
+    availableOnly,
+    setAvailableOnly,
+    minRating,
+    setMinRating,
+    onReset,
+}) => {
+    const [filterOpen, setFilterOpen] = useState(false);
+
     if (!category) {
-        return <p>Catégorie non disponible.</p>; // Gérer le cas où category est undefined
+        return <p>Catégorie non disponible.</p>;
     }
 
     return (
         <>
             <div className="border-b border-[var(--border-color)] mb-4 pb-4">
-                <h2 className="card-text-heading">{category?.name}</h2>
-                <p>{category?.descripiton}</p>{' '}
-                {/* Correction ici : 'description' au lieu de 'descripiton' */}
+                <h2 className="card-text-heading">{category.name}</h2>
+                <p>{category.descripiton}</p>
             </div>
-            <div className="border-b border-[var(--border-color)] mb-4 pb-4">
-                <div className="flex items-center space-x-2">
+
+            <div className="block md:hidden border-b border-[var(--border-color)] mb-4 pb-4">
+                <div
+                    className="cursor-pointer flex items-center space-x-2"
+                    onClick={() => setFilterOpen(true)}
+                >
                     <div className="w-6 h-6">
                         <svg
                             focusable="false"
@@ -35,6 +73,40 @@ const CategoryDetail: React.FC<CategoryDetailProps> = ({ category }) => {
                     <h2>Filtrer</h2>
                 </div>
             </div>
+
+            {filterOpen && (
+                <>
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                        onClick={() => setFilterOpen(false)}
+                    ></div>
+
+                    <div className="fixed top-0 right-0 h-full w-96 bg-white shadow-lg z-50 p-4 overflow-auto">
+                        <button
+                            onClick={() => setFilterOpen(false)}
+                            className="cursor-pointer mb-4 text-red-600 font-bold"
+                        >
+                            Fermer ✕
+                        </button>
+
+                        <ProductFilter
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            minPrice={minPrice}
+                            setMinPrice={setMinPrice}
+                            maxPrice={maxPrice}
+                            setMaxPrice={setMaxPrice}
+                            sortBy={sortBy}
+                            setSortBy={setSortBy}
+                            availableOnly={availableOnly}
+                            setAvailableOnly={setAvailableOnly}
+                            minRating={minRating}
+                            setMinRating={setMinRating}
+                            onReset={onReset}
+                        />
+                    </div>
+                </>
+            )}
         </>
     );
 };

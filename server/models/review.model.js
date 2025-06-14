@@ -34,7 +34,7 @@ Review.init(
     { sequelize, modelName: 'reviews' }
 );
 
-Review.belongsTo(User, { foreignKey: 'userId' });
+Review.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Review.belongsTo(Product, { foreignKey: 'productId' });
 
 export default Review;

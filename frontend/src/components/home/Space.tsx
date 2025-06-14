@@ -11,7 +11,8 @@ const Space = () => {
     const [page, setPage] = useState<number>(1);
     const [limit] = useState<number>(4);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [priceRange, setPriceRange] = useState<string>('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [totalPages, setTotalPages] = useState<number>(1);
 
     const fetchProducts = async () => {
@@ -24,7 +25,8 @@ const Space = () => {
                     page,
                     limit,
                     name: searchTerm,
-                    price: priceRange,
+                    minPrice: minPrice ? Number(minPrice) : undefined,
+                    maxPrice: maxPrice ? Number(maxPrice) : undefined,
                 });
 
                 setProducts(response.data);
@@ -42,7 +44,7 @@ const Space = () => {
         if (slug) {
             fetchProducts();
         }
-    }, [slug, page, searchTerm, priceRange]);
+    }, [slug, page, searchTerm, minPrice, maxPrice]);
 
     return (
         <div

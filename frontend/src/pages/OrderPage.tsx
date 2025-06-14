@@ -1,7 +1,7 @@
 import { useCart } from '../context/CartContext';
 import Cart from '../components/cart/Cart';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
-import RecentlyViewedProducts from '../components/products/RecentlyViewedProducts';
+import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedProducts';
 import LivraisonInfo from '../components/order/LivraisonInfo';
 import PaiementInfo from '../components/order/PaiementInfo';
 import Estimation from '../components/order/Estimation';
