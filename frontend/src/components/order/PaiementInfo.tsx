@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+// src/components/order/PaiementInfo.tsx
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import CardPreview from './CardPreview';
 import { PaymentCart } from '../../types/paymentCart';
 import {
@@ -6,10 +7,7 @@ import {
     getPaymentCartByUser,
 } from '../../services/paymentCartService';
 import { useAuth } from '../../context/AuthContext';
-
-interface PaiementInfoProps {
-    userId: string;
-}
+import { PaiementContext } from '../../context/PaiementContext'; // Import du contexte
 
 interface CardForm {
     cardNumber: string;
@@ -25,20 +23,20 @@ const initialForm: CardForm = {
     cardName: '',
 };
 
-const PaiementInfo: React.FC<PaiementInfoProps> = () => {
+const PaiementInfo: React.FC = () => {
     const { auth } = useAuth();
     const userId = auth?.user.id ?? '';
 
-    const [paymentMethod, setPaymentMethod] = useState<'card' | 'cod'>('cod');
-    const [savedCard, setSavedCard] = useState<PaymentCart[] | null>(null);
     const [showCardForm, setShowCardForm] = useState(false);
-
     const [form, setForm] = useState<CardForm>(initialForm);
     const [validationErrors, setValidationErrors] = useState<{
         [key: string]: string;
     }>({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const { paymentMethod, setPaymentMethod, savedCard, setSavedCard } =
+        useContext(PaiementContext); // Utilisation du contexte
 
     const loadSavedCard = useCallback(async () => {
         if (paymentMethod !== 'card') {
@@ -60,7 +58,7 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
             setSavedCard(null);
             setShowCardForm(true);
         }
-    }, [paymentMethod, userId]);
+    }, [paymentMethod, userId, setSavedCard, setShowCardForm]);
 
     useEffect(() => {
         loadSavedCard();
@@ -106,9 +104,8 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
                 cvv: form.cvv,
                 cardHolder: form.cardName,
             });
-
-            console.log(newCard);
-
+            // Update saved cards
+            setSavedCard([newCard]);
             setShowCardForm(false);
             setForm(initialForm);
             setValidationErrors({});
@@ -150,12 +147,13 @@ const PaiementInfo: React.FC<PaiementInfoProps> = () => {
 
             {paymentMethod === 'card' && (
                 <div className="space-y-4 border-t pt-4">
-                    {savedCard && !showCardForm ? (
+                    {savedCard && savedCard.length > 0 && !showCardForm ? (
                         <>
-                            {savedCard &&
-                                savedCard.map((card) => (
-                                    <CardPreview card={card} key={card.id} /> // Assuming 'card' has a unique 'id'
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {savedCard.map((card) => (
+                                    <CardPreview card={card} key={card.id} />
                                 ))}
+                            </div>
                             <button
                                 type="button"
                                 onClick={() => setShowCardForm(true)}

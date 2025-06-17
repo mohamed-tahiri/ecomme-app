@@ -22,6 +22,7 @@ import MesStoresPage from '../pages/MesStoresPage';
 import CreateStorePage from '../pages/CreateStorePage';
 import BoutiquePage from '../pages/BoutiquePage';
 import ConfigurateurPCWithoutLayout from '../pages/ConfigurateurPCWithoutLayout';
+import OrderConfirmationPage from '../pages/OrderConfirmationPage';
 
 const router = createBrowserRouter([
     // Route SANS le Layout
@@ -68,6 +69,17 @@ const router = createBrowserRouter([
                     {
                         path: '',
                         element: <OrderPage />,
+                    },
+                ],
+            },
+            // Route pour la page de confirmation de commande
+            {
+                path: 'order-confirmation/:orderNumber',
+                element: <PrivateRoute allowedRoles={['ROLE_CUSTOMER']} />,
+                children: [
+                    {
+                        path: '',
+                        element: <OrderConfirmationPage />,
                     },
                 ],
             },

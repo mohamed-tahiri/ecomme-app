@@ -1,5 +1,5 @@
 // src/components/order/LivraisonInfo.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
     createAdresse,
     getAdressesByUser,
@@ -7,6 +7,7 @@ import {
 } from '../../services/addressService';
 import { useAuth } from '../../context/AuthContext';
 import { Address } from '../../types/address';
+import { LivraisonContext } from '../../context/LivraisonContext'; // Import du contexte
 
 const initialForm = {
     street: '',
@@ -25,6 +26,9 @@ const LivraisonInfo: React.FC = () => {
     const [adresses, setAdresses] = useState<Address[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [mode, setMode] = useState<'select' | 'edit' | 'create'>('select');
+
+    const { selectedAddress, setSelectedAddress } =
+        useContext(LivraisonContext); // Utilisation du contexte
 
     useEffect(() => {
         if (userId) {
@@ -53,6 +57,7 @@ const LivraisonInfo: React.FC = () => {
                 userId,
             });
             setMode('edit');
+            setSelectedAddress(selected);
         }
     };
 
@@ -75,16 +80,23 @@ const LivraisonInfo: React.FC = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            let newAddress: Address;
+
             if (mode === 'edit' && selectedId) {
-                await updateAdresse(selectedId, formData);
+                newAddress = await updateAdresse(selectedId, formData);
             } else {
-                await createAdresse(formData);
+                newAddress = await createAdresse(formData);
             }
 
             await fetchAddresses();
             setFormData({ ...initialForm, userId });
             setSelectedId(null);
             setMode('select');
+
+            // Mettre à jour le contexte avec la nouvelle adresse (si c'est la seule, ou si elle est sélectionnée)
+            if (adresses.length === 0) {
+                setSelectedAddress(newAddress);
+            }
         } catch (error) {
             console.error('Erreur lors de la sauvegarde de l’adresse', error);
         }
@@ -102,11 +114,12 @@ const LivraisonInfo: React.FC = () => {
                                 <div
                                     key={a.id}
                                     className={`border p-4 cursor-pointer ${
-                                        selectedId === a.id
+                                        selectedAddress?.id === a.id // Condition pour la couleur
                                             ? 'border-blue-500'
                                             : 'border-gray-300'
                                     }`}
-                                    onClick={() => handleSelect(a.id)}
+                                    onClick={() => setSelectedAddress(a)}
+                                    onDoubleClick={() => handleSelect(a.id)}
                                 >
                                     <p className="font-medium">{a.street}</p>
                                     <p>

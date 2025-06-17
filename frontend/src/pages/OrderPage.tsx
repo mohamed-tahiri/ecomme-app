@@ -5,10 +5,12 @@ import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedP
 import LivraisonInfo from '../components/order/LivraisonInfo';
 import PaiementInfo from '../components/order/PaiementInfo';
 import Estimation from '../components/order/Estimation';
+import ProduitsSimilaires from '../components/produitssimilaires/ProduitsSimilaires';
+import styles from './../components/order/OrderPage.module.css';
 
 const OrderPage: React.FC = () => {
     const { recentlyViewed } = useRecentlyViewed();
-    const { cart } = useCart(); // Récupérer les éléments du panier depuis le contexte
+    const { cart } = useCart();
 
     return (
         <>
@@ -21,17 +23,18 @@ const OrderPage: React.FC = () => {
                     commande.
                 </p>
 
-                <div className="md:grid md:grid-cols-4 md:gap-8">
-                    <div className="md:col-span-3 space-y-4">
+                <div className={styles.gridContainer}>
+                    <div className={`${styles.mainSection} space-y-6`}>
                         <Cart items={cart} isReadOnly />
                         <LivraisonInfo />
                         <PaiementInfo />
-                        <div className="col-span-1">
-                            <Estimation showTitle />
-                        </div>
+                    </div>
+                    <div className={styles.sidebar}>
+                        <Estimation />
                     </div>
                 </div>
             </div>
+            <ProduitsSimilaires />
             <RecentlyViewedProducts products={recentlyViewed} />
         </>
     );

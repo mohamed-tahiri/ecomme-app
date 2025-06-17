@@ -1,6 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db.config.js';
 import User from './user.model.js';
+import Address from './address.model.js';
+import PaymentCart from './paymentCart.model.js';
 
 class Order extends Model {}
 
@@ -15,6 +17,10 @@ Order.init(
             type: DataTypes.ENUM('pending', 'shipped', 'delivered', 'canceled'),
             defaultValue: 'pending',
         },
+        paymentStatus: {
+            type: DataTypes.ENUM('pending', 'paid', 'failed', 'refunded'),
+            defaultValue: 'pending',
+        },
         total: { type: DataTypes.FLOAT, allowNull: false },
         userId: {
             type: DataTypes.UUID,
@@ -24,10 +30,31 @@ Order.init(
             },
             allowNull: false,
         },
+        addressId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Address,
+                key: 'id',
+            },
+            allowNull: false,
+        },
+        paymentCartId: {
+            type: DataTypes.UUID,
+            references: {
+                model: PaymentCart,
+                key: 'id',
+            },
+            allowNull: true,
+        },
     },
     { sequelize, modelName: 'orders' }
 );
 
-Order.belongsTo(User, { foreignKey: 'userId' });
+Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+Order.belongsTo(Address, { foreignKey: 'addressId', as: 'address' });
+Order.belongsTo(PaymentCart, {
+    foreignKey: 'paymentCartId',
+    as: 'paymentCart',
+});
 
 export default Order;

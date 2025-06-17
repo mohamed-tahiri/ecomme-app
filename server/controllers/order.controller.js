@@ -43,14 +43,18 @@ import { createOrder, getUserOrders } from '../services/order.service.js';
  */
 export const createOrderController = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const { cartItems } = req.body;
+        const userId = req.user.userId;
+        const { cartItems, addressId, paymentCartId, paymentMethod } = req.body;
 
-        const order = await createOrder(userId, cartItems);
-        res.status(201).json({
-            message: 'Order placed successfully',
-            order,
-        });
+        const order = await createOrder(
+            userId,
+            cartItems,
+            addressId,
+            paymentCartId,
+            paymentMethod
+        );
+
+        res.status(201).json(order);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

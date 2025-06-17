@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+// src/context/CartContext.tsx
+import {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    useCallback,
+} from 'react';
 import { Product } from '../types/product';
 
 interface CartItem {
@@ -10,6 +17,7 @@ interface CartContextType {
     cart: CartItem[];
     addToCart: (product: Product, quantity?: number) => void;
     removeFromCart: (slug: string) => void;
+    clearCart: () => void; // Ajout de la fonction clearCart
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -28,7 +36,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (product: Product, quantity: number = 1) => {
+    const addToCart = useCallback((product: Product, quantity: number = 1) => {
         setCart((prevCart) => {
             const existingItem = prevCart.find(
                 (item) => item.product.slug === product.slug
@@ -42,16 +50,23 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
             }
             return [...prevCart, { product, quantity }];
         });
-    };
+    }, []);
 
-    const removeFromCart = (slug: string) => {
+    const removeFromCart = useCallback((slug: string) => {
         setCart((prevCart) =>
             prevCart.filter((item) => item.product.slug !== slug)
         );
-    };
+    }, []);
+
+    const clearCart = useCallback(() => {
+        setCart([]);
+        localStorage.removeItem('cart'); // Optionnel : supprimer aussi du localStorage
+    }, []);
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+        <CartContext.Provider
+            value={{ cart, addToCart, removeFromCart, clearCart }}
+        >
             {children}
         </CartContext.Provider>
     );

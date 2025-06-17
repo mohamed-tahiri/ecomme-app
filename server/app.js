@@ -75,7 +75,7 @@ const routes = [
     { path: '/addresses', router: addressesRoutes },
     { path: '/payment-carts', router: paymentCartRoutes },
     { path: '/auth', router: authRoutes },
-    { path: '/order', router: orderRoutes },
+    { path: '/orders', router: orderRoutes },
     { path: '/users', router: userRoutes },
     { path: '/stores', router: storeRoutes },
     { path: '/products', router: productRoutes },

@@ -5,4 +5,6 @@ export interface PaymentCart {
     cvv: string;
     cardHolder: string;
     userId?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }

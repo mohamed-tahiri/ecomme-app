@@ -1,3 +1,4 @@
+// src/components/cart/Cart.tsx
 import { useCart } from '../../context/CartContext';
 import { CartItem } from '../../types/cart';
 import CartProductItem from './CartProductItem';

@@ -2,7 +2,15 @@ import Order from '../models/order.model.js';
 import OrderItem from '../models/orderItem.model.js';
 import Product from '../models/product.model.js';
 
-export const createOrder = async ({ userId, cartItems }) => {
+export const createOrder = async (
+    userId,
+    cartItems,
+    addressId,
+    paymentCartId,
+    paymentMethod
+) => {
+    console.log(userId, cartItems, addressId, paymentCartId, paymentMethod);
+
     if (!cartItems || !cartItems.length) {
         throw new Error('Cart is empty');
     }
@@ -18,7 +26,15 @@ export const createOrder = async ({ userId, cartItems }) => {
         })
     );
 
-    const order = await Order.create({ userId, total });
+    const adjustedPaymentCartId =
+        paymentMethod === 'cod' ? null : paymentCartId;
+
+    const order = await Order.create({
+        userId,
+        total,
+        addressId,
+        paymentCartId: adjustedPaymentCartId,
+    });
 
     await Promise.all(
         products.map(({ product, quantity }) =>
@@ -39,7 +55,23 @@ export const getUserOrders = async (userId) => {
         include: [
             {
                 model: OrderItem,
-                include: ['product'],
+                include: [Product],
+            },
+            {
+                model: Product,
+                through: { attributes: [] },
+            },
+            {
+                model: User,
+                as: 'user',
+            },
+            {
+                model: Address,
+                as: 'address',
+            },
+            {
+                model: PaymentCart,
+                as: 'paymentCart',
             },
         ],
         order: [['createdAt', 'DESC']],

@@ -7,18 +7,14 @@ type CardPreviewProps = {
 };
 
 const CardPreview: React.FC<CardPreviewProps> = ({ card }) => {
-    console.log(card);
     return (
-        <div className="relative bg-gradient-to-r from-[#28313B] to-[#485563] text-white rounded-xl p-5 shadow-lg w-full max-w-sm">
-            {/* Chip */}
+        <div className="relative bg-gradient-to-r from-[#28313B] to-[#485563] text-white rounded-xl p-5 shadow-lg w-full">
             <div className="absolute top-4 left-4 w-10 h-7 bg-yellow-300 rounded-sm shadow-inner"></div>
 
-            {/* Card number */}
             <div className="text-xl tracking-widest font-mono mt-8 mb-4 select-none">
                 {card.cardNumber}
             </div>
 
-            {/* Card info */}
             <div className="flex justify-between text-sm uppercase tracking-wide">
                 <div>
                     <p className="text-xs text-gray-300">Nom</p>
@@ -30,8 +26,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({ card }) => {
                 </div>
             </div>
 
-            {/* Card logo */}
-            <div className="absolute bottom-4 right-4">
+            <div className="absolute top-4 right-4">
                 <div className="flex space-x-1">
                     <div className="w-6 h-6 bg-red-500 rounded-full"></div>
                     <div className="w-6 h-6 bg-yellow-400 rounded-full -ml-2"></div>
