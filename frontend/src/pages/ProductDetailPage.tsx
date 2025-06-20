@@ -14,7 +14,7 @@ import ReviewDetails from '../components/avisproducts/ReviewDetails';
 const ProductDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
     const [product, setProduct] = useState<Product | null>(null);
-    const { recentlyViewed, addRecentlyViewed } = useRecentlyViewed();
+    const { addRecentlyViewed } = useRecentlyViewed();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [quantity, setQuantity] = useState(1);
@@ -231,7 +231,7 @@ const ProductDetailPage: React.FC = () => {
 
             <div className="space-y-6">
                 <ReviewDetails productid={product.id} />
-                <RecentlyViewedProducts products={recentlyViewed} />
+                <RecentlyViewedProducts />
             </div>
         </>
     );

@@ -1,15 +1,12 @@
 import { useCart } from '../context/CartContext';
 import Cart from '../components/cart/Cart';
-import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedProducts';
 import LivraisonInfo from '../components/order/LivraisonInfo';
 import PaiementInfo from '../components/order/PaiementInfo';
 import Estimation from '../components/order/Estimation';
-import ProduitsSimilaires from '../components/produitssimilaires/ProduitsSimilaires';
 import styles from './../components/order/OrderPage.module.css';
 
 const OrderPage: React.FC = () => {
-    const { recentlyViewed } = useRecentlyViewed();
     const { cart } = useCart();
 
     return (
@@ -34,8 +31,7 @@ const OrderPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <ProduitsSimilaires />
-            <RecentlyViewedProducts products={recentlyViewed} />
+            <RecentlyViewedProducts />
         </>
     );
 };

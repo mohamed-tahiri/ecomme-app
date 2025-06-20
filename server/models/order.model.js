@@ -13,6 +13,11 @@ Order.init(
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
+        reference: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+        },
         status: {
             type: DataTypes.ENUM('pending', 'shipped', 'delivered', 'canceled'),
             defaultValue: 'pending',
@@ -49,6 +54,11 @@ Order.init(
     },
     { sequelize, modelName: 'orders' }
 );
+
+Order.beforeCreate(async (order) => {
+    const uniqueSuffix = Math.floor(1000 + Math.random() * 9000);
+    order.reference = `ORD-${new Date().toISOString().split('T')[0]}-${uniqueSuffix}`;
+});
 
 Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 Order.belongsTo(Address, { foreignKey: 'addressId', as: 'address' });

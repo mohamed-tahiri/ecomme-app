@@ -38,6 +38,6 @@ OrderItem.init(
 );
 
 OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
-OrderItem.belongsTo(Product, { foreignKey: 'productId' });
+OrderItem.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
 
 export default OrderItem;

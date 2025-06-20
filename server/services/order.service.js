@@ -1,6 +1,11 @@
+import { Op } from 'sequelize';
+import Address from '../models/address.model.js';
+import Category from '../models/category.model.js';
 import Order from '../models/order.model.js';
 import OrderItem from '../models/orderItem.model.js';
+import PaymentCart from '../models/paymentCart.model.js';
 import Product from '../models/product.model.js';
+import User from '../models/user.model.js';
 
 export const createOrder = async (
     userId,
@@ -78,4 +83,78 @@ export const getUserOrders = async (userId) => {
     });
 
     return orders;
+};
+
+export const getOrderById = async (id, userId) => {
+    const order = await Order.findOne({
+        where: {
+            id,
+            userId,
+        },
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: { exclude: ['password'] },
+            },
+            {
+                model: Address,
+                as: 'address',
+            },
+            {
+                model: PaymentCart,
+                as: 'paymentCart',
+            },
+        ],
+    });
+
+    const orderItems = await OrderItem.findAll({
+        where: {
+            orderId: id,
+        },
+        include: [
+            {
+                model: Product,
+                as: 'product',
+            },
+        ],
+    });
+
+    return {
+        order,
+        orderItems,
+    };
+};
+
+export const getSimilarProducts = async (id) => {
+    const order = await Order.findByPk(id);
+
+    if (!order)
+        return res.status(404).json({ message: 'Commande non trouvée' });
+
+    const orderItems = await OrderItem.findAll({
+        where: {
+            orderId: order.id,
+        },
+        include: {
+            model: Product,
+            as: 'product',
+            include: {
+                model: Category,
+            },
+        },
+    });
+
+    const categoryIds = orderItems.map((oi) => oi.product.Category.id);
+    const productIdsInOrder = orderItems.map((oi) => oi.product.id);
+
+    const similarProducts = await Product.findAll({
+        where: {
+            categoryId: categoryIds,
+            id: { [Op.notIn]: productIdsInOrder },
+        },
+        limit: 10,
+    });
+
+    return similarProducts;
 };

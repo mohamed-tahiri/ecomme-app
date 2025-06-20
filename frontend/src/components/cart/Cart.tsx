@@ -1,4 +1,3 @@
-// src/components/cart/Cart.tsx
 import { useCart } from '../../context/CartContext';
 import { CartItem } from '../../types/cart';
 import CartProductItem from './CartProductItem';
@@ -6,9 +5,14 @@ import CartProductItem from './CartProductItem';
 interface CartProps {
     items: CartItem[];
     isReadOnly?: boolean;
+    dontShow?: boolean;
 }
 
-const Cart: React.FC<CartProps> = ({ items, isReadOnly = false }) => {
+const Cart: React.FC<CartProps> = ({
+    items,
+    isReadOnly = false,
+    dontShow = false,
+}) => {
     const { addToCart, removeFromCart } = useCart();
 
     const increaseQuantity = (product: CartItem['product']) => {
@@ -26,35 +30,58 @@ const Cart: React.FC<CartProps> = ({ items, isReadOnly = false }) => {
     };
 
     return (
-        <div className="bg-white border border-[#e1e3e4] rounded">
+        <div
+            className={
+                dontShow ? '' : 'bg-white border border-[#e1e3e4] rounded'
+            }
+        >
             {items.length > 0 ? (
-                <table className="w-full border-collapse">
-                    <thead className="border-b border-[#e1e3e4] p-4">
-                        <tr>
-                            <th className="text-left px-3 py-5 table-card-body-header">
-                                Produit
-                            </th>
-                            <th className="text-center px-3 py-5 table-card-body-header">
-                                Quantité
-                            </th>
-                            <th className="text-right px-3 py-5 table-card-body-header">
-                                Total
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item) => (
-                            <CartProductItem
-                                key={item.product.slug}
-                                item={item}
-                                increaseQuantity={increaseQuantity}
-                                decreaseQuantity={decreaseQuantity}
-                                handleRemoveItem={handleRemoveItem}
-                                isReadOnly={isReadOnly}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                dontShow ? (
+                    <table className="">
+                        <tbody>
+                            {items.map((item) => (
+                                <CartProductItem
+                                    key={item.product.slug}
+                                    item={item}
+                                    increaseQuantity={increaseQuantity}
+                                    decreaseQuantity={decreaseQuantity}
+                                    handleRemoveItem={handleRemoveItem}
+                                    isReadOnly={isReadOnly}
+                                    dontShow={dontShow}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    // Affiche avec tableau
+                    <table className="w-full border-collapse">
+                        <thead className="border-b border-[#e1e3e4] p-4">
+                            <tr>
+                                <th className="text-left px-3 py-5 table-card-body-header">
+                                    Produit
+                                </th>
+                                <th className="text-center px-3 py-5 table-card-body-header">
+                                    Quantité
+                                </th>
+                                <th className="text-right px-3 py-5 table-card-body-header">
+                                    Total
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {items.map((item) => (
+                                <CartProductItem
+                                    key={item.product.slug}
+                                    item={item}
+                                    increaseQuantity={increaseQuantity}
+                                    decreaseQuantity={decreaseQuantity}
+                                    handleRemoveItem={handleRemoveItem}
+                                    isReadOnly={isReadOnly}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                )
             ) : (
                 <p className="text-gray-500 text-center py-4">
                     Votre panier est vide

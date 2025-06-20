@@ -10,6 +10,7 @@ interface CartProductItemProps {
     decreaseQuantity: (product: CartItem['product']) => void;
     handleRemoveItem: (slug: string) => void;
     isReadOnly?: boolean;
+    dontShow?: boolean;
 }
 
 const CartProductItem: React.FC<CartProductItemProps> = ({
@@ -18,6 +19,7 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
     decreaseQuantity,
     handleRemoveItem,
     isReadOnly = false,
+    dontShow = false,
 }) => {
     const [images, setImages] = useState<ProductImage[]>([]);
     const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
@@ -49,7 +51,7 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
     }, [item.product]);
 
     return (
-        <tr className="border-b border-[#e1e3e4] last:border-0">
+        <tr className="border-b border-[#e1e3e4] last:border-0 flex items-center">
             <td className="p-8 flex items-center gap-3">
                 <Link to={`/products/${item.product.slug}`}>
                     <img
@@ -69,13 +71,21 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
                 </Link>
                 <div>
                     <h3 className="product-desc-text">{item.product.name}</h3>
-                    <p className="product-desc">
-                        {item.product.description.slice(0, 75)}
-                        {item.product.description.length > 75 ? '...' : ''}
-                    </p>
-                    <p className="product-price">
-                        {item.product.price.toFixed(2)} dhs
-                    </p>
+                    {dontShow ? (
+                        <></>
+                    ) : (
+                        <>
+                            <p className="product-desc">
+                                {item.product.description.slice(0, 75)}
+                                {item.product.description.length > 75
+                                    ? '...'
+                                    : ''}
+                            </p>
+                            <p className="product-price">
+                                {item.product.price.toFixed(2)} dhs
+                            </p>
+                        </>
+                    )}
                 </div>
             </td>
             <td className="p-8 text-center">

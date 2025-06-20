@@ -18,7 +18,7 @@ interface OrderSummary {
 }
 
 const Estimation: React.FC = () => {
-    const { cart, clearCart } = useCart();
+    const { cart } = useCart();
     const { selectedAddress } = useContext(LivraisonContext);
     const { paymentMethod, savedCard } = useContext(PaiementContext);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -84,8 +84,6 @@ const Estimation: React.FC = () => {
             setOrderSummary(newOrderSummary);
 
             setTimeout(() => {
-                clearCart();
-
                 navigate(`/order-confirmation/${orderNumber}`);
             }, 3000);
         } catch (error: any) {
@@ -131,7 +129,7 @@ const Estimation: React.FC = () => {
                     </button>
                 </div>
 
-                {orderSummary && (
+                {/* {orderSummary && (
                     <div className="text-green-600 text-center">
                         <h3>
                             Confirmation de la commande #
@@ -154,7 +152,7 @@ const Estimation: React.FC = () => {
                             ))}
                         <p>Total: {orderSummary.total.toFixed(2)} dhs</p>
                     </div>
-                )}
+                )} */}
                 <p className="text-center p-2 rounded bg-[var(--background)] text-[var(--heading-color)]">
                     🚚 Livraison partout au Maroc via Amana Express!
                 </p>
