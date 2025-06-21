@@ -55,17 +55,10 @@ export const createOrder = async (
 };
 
 export const getUserOrders = async (userId) => {
+    // 1. Récupérer les commandes
     const orders = await Order.findAll({
         where: { userId },
         include: [
-            {
-                model: OrderItem,
-                include: [Product],
-            },
-            {
-                model: Product,
-                through: { attributes: [] },
-            },
             {
                 model: User,
                 as: 'user',
@@ -82,7 +75,27 @@ export const getUserOrders = async (userId) => {
         order: [['createdAt', 'DESC']],
     });
 
-    return orders;
+    // 2. Pour chaque commande, récupérer manuellement les OrderItems avec leurs produits
+    const ordersWithItems = await Promise.all(
+        orders.map(async (order) => {
+            const orderItems = await OrderItem.findAll({
+                where: { orderId: order.id },
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                    },
+                ],
+            });
+
+            return {
+                ...order.toJSON(),
+                items: orderItems.map(item => item.toJSON()),
+            };
+        })
+    );
+
+    return ordersWithItems;
 };
 
 export const getOrderById = async (id, userId) => {

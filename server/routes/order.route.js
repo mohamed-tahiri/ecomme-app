@@ -9,22 +9,18 @@ import {
 
 const router = express.Router();
 
-router
-    .route('/')
-    .get(authenticate, authorize(['ROLE_CUSTOMER']), getUserOrdersController)
+router.route('/')
     .post(authenticate, authorize(['ROLE_CUSTOMER']), createOrderController);
 
-router
-    .route('/:id')
-    .get(authenticate, authorize(['ROLE_CUSTOMER']), getOrderByIdController);
-// .post(authenticate, authorize(['ROLE_CUSTOMER']), createOrderController);
 
-router
-    .route('/:id/similar-products')
-    .get(
-        authenticate,
-        authorize(['ROLE_CUSTOMER']),
-        getSimilarProductsController
-    );
+router.route('/user/:id')
+    .get(authenticate, authorize(['ROLE_CUSTOMER']), getUserOrdersController)
+
+router.route('/:id')
+    .get(authenticate, authorize(['ROLE_CUSTOMER']), getOrderByIdController);
+// .post(authenticate, authorize(['ROLE_ADMIN']), createOrderController);
+
+router.route('/:id/similar-products')
+    .get(authenticate,authorize(['ROLE_CUSTOMER']),getSimilarProductsController);
 
 export default router;

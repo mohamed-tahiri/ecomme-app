@@ -1,7 +1,7 @@
 // DEV: MED TAHIRI
 
 // src/services/orderService.ts
-import { Order, OrderCreationPayload, OrderGetById } from '../types/order';
+import { Order, OrderCreationPayload, OrderGetById, OrderWithItems } from '../types/order';
 import { Product } from '../types/product';
 import api from './api';
 
@@ -23,7 +23,7 @@ export const createOrder = async (
 };
 
 // Récupérer les commandes d'un utilisateur
-export const getUserOrders = async (userId: string): Promise<Order[]> => {
+export const getUserOrders = async (userId: string): Promise<OrderWithItems[]> => {
     try {
         const response = await api.get(`orders/user/${userId}`);
         return response.data;

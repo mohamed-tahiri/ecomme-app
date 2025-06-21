@@ -119,8 +119,9 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
                     </>
                 )}
             </td>
-            <td className="p-8 text-right font-medium">
-                {(item.product.price * item.quantity).toFixed(2)} dhs
+            <td className="product-price flex items-center space-x-1">
+                <h4>{(item.product.price * item.quantity).toFixed(2)}</h4>
+                <h4>dhs</h4>
             </td>
         </tr>
     );

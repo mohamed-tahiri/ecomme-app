@@ -22,31 +22,31 @@ const OrderConfirmationPage: React.FC = () => {
     const livraison = subtotal >= 500 ? 0 : 30;
     const total = subtotal + livraison;
 
+    const fetchOrder = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            if (!orderNumber)
+                throw new Error('Numéro de commande manquant.');
+
+            const data = await getOrderById(orderNumber);
+            setOrderData(data);
+
+            setTimeout(() => {
+                clearCart();
+            }, 5000);
+        } catch (err: any) {
+            setError(
+                err.message ||
+                    'Échec de la récupération des détails de la commande.'
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchOrder = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-
-                if (!orderNumber)
-                    throw new Error('Numéro de commande manquant.');
-
-                const data = await getOrderById(orderNumber);
-                setOrderData(data);
-
-                setTimeout(() => {
-                    clearCart();
-                }, 5000);
-            } catch (err: any) {
-                setError(
-                    err.message ||
-                        'Échec de la récupération des détails de la commande.'
-                );
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchOrder();
     }, [orderNumber]);
 

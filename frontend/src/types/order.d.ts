@@ -39,3 +39,19 @@ export interface OrderGetById {
     order: Order;
     items: OrderItems[];
 }
+
+export interface OrderWithItems {
+    id: string;
+    reference: string;
+    status: 'pending' | 'shipped' | 'delivered' | 'canceled';
+    paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
+    total: number;
+    userId: string;
+    user?: User;
+    addressId?: string | null;
+    address: Address;
+    items: OrderItems[];
+    paymentCartId?: string | null;
+    createdAt: string;
+    updatedAt: string;
+}

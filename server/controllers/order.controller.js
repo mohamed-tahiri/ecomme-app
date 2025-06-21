@@ -81,8 +81,8 @@ export const createOrderController = async (req, res) => {
  */
 export const getUserOrdersController = async (req, res) => {
     try {
-        const userId = req.user.userId || req.user.id;
-        const orders = await getUserOrders(userId);
+        const { id } = req.params;
+        const orders = await getUserOrders(id);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });

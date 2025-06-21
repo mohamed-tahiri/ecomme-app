@@ -23,7 +23,7 @@ const ProfileLayout: React.FC = () => {
 
     return (
         <>
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-4 gap-8 p-[1.875rem] md:p-0">
                 <div className="card">
                     <ul className="space-y-4">
                         <li className="cursor-pointer">
@@ -68,7 +68,7 @@ const ProfileLayout: React.FC = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="col-span-3 card">
+                <div className="md:col-span-3 card">
                     <Outlet />
                 </div>
             </div>
