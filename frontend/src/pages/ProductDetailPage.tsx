@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext';
 import { ProductImage } from '../types/productImage';
 import { useRecentlyViewed } from '../hooks/useRecentlyViewed';
 import RecentlyViewedProducts from '../components/recentlyviewed/RecentlyViewedProducts';
-import Livraison from '../components/products/Livraison';
+import Livraison from '../components/livraison/Livraison';
 import ReviewScore from '../components/avisproducts/ReviewScore';
 import ReviewDetails from '../components/avisproducts/ReviewDetails';
 
@@ -42,7 +42,6 @@ const ProductDetailPage: React.FC = () => {
                 const productData = await api.getProductBySlug(slug);
                 addRecentlyViewed(productData);
                 setProduct(productData);
-                console.log(productData);
             }
         } catch (error) {
             console.error('Erreur lors du chargement du produit:', error);
@@ -55,6 +54,9 @@ const ProductDetailPage: React.FC = () => {
     const fetchProductImages = async (productId: string) => {
         try {
             const productImages = await api.getImagesByProduct(productId);
+
+            console.log(productImages);
+
             setImages(productImages);
             if (productImages.length > 0) {
                 setSelectedImage(
@@ -105,7 +107,8 @@ const ProductDetailPage: React.FC = () => {
                                     className="cursor-pointer"
                                 >
                                     <img
-                                        src={image.imageUrl}
+                                        src={`${import.meta.env.VITE_API_URL_IMAGES}/${image.imageUrl}`}
+                                        crossOrigin="anonymous"
                                         alt={image.altText}
                                         className={`w-full h-16 object-contain rounded transition-all duration-300 ${
                                             selectedImage === image
@@ -119,10 +122,8 @@ const ProductDetailPage: React.FC = () => {
                         <div className="col-span-3 sm:col-span-4 md:col-span-5 lg:col-span-7">
                             <div>
                                 <img
-                                    src={
-                                        selectedImage?.imageUrl ||
-                                        'https://via.placeholder.com/300'
-                                    }
+                                    src={`${import.meta.env.VITE_API_URL_IMAGES}/${selectedImage?.imageUrl}`}
+                                    crossOrigin="anonymous"
                                     alt="Primary"
                                     className="w-full h-full object-contain"
                                 />

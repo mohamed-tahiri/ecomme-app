@@ -56,7 +56,10 @@ const SearchPage: React.FC = () => {
             ) : error ? (
                 <p className="text-red-500">{error}</p>
             ) : products.length > 0 ? (
-                <ProductList products={products} />
+                <ProductList
+                    products={products}
+                    containerClassName={'grid-cols-5'}
+                />
             ) : (
                 <p>Aucun produit trouvé.</p>
             )}

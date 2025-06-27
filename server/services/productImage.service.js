@@ -1,22 +1,20 @@
 // services/productImageService.js
 import Product from '../models/product.model.js';
 import ProductImage from '../models/productImage.model.js';
-import { getFileMetadata, updateFile } from './file.service.js';
 
 const uploadProductImage = async (productId, data, file) => {
     try {
         const product = await Product.findByPk(productId);
+
         if (!product) {
             throw new Error('Product not found');
         }
-
-        const fileData = getFileMetadata(file);
 
         const imageData = {
             isPrimary: data,
             altText: product.name,
             productId,
-            imageUrl: fileData.path,
+            imageUrl: file.filename,
         };
 
         const newImage = await ProductImage.create(imageData);

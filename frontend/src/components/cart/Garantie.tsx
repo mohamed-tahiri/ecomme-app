@@ -2,7 +2,7 @@ const Garantie = () => {
     return (
         <div>
             <h2 className="card-page-heading">Nos garanties</h2>
-            <div className="grid grid-cols-3 divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-[#e1e3e4] rounded divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4]">
                 <div className="flex flex-col items-center p-4 space-y-3">
                     <div className="w-8 h-8">
                         <svg
@@ -35,7 +35,7 @@ const Garantie = () => {
                         email ou téléphone
                     </p>
                 </div>
-                <div className="flex flex-col items-center p-4 space-y-3 border-l border-[#e1e3e4]">
+                <div className="flex flex-col items-center p-4 space-y-3 sm:border-l border-[#e1e3e4]">
                     <div className="w-8 h-8">
                         <svg
                             focusable="false"
@@ -62,7 +62,7 @@ const Garantie = () => {
                         Plus de 10 000 abonnés sur nos pages de réseaux sociaux
                     </p>
                 </div>
-                <div className="flex flex-col items-center p-4 space-y-3 border-l border-[#e1e3e4]">
+                <div className="flex flex-col items-center p-4 space-y-3 sm:border-l border-[#e1e3e4]">
                     <div className="w-8 h-8">
                         <svg
                             focusable="false"

@@ -1,6 +1,6 @@
 import { useCart } from '../../context/CartContext';
 import { CartItem } from '../../types/cart';
-import CartProductItem from './CartProductItem';
+import CartItemShow from './CartItemShow';
 
 interface CartProps {
     items: CartItem[];
@@ -40,7 +40,7 @@ const Cart: React.FC<CartProps> = ({
                     <table className="">
                         <tbody>
                             {items.map((item) => (
-                                <CartProductItem
+                                <CartItemShow
                                     key={item.product.slug}
                                     item={item}
                                     increaseQuantity={increaseQuantity}
@@ -53,30 +53,30 @@ const Cart: React.FC<CartProps> = ({
                         </tbody>
                     </table>
                 ) : (
-                    // Affiche avec tableau
                     <table className="w-full border-collapse">
                         <thead className="border-b border-[#e1e3e4] p-4">
                             <tr>
-                                <th className="text-left px-3 py-5 table-card-body-header">
+                                <th className="text-left p-8 table-card-body-header">
                                     Produit
                                 </th>
-                                <th className="text-center px-3 py-5 table-card-body-header">
+                                <th className="text-center p-8 table-card-body-header">
                                     Quantité
                                 </th>
-                                <th className="text-right px-3 py-5 table-card-body-header">
+                                <th className="text-right p-8 table-card-body-header">
                                     Total
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map((item) => (
-                                <CartProductItem
+                                <CartItemShow
                                     key={item.product.slug}
                                     item={item}
                                     increaseQuantity={increaseQuantity}
                                     decreaseQuantity={decreaseQuantity}
                                     handleRemoveItem={handleRemoveItem}
                                     isReadOnly={isReadOnly}
+                                    dontShow={dontShow}
                                 />
                             ))}
                         </tbody>

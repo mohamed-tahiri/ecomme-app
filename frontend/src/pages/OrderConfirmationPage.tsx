@@ -27,8 +27,7 @@ const OrderConfirmationPage: React.FC = () => {
             setLoading(true);
             setError(null);
 
-            if (!orderNumber)
-                throw new Error('Numéro de commande manquant.');
+            if (!orderNumber) throw new Error('Numéro de commande manquant.');
 
             const data = await getOrderById(orderNumber);
             setOrderData(data);

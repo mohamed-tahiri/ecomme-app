@@ -71,11 +71,17 @@ const CreateAnnouncementPage = () => {
 
             {!isSubmitted && (
                 <div className="px-6 flex justify-between mt-6">
-                    <Button disabled={currentStep === 0} onClick={prev}>
+                    <Button
+                        className="px-8"
+                        disabled={currentStep === 0}
+                        onClick={prev}
+                    >
                         Back
                     </Button>
                     {currentStep < steps.length - 1 && (
-                        <Button onClick={next}>Next</Button>
+                        <Button className="px-8" onClick={next}>
+                            Next
+                        </Button>
                     )}
                 </div>
             )}

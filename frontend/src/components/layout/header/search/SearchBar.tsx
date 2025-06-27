@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IoSearchSharp } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import api from '../../../services/productsService';
-import { Product } from '../../../types/product';
-import SearchProductItem from './SearchProductItem';
-import { IoClose } from 'react-icons/io5'; // Import pour l'icône de suppression
+import api from '../../../../services/productsService';
+import { Product } from '../../../../types/product';
+import { IoClose } from 'react-icons/io5';
+import ProductItem from '../../../productsitem/ProductItem';
 
 const SearchBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -15,15 +15,12 @@ const SearchBar = () => {
     const navigate = useNavigate();
     const searchContainerRef = useRef<HTMLDivElement>(null);
 
-    // State pour gérer l'historique de recherche
     const [searchHistory, setSearchHistory] = useState<string[]>(() => {
-        // Récupérer l'historique du localStorage au chargement initial
         const storedHistory = localStorage.getItem('searchHistory');
         return storedHistory ? JSON.parse(storedHistory) : [];
     });
 
     useEffect(() => {
-        // Sauvegarder l'historique dans le localStorage à chaque modification
         localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
     }, [searchHistory]);
 
@@ -57,14 +54,13 @@ const SearchBar = () => {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const trimmedQuery = searchQuery.trim(); // Trim pour éviter d'enregistrer des espaces vides
+        const trimmedQuery = searchQuery.trim();
         if (trimmedQuery) {
-            // Ajouter la recherche à l'historique (si elle n'existe pas déjà)
             setSearchHistory((prevHistory) => {
                 if (prevHistory.includes(trimmedQuery)) {
-                    return prevHistory; // Ne pas ajouter si déjà présent
+                    return prevHistory;
                 }
-                const newHistory = [trimmedQuery, ...prevHistory].slice(0, 7); // Ajouter au début, limiter à 7 recherches
+                const newHistory = [trimmedQuery, ...prevHistory].slice(0, 7);
                 return newHistory;
             });
             navigate(`/search?q=${encodeURIComponent(trimmedQuery)}`);
@@ -89,8 +85,8 @@ const SearchBar = () => {
     }, []);
 
     const handleHistoryClick = (historyItem: string) => {
-        setSearchQuery(historyItem); // Met à jour la searchQuery avec l'élément de l'historique cliqué
-        setShowResults(false); // Ferme les résultats (si ouverts)
+        setSearchQuery(historyItem);
+        setShowResults(false);
     };
 
     const handleRemoveHistoryItem = (itemToRemove: string) => {
@@ -128,9 +124,9 @@ const SearchBar = () => {
                 <div className="absolute top-full left-0 w-auto min-w-full bg-white border shadow mt-1 rounded z-50">
                     {/* Affichage de l'historique de recherche */}
                     {searchHistory.length > 0 && (
-                        <div className="p-2">
+                        <div className="p-2 border-b border-[var(--border-color)] mb-3">
                             <div className="flex justify-between items-center">
-                                <h4 className="text-gray-600 font-semibold">
+                                <h4 className="text-sm text-[var(--heading-color)]">
                                     Historique de recherche
                                 </h4>
                                 <button
@@ -144,7 +140,7 @@ const SearchBar = () => {
                                 {searchHistory.map((item, index) => (
                                     <li
                                         key={index}
-                                        className="flex items-center justify-between cursor-pointer text-black hover:bg-gray-100 p-2 rounded"
+                                        className="flex items-center justify-between cursor-pointer product-desc-title py-2 rounded"
                                     >
                                         <span
                                             onClick={() =>
@@ -179,11 +175,20 @@ const SearchBar = () => {
                     ) : (
                         <>
                             {products.map((product) => (
-                                <SearchProductItem
-                                    key={product.id}
-                                    product={product}
-                                    setShowResults={setShowResults}
-                                />
+                                <div
+                                    onClick={() => {
+                                        setShowResults(false);
+                                    }}
+                                >
+                                    <ProductItem
+                                        key={product.id}
+                                        product={product}
+                                        layout="card"
+                                        withoutCartSection={true}
+                                        imageClassName="w-20 h-20 object-contain transition-all duration-300 cursor-pointer"
+                                        containerClassName=""
+                                    />
+                                </div>
                             ))}
                             <div
                                 className="flex justify-center py-2 cursor-pointer"

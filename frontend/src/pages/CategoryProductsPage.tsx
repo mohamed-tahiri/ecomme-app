@@ -31,7 +31,6 @@ const CategoryProductsPage: React.FC = () => {
     const [availableOnly, setAvailableOnly] = useState(false);
     const [minRating, setMinRating] = useState(0);
 
-    // Charger produits selon filtres et page
     const fetchProducts = async () => {
         setLoading(true);
         setError(null);
@@ -75,6 +74,11 @@ const CategoryProductsPage: React.FC = () => {
         maxPrice,
         // , sortBy, availableOnly, minRating
     ]);
+
+    // Réinitialiser la page si la catégorie change
+    useEffect(() => {
+        setPage(1);
+    }, [slug]);
 
     // Réinitialiser filtres et page
     const handleResetFilters = () => {

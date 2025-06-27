@@ -2,45 +2,40 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-const getUploadPath = (file) => {
-    const mime = file.mimetype;
+const FILE_TYPES = {
+    images: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+    videos: ['video/mp4', 'video/avi', 'video/mkv', 'video/webm'],
+    documents: [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'text/plain',
+    ],
+};
 
-    if (mime.startsWith('image/')) return 'uploads/images';
-    if (mime.startsWith('video/')) return 'uploads/videos';
-    if (mime === 'application/pdf' || mime.includes('msword'))
-        return 'uploads/documents';
-
-    return 'uploads/others';
+const getUploadFolder = (mimetype) => {
+    const type = Object.entries(FILE_TYPES).find(([_, types]) =>
+        types.includes(mimetype)
+    );
+    return type ? type[0] : 'others';
 };
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const folder = getUploadPath(file);
-        fs.mkdirSync(folder, { recursive: true });
-        cb(null, folder);
+        const folder = getUploadFolder(file.mimetype);
+        const uploadPath = path.resolve('uploads', folder);
+
+        fs.mkdirSync(uploadPath, { recursive: true });
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueName + path.extname(file.originalname));
+        const timestamp = Date.now();
+        const ext = path.extname(file.originalname);
+        cb(null, `${timestamp}-${Math.round(Math.random() * 1e9)}${ext}`);
     },
 });
 
-const fileFilter = (req, file, cb) => {
-    const allowed = /jpeg|jpg|png|gif|pdf|docx|mp4/;
-    const ext = path.extname(file.originalname).toLowerCase();
-    const mime = file.mimetype;
-
-    if (allowed.test(ext) && allowed.test(mime)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Fichier non autorisé'));
-    }
-};
-
-const upload = multer({
+export default multer({
     storage,
-    fileFilter,
-    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+    fileFilter: (req, file, cb) => cb(null, true),
 });
-
-export default upload;

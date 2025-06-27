@@ -17,7 +17,8 @@ const OrderListPage = () => {
             setLoading(true);
             setError(null);
 
-            if (!user?.id) throw new Error("L'id de l'utilisateur n'existe pas");
+            if (!user?.id)
+                throw new Error("L'id de l'utilisateur n'existe pas");
 
             const data = await getUserOrders(user.id);
             setOrders(data);
@@ -95,14 +96,17 @@ const OrderListPage = () => {
             ) : (
                 <div className="space-y-4 mt-6">
                     {orders?.map((order) => (
-                        <div key={order.id} className='grid grid-cols-5 items-center border-b border-[var(--border-color)] pb-2 last:border-0'>
-                            <div className='col-span-3'>
-                                <Cart items={order.items} isReadOnly dontShow /> 
+                        <div
+                            key={order.id}
+                            className="grid grid-cols-5 items-center border-b border-[var(--border-color)] pb-2 last:border-0"
+                        >
+                            <div className="col-span-3">
+                                <Cart items={order.items} isReadOnly dontShow />
                             </div>
-                            <div className='hidden md:flex items-center justify-center capitalize'>
+                            <div className="hidden md:flex items-center justify-center capitalize">
                                 {order.status}
                             </div>
-                            <div className='hidden md:flex items-center justify-center capitalize'>
+                            <div className="hidden md:flex items-center justify-center capitalize">
                                 {order.paymentStatus}
                             </div>
                         </div>

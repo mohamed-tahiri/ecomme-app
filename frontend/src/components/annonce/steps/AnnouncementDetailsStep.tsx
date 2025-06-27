@@ -76,7 +76,6 @@ export const AnnouncementDetailsStep: React.FC<Props> = ({
 
         try {
             const data = await getCategories();
-            console.log(data);
             setCategories(data);
         } catch (error) {
             console.error('Erreur lors du chargement des catégories:', error);

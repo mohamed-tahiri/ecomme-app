@@ -4,7 +4,9 @@ import {
     uploadProductImageController,
     getProductImagesController,
     deleteProductImageController,
+    getImageController,
 } from '../controllers/productImages.controller.js';
+import upload from '../middlewares/upload.middleware.js';
 
 const router = express.Router();
 
@@ -34,7 +36,9 @@ const router = express.Router();
 router
     .route('/:productId')
     .get(getProductImagesController)
-    .post(uploadProductImageController);
+    .post(upload.array('files', 6), uploadProductImageController);
+
+router.route('/get/:imageUrl').get(getImageController);
 
 router.route('/:imageId').delete(deleteProductImageController);
 

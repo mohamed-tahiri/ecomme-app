@@ -8,6 +8,9 @@ pnpm-debug.log
 .env
 .env.*
 
+# files
+uploads/
+
 # Logs
 logs/
 *.log

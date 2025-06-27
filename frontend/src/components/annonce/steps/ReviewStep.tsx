@@ -2,6 +2,7 @@ import { AnnouncementDetails } from '../../../pages/CreateAnnouncementPage';
 import { Product } from '../../../types/product';
 import { Button } from '../../ui/Button';
 import api from '../../../services/productsService';
+import { uploadProductImages } from '../../../services/productImageService';
 import { useAuth } from '../../../context/AuthContext';
 
 interface Props {
@@ -34,6 +35,13 @@ export const ReviewStep: React.FC<Props> = ({ details, images, onSubmit }) => {
             const createdProduct: Product = await api.createProduct(payload);
 
             console.log('Produit créé :', createdProduct);
+
+            const result: any = await uploadProductImages(
+                createdProduct.id,
+                images
+            );
+
+            console.log(result);
 
             if (onSubmit) onSubmit();
         } catch (error) {

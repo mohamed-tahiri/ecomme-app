@@ -1,3 +1,6 @@
+import path from 'path';
+import fs from 'fs';
+
 // controllers/productImageController.js
 import {
     uploadProductImage,
@@ -58,15 +61,18 @@ import {
 const uploadProductImageController = async (req, res) => {
     try {
         const { productId } = req.params;
-        const { isPrimary } = req.body;
-        const file = req.file;
+        const files = req.files;
 
-        if (!file) {
-            return res.status(400).json({ message: 'No image file uploaded' });
+        const uploadedImages = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const isPrimary = i === 0;
+            const image = await uploadProductImage(productId, isPrimary, file);
+            uploadedImages.push(image);
         }
 
-        const image = await uploadProductImage(productId, isPrimary, file);
-        res.status(201).json(image);
+        res.status(201).json(uploadedImages);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -149,8 +155,23 @@ const deleteProductImageController = async (req, res) => {
     }
 };
 
+// 🧠 Add image serving controller here
+const getImageController = (req, res) => {
+    const imageUrl = req.params.imageUrl;
+    const imagePath = path.join(process.cwd(), 'uploads', 'images', imageUrl);
+
+    fs.access(imagePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).json({ message: 'Image not found' });
+        }
+
+        res.sendFile(imagePath);
+    });
+};
+
 export {
     uploadProductImageController,
     getProductImagesController,
     deleteProductImageController,
+    getImageController,
 };

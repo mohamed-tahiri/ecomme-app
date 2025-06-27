@@ -90,7 +90,7 @@ export const getUserOrders = async (userId) => {
 
             return {
                 ...order.toJSON(),
-                items: orderItems.map(item => item.toJSON()),
+                items: orderItems.map((item) => item.toJSON()),
             };
         })
     );

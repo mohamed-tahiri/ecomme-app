@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './header/Navbar';
-import CartLink from './header/CartLink';
-import SearchBar from './header/SearchBar';
-import ContactLink from './header/ContactLink';
-import LoginLink from './header/LoginLink';
+import CartLink from './header/cart/CartLink';
+import SearchBar from './header/search/SearchBar';
+import ContactLink from './header/contact/ContactLink';
+import LoginLink from './header/auth/LoginLink';
 import { IoMdClose } from 'react-icons/io';
 import { MdOutlineMenuOpen } from 'react-icons/md';
 import NavbarResponsive from './header/NavbarResponsive';

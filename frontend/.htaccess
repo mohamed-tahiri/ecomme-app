@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "Restricted Access"
+AuthUserFile /Users/mac/Documents/DEV/myprojects/ecom-js-stack/frontend/.htpasswd
+Require valid-user
+

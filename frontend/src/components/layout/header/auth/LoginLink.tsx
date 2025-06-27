@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import LoginCart from '../../auth/LoginCart';
-import RegisterCart from '../../auth/RegisterCart';
-import ForgetPasswordCart from '../../auth/ForgetPasswordCart';
-import InfoCart from '../../auth/InfoCart';
-import { useAuth } from '../../../context/AuthContext';
+import LoginCart from '../../../auth/LoginCart';
+import RegisterCart from '../../../auth/RegisterCart';
+import ForgetPasswordCart from '../../../auth/ForgetPasswordCart';
+import InfoCart from '../../../auth/InfoCart';
+import { useAuth } from '../../../../context/AuthContext';
 import { FaRegUser } from 'react-icons/fa6';
 
 const LoginLink: React.FC = () => {

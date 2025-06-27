@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { FiShoppingCart } from 'react-icons/fi';
-import { useCart } from '../../../context/CartContext';
+import { useCart } from '../../../../context/CartContext';
 import { useState, useEffect, useRef } from 'react';
-import { Product } from '../../../types/product';
-import CartProductItem from './CartProductItem';
+import { Product } from '../../../../types/product';
+import ProductItem from '../../../productsitem/ProductItem';
 
 const CartLink = () => {
     const { cart, addToCart, removeFromCart } = useCart();
@@ -102,13 +102,20 @@ const CartLink = () => {
                     <div className="max-h-60 overflow-y-auto">
                         {cart.length > 0 ? (
                             cart.map(({ product, quantity }) => (
-                                <CartProductItem
+                                <ProductItem
                                     key={product.id}
                                     product={product}
+                                    layout="card"
+                                    withoutCartSection
+                                    imageClassName="w-20 h-20 object-contain"
+                                    truncateName={20}
+                                    truncateDescription={35}
                                     quantity={quantity}
-                                    increaseQuantity={increaseQuantity}
-                                    decreaseQuantity={decreaseQuantity}
-                                    handleRemoveItem={handleRemoveItem}
+                                    onIncrease={() => increaseQuantity(product)}
+                                    onDecrease={() => decreaseQuantity(product)}
+                                    onRemove={() =>
+                                        handleRemoveItem(product.slug)
+                                    }
                                 />
                             ))
                         ) : (
@@ -122,14 +129,14 @@ const CartLink = () => {
                     <div className="mt-3 flex-center gap-3">
                         <Link
                             to="/cart"
-                            onClick={() => setIsOpen(false)} // Close the dropdown
+                            onClick={() => setIsOpen(false)}
                             className="text-center w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-l"
                         >
                             Panier
                         </Link>
                         <Link
                             to="/order"
-                            onClick={() => setIsOpen(false)} // Close the dropdown
+                            onClick={() => setIsOpen(false)}
                             className="text-center w-1/2 bg-[var(--primary-button-background)] hover:opacity-90 text-white py-2 rounded-r"
                         >
                             Commander

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getSimilarProductsByOrder } from '../../services/orderService';
 import { Product } from '../../types/product';
-import ProductItem from '../recentlyviewed/ProductItem';
 import { useParams } from 'react-router-dom';
+import ProductItem from '../productsitem/ProductItem';
 
 const ProduitsSimilaires: React.FC = () => {
     const { orderNumber } = useParams<{ orderNumber: string }>();

@@ -10,7 +10,7 @@ const ProductsPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
-    const [limit] = useState<number>(12); // Limite par page
+    const [limit] = useState<number>(12);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [priceRange, setPriceRange] = useState<string>('');
     const [totalPages, setTotalPages] = useState<number>(1);

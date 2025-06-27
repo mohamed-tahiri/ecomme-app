@@ -9,6 +9,8 @@ import ProductListAnnonce from '../components/annonce/ProductListAnnonce';
 const AnnouncementPage = () => {
     const { user } = useAuth();
     const [products, setProducts] = useState<Product[]>([]);
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
@@ -27,7 +29,8 @@ const AnnouncementPage = () => {
                     page,
                     limit,
                     name: searchTerm,
-                    price: priceRange,
+                    minPrice: minPrice ? Number(minPrice) : undefined,
+                    maxPrice: maxPrice ? Number(maxPrice) : undefined,
                 });
 
                 setProducts(response.data);

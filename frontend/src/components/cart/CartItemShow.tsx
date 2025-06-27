@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CartItem } from '../../types/cart';
-import { ProductImage } from '../../types/productImage';
-import api from '../../services/productsService';
 import { Link } from 'react-router-dom';
+import ProductImageDisplay from '../common/ProductImageDisplay';
+import { useProductImages } from '../../hooks/useProductImages';
 
 interface CartProductItemProps {
     item: CartItem;
@@ -13,7 +13,7 @@ interface CartProductItemProps {
     dontShow?: boolean;
 }
 
-const CartProductItem: React.FC<CartProductItemProps> = ({
+const CartItemShow: React.FC<CartProductItemProps> = ({
     item,
     increaseQuantity,
     decreaseQuantity,
@@ -21,52 +21,19 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
     isReadOnly = false,
     dontShow = false,
 }) => {
-    const [images, setImages] = useState<ProductImage[]>([]);
-    const [selectedImage, setSelectedImage] = useState<ProductImage | null>(
-        null
+    const { selectedImage, handleHover, handleLeave } = useProductImages(
+        item.product.id
     );
 
-    const fetchProductImages = async (productId: string) => {
-        try {
-            const productImages = await api.getImagesByProduct(productId);
-            setImages(productImages);
-            if (productImages.length > 0) {
-                setSelectedImage(
-                    productImages.find((image) => image.isPrimary) ||
-                        productImages[0]
-                );
-            }
-        } catch (error) {
-            console.error(
-                'Erreur lors du chargement des images du produit:',
-                error
-            );
-        }
-    };
-
-    useEffect(() => {
-        if (item.product) {
-            fetchProductImages(item.product.id);
-        }
-    }, [item.product]);
-
     return (
-        <tr className="border-b border-[#e1e3e4] last:border-0 flex items-center">
+        <tr className="border-b border-[#e1e3e4] last:border-0 items-center">
             <td className="p-8 flex items-center gap-3">
                 <Link to={`/products/${item.product.slug}`}>
-                    <img
-                        src={selectedImage?.imageUrl}
-                        alt={selectedImage?.altText}
-                        className="w-20 h-20 object-contain transition-all duration-300 cursor-pointer"
-                        onMouseEnter={() =>
-                            images.length > 0 && setSelectedImage(images[1])
-                        }
-                        onMouseLeave={() =>
-                            setSelectedImage(
-                                images.find((image) => image.isPrimary) ||
-                                    images[0]
-                            )
-                        }
+                    <ProductImageDisplay
+                        selectedImage={selectedImage}
+                        handleHover={handleHover}
+                        handleLeave={handleLeave}
+                        className="w-full h-28 object-contain transition-all duration-300"
                     />
                 </Link>
                 <div>
@@ -119,12 +86,11 @@ const CartProductItem: React.FC<CartProductItemProps> = ({
                     </>
                 )}
             </td>
-            <td className="product-price flex items-center space-x-1">
-                <h4>{(item.product.price * item.quantity).toFixed(2)}</h4>
-                <h4>dhs</h4>
+            <td className="p-8 text-right font-medium">
+                {(item.product.price * item.quantity).toFixed(2)} dhs
             </td>
         </tr>
     );
 };
 
-export default CartProductItem;
+export default CartItemShow;
