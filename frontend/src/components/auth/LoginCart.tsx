@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 type LoginCartProps = {
     onLogin: (user: { email: string; role: string; name: string }) => void;
@@ -12,6 +14,8 @@ const LoginCart: React.FC<LoginCartProps> = ({ onLogin }) => {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -23,7 +27,12 @@ const LoginCart: React.FC<LoginCartProps> = ({ onLogin }) => {
             setTimeout(() => setSuccess(''), 3000);
 
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            onLogin(user);
+
+            if (user.role === 'ROLE_ADMIN') {
+                navigate('/admin-xy3a9t98f9m3oi9j');
+            } else {
+                onLogin(user);
+            }
         } catch (err: any) {
             setError('Email ou mot de passe incorrect');
         } finally {
@@ -47,13 +56,25 @@ const LoginCart: React.FC<LoginCartProps> = ({ onLogin }) => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full border border-gray-300 py-3 px-2"
                 />
-                <input
-                    placeholder="Votre mot de passe"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full border border-gray-300 py-3 px-2"
-                />
+                <div className="relative">
+                    <input
+                        placeholder="Votre mot de passe"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full border border-gray-300 py-3 px-2 pr-10"
+                    />
+                    <div
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-600"
+                    >
+                        {showPassword ? (
+                            <FiEyeOff size={20} />
+                        ) : (
+                            <FiEye size={20} />
+                        )}
+                    </div>
+                </div>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 {success && <p className="text-green-500 text-sm">{success}</p>}
             </div>
