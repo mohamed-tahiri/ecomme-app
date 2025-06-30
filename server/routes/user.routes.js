@@ -1,52 +1,21 @@
 import express from 'express';
-import {
-    createUser,
-    getUserById,
-    getUsers,
-} from '../controllers/user.controller.js'; // Import all controller functions
+import { getUserById, getUsers } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/users:
- *   post:
- *     summary: Create a new user
- *     description: Creates a new user in the system.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *             properties:
- *               name:
- *                 type: string
- *                 example: John Doe
- *               email:
- *                 type: string
- *                 example: john.doe@example.com
- *               password:
- *                 type: string
- *                 example: password123
- *     responses:
- *       201:
- *         description: User created successfully
- *       400:
- *         description: Invalid request body
- *       500:
- *         description: Internal server error
+ * tags:
+ *   - name: users
+ *     description: Operations related to users
  */
-router.post('/', createUser); // Create user
 
 /**
  * @swagger
  * /api/v1/users:
  *   get:
+ *     tags:
+ *       - users
  *     summary: Get all users
  *     description: Retrieves a list of all users in the system.
  *     responses:
@@ -80,6 +49,8 @@ router.get('/', getUsers); // Get all users
  * @swagger
  * /api/v1/users/{id}:
  *   get:
+ *     tags:
+ *       - users
  *     summary: Get a user by ID
  *     description: Retrieves a single user based on their ID.
  *     parameters:

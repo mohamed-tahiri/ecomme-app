@@ -1,24 +1,5 @@
 import User from '../models/user.model.js'; // Import User model
 
-// Create a new user
-export const createUser = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-
-        // Check if email already exists
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(400).json({ error: 'Email already in use' });
-        }
-
-        const newUser = await User.create({ name, email, password });
-        res.status(201).json(newUser);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to create user' });
-    }
-};
-
 // Get all users
 export const getUsers = async (req, res) => {
     try {

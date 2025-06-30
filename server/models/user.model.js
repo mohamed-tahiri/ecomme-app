@@ -18,6 +18,7 @@ User.init(
             defaultValue: 'ROLE_CUSTOMER',
         },
         isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
+        isActivited: { type: DataTypes.BOOLEAN, defaultValue: false },
         refreshToken: { type: DataTypes.STRING },
     },
     { sequelize, modelName: 'users' }
