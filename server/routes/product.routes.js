@@ -7,8 +7,10 @@ import {
     createProductController,
     getProductsByVendorController,
     getProductsBySlugStoreController,
+    updateProductController,
+    deleteProductController,
 } from '../controllers/product.controller.js';
-import { authenticate } from '../middlewares/auth.middleware.js';
+import { authenticate, authorize } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -56,7 +58,11 @@ router
     .route('/vendor/:vendorId')
     .get(authenticate, getProductsByVendorController);
 
-router.route('/:id').get(getProductByIdController);
+router
+    .route('/:id')
+    .get(getProductByIdController)
+    .put(authenticate, updateProductController)
+    .delete(authenticate, authorize(['ROLE_ADMIN']), deleteProductController);
 
 router.route('/slug/:slug').get(getProductBySlugController);
 

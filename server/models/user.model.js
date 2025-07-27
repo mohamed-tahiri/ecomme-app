@@ -17,9 +17,11 @@ User.init(
             type: DataTypes.ENUM('ROLE_CUSTOMER', 'ROLE_ADMIN', 'ROLE_VENDOR'),
             defaultValue: 'ROLE_CUSTOMER',
         },
+        refreshToken: { type: DataTypes.STRING },
         isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
         isActivited: { type: DataTypes.BOOLEAN, defaultValue: false },
-        refreshToken: { type: DataTypes.STRING },
+        activationToken: { type: DataTypes.STRING },
+        activationTokenExpires: { type: DataTypes.DATE },
     },
     { sequelize, modelName: 'users' }
 );

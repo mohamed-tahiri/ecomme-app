@@ -7,6 +7,12 @@ import {
 } from '../utils/jwt.utils.js';
 import User from '../models/user.model.js';
 import { sendMail } from './mail.service.js';
+import dotenv from 'dotenv';
+import { Op } from 'sequelize';
+
+const envFile = `.env.${process.env.NODE_ENV || 'dev'}`;
+
+dotenv.config({ path: envFile });
 
 export const register = async ({ email, name, password }) => {
     const exists = await User.findOne({
@@ -17,18 +23,26 @@ export const register = async ({ email, name, password }) => {
 
     if (exists) throw new Error('User already exists');
 
+    const activationToken = crypto.randomBytes(32).toString('hex');
+    const activationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
     const hashedPassword = await bcrypt.hash(password, 12);
+
     const user = await User.create({
         name,
         email,
         password: hashedPassword,
+        activationToken,
+        activationTokenExpires,
     });
+
+    const activationLink = `${process.env.ACTIVATION_LINK}/${activationToken}`;
 
     // Optionally send verification email
     await sendMail({
         to: email,
-        subject: 'Welcome',
-        text: 'Thanks for registering!',
+        subject: 'Activation de votre compte',
+        html: `<p>Bonjour ${name}, cliquez sur le lien suivant pour activer votre compte : <a href="${activationLink}">Activer</a></p>`,
     });
 
     return { id: user._id, email: user.email };
@@ -74,12 +88,32 @@ export const refresh = async (token) => {
     return { accessToken: newAccessToken };
 };
 
+export const activateUser = async (req, res) => {
+    const { token } = req.params;
+
+    const user = await User.findOne({
+        where: {
+            activationToken: token,
+            activationTokenExpires: { [Op.gt]: new Date() },
+        },
+    });
+
+    if (!user) throw new Error('Token invalide ou expiré');
+
+    user.isActivited = true;
+    user.activationToken = null;
+    user.activationTokenExpires = null;
+
+    await user.save();
+
+    return user;
+};
+
 export const logout = async (userId) => {
     try {
-        // Find and update the user by ID
         const [updatedRows] = await User.update(
-            { refreshToken: null }, // The data you want to update
-            { where: { id: userId } } // The condition to find the user
+            { refreshToken: null },
+            { where: { id: userId } }
         );
 
         if (updatedRows === 0) {

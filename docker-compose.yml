@@ -27,32 +27,60 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    restart: always
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     ports:
       - "8081:8080"
-    restart: always
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    # depends_on:
+    #   - server
+    #   - frontend
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    restart: always
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command: 
+      - '--config.file=/etc/prometheus/prometheus.yml' 
     ports:
       - "9090:9090"
-    restart: always
+
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./alertmanager:/config"
+      - alertmanager-data:/data
+    command: --config.file=/config/alertmanager.yml --log.level=debug --cluster.advertise-address=0.0.0.0:9093
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     container_name: grafana
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/data:/var/lib/grafana
+    user: "1000"
+    depends_on:
+      - prometheus
     ports:
       - "3001:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
-    restart: always
 
 
 #   server:
@@ -85,8 +113,9 @@ services:
 #       - ecom_network  # Ajoute le frontend au réseau personnalisé
 
 volumes:
+  alertmanager-data:
   postgres_data:
-  grafana_data:
+  # grafana_data:
 #   server_data:
 
 # networks:

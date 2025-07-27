@@ -8,6 +8,7 @@ import {
     FaTachometerAlt,
 } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { MdProductionQuantityLimits } from 'react-icons/md';
 
 interface SideBarProps {
     collapsed: boolean;
@@ -27,8 +28,13 @@ const menuItems = [
     },
     {
         label: 'Products',
-        icon: <FaBoxOpen />,
+        icon: <MdProductionQuantityLimits />,
         path: '/admin-xy3a9t98f9m3oi9j/products',
+    },
+    {
+        label: 'orders',
+        icon: <FaBoxOpen />,
+        path: '/admin-xy3a9t98f9m3oi9j/orders',
     },
     {
         label: 'Categories',
@@ -45,14 +51,14 @@ const menuItems = [
 const SideBar: React.FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
     return (
         <aside
-            className={`bg-gray-800 text-white h-screen p-4 transition-all duration-300
-            flex flex-col ${collapsed ? 'w-20' : 'w-96'} overflow-hidden`}
+            className={`bg-[var(--primary-button-background)] text-white h-screen p-4 transition-all duration-300
+            flex flex-col ${collapsed ? 'w-20' : 'w-80'} overflow-hidden`}
         >
             <div className="flex items-center justify-between mb-10">
                 {!collapsed && <h2 className="text-xl font-bold">Admin</h2>}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="text-white text-2xl p-2 hover:bg-gray-700 rounded"
+                    className="text-white text-2xl p-2 hover:bg-[#e4650b] rounded"
                 >
                     <FaBars />
                 </button>
@@ -65,7 +71,7 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
                         to={item.path}
                         className={({ isActive }) =>
                             `flex items-center gap-4 px-3 py-2 rounded-lg transition-colors 
-                             hover:bg-gray-700 ${isActive ? 'bg-gray-700' : ''}`
+                             hover:bg-[#e4650b] ${isActive ? 'bg-[#e4650b]' : ''}`
                         }
                     >
                         <span className="text-lg">{item.icon}</span>

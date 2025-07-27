@@ -6,6 +6,8 @@ import {
     createProduct,
     getProductsByVendor,
     getProductsBySlugStore,
+    updateProduct,
+    deleteProduct,
 } from '../services/product.service.js';
 
 /**
@@ -537,6 +539,103 @@ const createProductController = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/v1/products/{id}:
+ *   put:
+ *     tags:
+ *       - products
+ *     summary: Update a product
+ *     description: Modify an existing product
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
+ *     responses:
+ *       200:
+ *         description: Product updated
+ *       404:
+ *         description: Product not found
+ */
+const updateProductController = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const product = await updateProduct(id, req.body);
+        res.status(201).json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+/**
+ * @swagger
+ * /api/v1/products/{id}:
+ *   delete:
+ *     tags:
+ *       - products
+ *     summary: Delete a product
+ *     description: Removes a product by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the product to delete.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Product deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Product deleted successfully
+ *       404:
+ *         description: Product not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Product not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: An unexpected error occurred
+ */
+const deleteProductController = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        await deleteProduct(id);
+        res.status(201).json({
+            message: 'Product deleted successfully',
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export {
     getProductsController,
     getProductsBySlugCategoryController,
@@ -545,4 +644,6 @@ export {
     getProductByIdController,
     getProductBySlugController,
     createProductController,
+    updateProductController,
+    deleteProductController,
 };

@@ -5,6 +5,7 @@ import {
     getUserOrdersController,
     getOrderByIdController,
     getSimilarProductsController,
+    getAllOrdersController,
 } from '../controllers/order.controller.js';
 
 const router = express.Router();
@@ -12,6 +13,11 @@ const router = express.Router();
 router
     .route('/')
     .post(authenticate, authorize(['ROLE_CUSTOMER']), createOrderController);
+
+// Admin route to get all orders
+router
+    .route('/admin/all')
+    .get(authenticate, authorize(['ROLE_ADMIN']), getAllOrdersController);
 
 router
     .route('/user/:id')

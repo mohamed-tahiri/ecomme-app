@@ -10,6 +10,49 @@ import {
 import { Product } from '../types/product';
 import api from './api';
 
+export interface PaginatedOrders {
+    data: Order[];
+    pagination: {
+        page: number;
+        limit: number;
+        totalCount: number;
+        totalPages: number;
+    };
+}
+
+// Récupérer toutes les commandes (Admin)
+export const getAllOrders = async (
+    page = 1,
+    limit = 10
+): Promise<PaginatedOrders> => {
+    try {
+        const response = await api.get(`orders/admin/all`, {
+            params: { page, limit },
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error(
+            `Error fetching all orders:`,
+            error.response?.data || error.message || error
+        );
+        throw error;
+    }
+};
+
+// Récupérer les commandes d'un utilisateur
+export const getOrders = async (): Promise<OrderWithItems[]> => {
+    try {
+        const response = await api.get(`orders/`);
+        return response.data;
+    } catch (error: any) {
+        console.error(
+            `Error fetching orders for user:`,
+            error.response?.data || error.message || error
+        );
+        throw error;
+    }
+};
+
 // Créer une nouvelle commande
 export const createOrder = async (
     orderData: OrderCreationPayload

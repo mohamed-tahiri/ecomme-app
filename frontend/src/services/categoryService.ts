@@ -1,4 +1,5 @@
 import api from './api';
+import { Category } from '../types/category';
 
 // Récupérer toutes les catégories
 export const getCategories = async (): Promise<Category[]> => {
@@ -33,9 +34,15 @@ export const getCategoryBySlug = async (slug: string): Promise<Category> => {
     }
 };
 
+interface CategoryFormData {
+    name: string;
+    descripiton: string;
+    parentCategoryId?: string;
+}
+
 // Créer une nouvelle catégorie
 export const createCategory = async (
-    category: Omit<Category, 'id'>
+    category: CategoryFormData
 ): Promise<Category> => {
     try {
         const response = await api.post(`categories`, category);
@@ -49,7 +56,7 @@ export const createCategory = async (
 // Mettre à jour une catégorie existante
 export const updateCategory = async (
     id: string,
-    category: Partial<Category>
+    category: CategoryFormData
 ): Promise<Category> => {
     try {
         const response = await api.put(`categories/${id}`, category);
@@ -63,8 +70,7 @@ export const updateCategory = async (
 // Supprimer une catégorie
 export const deleteCategory = async (id: string): Promise<void> => {
     try {
-        const response = await api.put(`categories/${id}`);
-        return response.data;
+        await api.delete(`categories/${id}`);
     } catch (error) {
         console.error(`Error deleting category with ID ${id}:`, error);
         throw error;

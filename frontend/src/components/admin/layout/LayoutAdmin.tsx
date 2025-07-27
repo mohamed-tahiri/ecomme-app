@@ -15,7 +15,7 @@ const LayoutAdmin: React.FC = () => {
             {/* Content area adjusts margin-left based on sidebar state */}
             <div
                 className={`transition-all duration-300 w-full p-6 ${
-                    collapsed ? 'ml-20' : 'ml-96'
+                    collapsed ? 'ml-20' : 'ml-80'
                 }`}
             >
                 <Outlet />

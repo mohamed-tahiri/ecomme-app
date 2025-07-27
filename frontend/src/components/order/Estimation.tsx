@@ -91,7 +91,7 @@ const Estimation: React.FC = () => {
                 'Error during checkout:',
                 error.response?.data || error.message || error
             );
-            alert(error.message);
+            console.log(error.message);
         } finally {
             setIsProcessing(false);
         }

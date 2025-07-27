@@ -139,6 +139,32 @@ const createProduct = async (
     }
 };
 
+const updateProduct = async (
+    id: string,
+    payload: CreateProductPayload
+): Promise<Product> => {
+    try {
+        const response = await api.put(`/products/${id}`, payload);
+        return response.data;
+    } catch (error) {
+        console.error(`Erreur lors de la mise à jour du produit :`, error);
+        throw error;
+    }
+};
+
+const deleteProduct = async (id: string): Promise<{ message: string }> => {
+    try {
+        const response = await api.delete(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(
+            `Erreur lors de la suppression du produit (${id}) :`,
+            error
+        );
+        throw error;
+    }
+};
+
 export default {
     getProducts,
     createProduct,
@@ -147,4 +173,6 @@ export default {
     getProductsBySlugCategory,
     getProductsBySlugStore,
     getImagesByProduct,
+    updateProduct,
+    deleteProduct,
 };

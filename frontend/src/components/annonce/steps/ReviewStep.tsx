@@ -46,7 +46,6 @@ export const ReviewStep: React.FC<Props> = ({ details, images, onSubmit }) => {
             if (onSubmit) onSubmit();
         } catch (error) {
             console.error("Erreur lors de l'envoi du produit :", error);
-            alert("Erreur lors de l'envoi du produit.");
         }
     };
 

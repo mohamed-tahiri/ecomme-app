@@ -39,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({
     return (
         <div className="flex justify-between items-center pt-4 mt-4 border-t border-[var(--border-color)]">
             <button
-                className="pagination-button flex items-center space-x-2"
+                className="pagination-button flex items-center space-x-2 cursor-pointer"
                 onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
                 disabled={currentPage === 1}
             >
@@ -79,7 +79,7 @@ const Pagination: React.FC<PaginationProps> = ({
             </div>
 
             <button
-                className="pagination-button flex items-center space-x-2"
+                className="pagination-button flex items-center space-x-2 cursor-pointer"
                 onClick={() =>
                     onPageChange(Math.min(currentPage + 1, totalPages))
                 }

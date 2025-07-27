@@ -3,6 +3,7 @@ import Product from '../models/product.model.js';
 import { Op } from 'sequelize';
 import Store from '../models/store.model.js';
 import User from '../models/user.model.js';
+import ProductImage from '../models/productImage.model.js';
 
 // Inclusion standardisée des relations
 const defaultInclude = [
@@ -250,6 +251,74 @@ const createProduct = async (productData) => {
     }
 };
 
+const updateProduct = async (id, data) => {
+    try {
+        const {
+            name,
+            description,
+            price,
+            stock,
+            categoryId,
+            vendorId,
+            storeId,
+        } = data;
+
+        const existingProduct = await Product.findByPk(id);
+
+        if (!existingProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (categoryId) {
+            const cat = await Category.findByPk(categoryId);
+            if (!cat)
+                return res.status(400).json({ message: 'Invalid categoryId' });
+        }
+
+        if (storeId) {
+            const store = await Store.findByPk(storeId);
+            if (!store)
+                return res.status(400).json({ message: 'Invalid storeId' });
+        }
+
+        if (vendorId) {
+            const vendor = await User.findByPk(vendorId);
+            if (!vendor)
+                return res.status(400).json({ message: 'Invalid vendorId' });
+        }
+
+        await existingProduct.update({
+            name,
+            description,
+            price,
+            stock,
+            categoryId,
+            vendorId,
+            storeId,
+        });
+
+        return existingProduct;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const deleteProduct = async (id) => {
+    try {
+        const product = await Product.findByPk(id);
+
+        const productImages = await ProductImage.findAll({
+            where: {
+                productId: id,
+            },
+        });
+
+        await product.destroy();
+    } catch (error) {
+        throw error;
+    }
+};
+
 export {
     getProducts,
     getProductsBySlugCategory,
@@ -258,4 +327,6 @@ export {
     getProductById,
     getProductBySlug,
     createProduct,
+    updateProduct,
+    deleteProduct,
 };

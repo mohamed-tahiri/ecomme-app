@@ -4,6 +4,8 @@ import {
     getOrderById,
     getSimilarProducts,
 } from '../services/order.service.js';
+import Order from '../models/order.model.js';
+import User from '../models/user.model.js';
 
 /**
  * @swagger
@@ -164,6 +166,67 @@ export const getSimilarProductsController = async (req, res) => {
         res.status(200).json(products);
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+/**
+ * @swagger
+ * /api/v1/orders/admin/all:
+ *   get:
+ *     summary: Get all orders (Admin only)
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *     responses:
+ *       200:
+ *         description: List of all orders with pagination
+ *       500:
+ *         description: Server error
+ */
+export const getAllOrdersController = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        const { count, rows } = await Order.findAndCountAll({
+            limit,
+            offset,
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'name', 'email'],
+                },
+            ],
+        });
+
+        const totalPages = Math.ceil(count / limit);
+
+        res.status(200).json({
+            data: rows,
+            pagination: {
+                page,
+                limit,
+                totalCount: count,
+                totalPages,
+            },
+        });
+    } catch (error) {
+        console.error('Error fetching all orders:', error);
         res.status(500).json({ message: error.message });
     }
 };

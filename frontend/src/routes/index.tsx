@@ -16,6 +16,7 @@ import AnnouncementPage from '../pages/AnnouncementPage';
 import LayoutAdmin from '../components/admin/layout/LayoutAdmin';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
 import OrderPage from '../pages/OrderPage';
+import AdminOrderPage from '../pages/admin/OrdersPage';
 import CreateAnnouncementPage from '../pages/CreateAnnouncementPage';
 import ProductsPage from '../pages/ProductsPage';
 import AdminProductsPage from '../pages/admin/ProductsPage';
@@ -176,6 +177,10 @@ const router = createBrowserRouter([
                             {
                                 path: 'products',
                                 element: <AdminProductsPage />,
+                            },
+                            {
+                                path: 'orders',
+                                element: <AdminOrderPage />,
                             },
                             {
                                 path: 'categories',

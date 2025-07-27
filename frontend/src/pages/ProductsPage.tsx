@@ -24,7 +24,7 @@ const ProductsPage: React.FC = () => {
                 page,
                 limit,
                 name: searchTerm,
-                price: priceRange,
+                // price: priceRange,
             });
 
             setProducts(response.data);
