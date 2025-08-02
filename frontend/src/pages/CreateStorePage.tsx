@@ -1,7 +1,7 @@
 // src/pages/account/CreateStorePage.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 import api from '../services/storeService';
 import { useAuth } from '../context/AuthContext';
 

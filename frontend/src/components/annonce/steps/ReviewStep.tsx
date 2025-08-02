@@ -1,6 +1,6 @@
 import { AnnouncementDetails } from '../../../pages/CreateAnnouncementPage';
 import { Product } from '../../../types/product';
-import { Button } from '../../ui/Button';
+import Button from '../../ui/Button';
 import api from '../../../services/productsService';
 import { uploadProductImages } from '../../../services/productImageService';
 import { useAuth } from '../../../context/AuthContext';

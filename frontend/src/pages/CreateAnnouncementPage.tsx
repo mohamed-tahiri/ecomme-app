@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 import { StepIndicator } from '../components/annonce/steps/StepIndicator';
 import { ReviewStep } from '../components/annonce/steps/ReviewStep';
 import { ImageUploadStep } from '../components/annonce/steps/ImageUploadStep';

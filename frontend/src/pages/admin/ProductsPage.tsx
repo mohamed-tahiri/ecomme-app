@@ -5,8 +5,10 @@ import Pagination from '../../components/pagination/Pagination';
 import { MdOutlineDelete, MdEdit, MdAdd } from 'react-icons/md';
 import { FaSearch, FaPlus } from 'react-icons/fa';
 import ConfirmModal from '../../components/modals/ConfirmModal';
+import { useAppearance } from '../../context/AppearanceContext';
 
 const AdminProductsPage: React.FC = () => {
+    const { settings } = useAppearance();
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -75,7 +77,10 @@ const AdminProductsPage: React.FC = () => {
                         Manage your product catalog
                     </p>
                 </div>
-                <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center space-x-2">
+                <button
+                    className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors flex items-center space-x-2"
+                    style={{ backgroundColor: settings.primaryColor }}
+                >
                     <FaPlus />
                     <span>Add Product</span>
                 </button>
@@ -174,8 +179,14 @@ const AdminProductsPage: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <div className="flex-shrink-0 h-10 w-10">
-                                                    <div className="h-10 w-10 rounded-lg bg-gray-200 flex items-center justify-center">
-                                                        <span className="text-gray-500 text-sm font-medium">
+                                                    <div
+                                                        className="h-10 w-10 rounded-lg flex items-center justify-center text-white"
+                                                        style={{
+                                                            backgroundColor:
+                                                                settings.primaryColor,
+                                                        }}
+                                                    >
+                                                        <span className="text-sm font-medium">
                                                             {product.name
                                                                 .charAt(0)
                                                                 .toUpperCase()}

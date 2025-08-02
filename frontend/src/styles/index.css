@@ -43,10 +43,93 @@
     --footer-heading-text-color: #002fc4;
     --footer-body-text-color: #677279;
     --footer-accent-color: #00badb;
+
+    /* Nouveaux paramètres d'apparence */
+    --primary-color: #3b82f6;
+    --base-font-size: 16px;
+    --border-radius: 8px;
+}
+
+/* Mode sombre */
+.dark {
+    --text-color: #e5e7eb;
+    --text-color-rgb: 229, 231, 235;
+    --heading-color: #f9fafb;
+    --background: #111827;
+    --secondary-background: #1f2937;
+    --secondary-background-rgb: 31, 41, 55;
+    --accent-background: rgba(59, 130, 246, 0.1);
+    --input-background: #374151;
+    --border-color: #374151;
+    --border-color-rgb: 55, 65, 81;
+    --form-border-color: #4b5563;
+    --header-background: #111827;
+    --footer-background-color: #1f2937;
+    --footer-body-text-color: #d1d5db;
+}
+
+/* Mode compact */
+.compact-mode {
+    --default-text-font-size: 13px;
+    --base-text-font-size: 12px;
+}
+
+.compact-mode .p-4 {
+    padding: 0.75rem;
+}
+.compact-mode .p-6 {
+    padding: 1rem;
+}
+.compact-mode .p-8 {
+    padding: 1.25rem;
+}
+.compact-mode .space-y-4 > * + * {
+    margin-top: 0.75rem;
+}
+.compact-mode .space-y-6 > * + * {
+    margin-top: 1rem;
+}
+.compact-mode .space-y-8 > * + * {
+    margin-top: 1.25rem;
+}
+
+/* Désactiver les animations */
+.no-animations * {
+    transition: none !important;
+    animation: none !important;
+}
+
+.no-animations .transition-colors,
+.no-animations .transition-all,
+.no-animations .transition-transform {
+    transition: none !important;
+}
+
+/* Classes utilitaires pour les couleurs primaires */
+.bg-primary {
+    background-color: var(--primary-color);
+}
+.text-primary {
+    color: var(--primary-color);
+}
+.border-primary {
+    border-color: var(--primary-color);
+}
+.hover\:bg-primary:hover {
+    background-color: var(--primary-color);
+}
+.hover\:text-primary:hover {
+    color: var(--primary-color);
+}
+
+/* Classes utilitaires pour les border radius */
+.rounded-custom {
+    border-radius: var(--border-radius);
 }
 
 body {
     font-family: var(--text-font-family);
+    font-size: var(--base-font-size);
 }
 
 /* --- Header */
@@ -72,7 +155,6 @@ body {
 .estimation-heading {
     color: var(--heading-color);
     font-weight: 600;
-    font-size: 0.9rem;
 }
 
 /* --- Card Page */

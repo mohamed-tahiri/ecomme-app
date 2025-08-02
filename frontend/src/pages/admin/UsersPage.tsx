@@ -5,8 +5,10 @@ import { User } from '../../types/user';
 import Pagination from '../../components/pagination/Pagination';
 import { MdOutlineDelete, MdEdit, MdVisibility } from 'react-icons/md';
 import { FaSearch, FaPlus, FaDownload } from 'react-icons/fa';
+import { useAppearance } from '../../context/AppearanceContext';
 
 const UsersPage: React.FC = () => {
+    const { settings } = useAppearance();
     const [users, setUsers] = useState<User[]>([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -67,7 +69,10 @@ const UsersPage: React.FC = () => {
                         Manage user accounts and permissions
                     </p>
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2">
+                <button
+                    className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors flex items-center space-x-2"
+                    style={{ backgroundColor: settings.primaryColor }}
+                >
                     <FaDownload />
                     <span>Export Users</span>
                 </button>
@@ -89,7 +94,7 @@ const UsersPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="text-sm text-gray-500">
-                        {filteredUsers.length} of {users.length} users
+                        {filteredUsers.length} users found
                     </div>
                 </div>
             </div>
@@ -151,8 +156,14 @@ const UsersPage: React.FC = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <div className="flex-shrink-0 h-10 w-10">
-                                                    <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                                        <span className="text-gray-500 text-sm font-medium">
+                                                    <div
+                                                        className="h-10 w-10 rounded-lg flex items-center justify-center text-white"
+                                                        style={{
+                                                            backgroundColor:
+                                                                settings.primaryColor,
+                                                        }}
+                                                    >
+                                                        <span className="text-sm font-medium">
                                                             {user.name
                                                                 .charAt(0)
                                                                 .toUpperCase()}
@@ -176,7 +187,9 @@ const UsersPage: React.FC = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span
-                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}
+                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(
+                                                    user.role
+                                                )}`}
                                             >
                                                 {user.role.replace('ROLE_', '')}
                                             </span>
@@ -190,7 +203,7 @@ const UsersPage: React.FC = () => {
                                                     <MdVisibility className="w-4 h-4" />
                                                 </button>
                                                 <button
-                                                    className="text-yellow-600 hover:text-yellow-900 transition-colors"
+                                                    className="text-green-600 hover:text-green-900 transition-colors"
                                                     title="Edit User"
                                                 >
                                                     <MdEdit className="w-4 h-4" />

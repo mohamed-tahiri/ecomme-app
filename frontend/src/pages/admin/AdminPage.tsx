@@ -25,8 +25,10 @@ import { getUsers } from '../../services/userService';
 import { getCategories } from '../../services/categoryService';
 import { getOrders } from '../../services/orderService';
 import { Order } from '../../types/order';
+import { useAppearance } from '../../context/AppearanceContext';
 
 const AdminPage = () => {
+    const { settings } = useAppearance();
     const [stats, setStats] = useState({
         users: 0,
         products: 0,
@@ -67,28 +69,48 @@ const AdminPage = () => {
 
     const statsCards = [
         {
-            icon: <FaUsers className="text-blue-500 text-3xl" />,
+            icon: (
+                <FaUsers
+                    className="text-3xl"
+                    style={{ color: settings.primaryColor }}
+                />
+            ),
             label: 'Total Users',
             value: loading ? '...' : stats.users.toLocaleString(),
             change: '+12%',
             changeType: 'positive',
         },
         {
-            icon: <FaBox className="text-green-500 text-3xl" />,
+            icon: (
+                <FaBox
+                    className="text-3xl"
+                    style={{ color: settings.primaryColor }}
+                />
+            ),
             label: 'Total Products',
             value: loading ? '...' : stats.products.toLocaleString(),
             change: '+8%',
             changeType: 'positive',
         },
         {
-            icon: <FaShoppingCart className="text-purple-500 text-3xl" />,
+            icon: (
+                <FaShoppingCart
+                    className="text-3xl"
+                    style={{ color: settings.primaryColor }}
+                />
+            ),
             label: 'Total Orders',
             value: loading ? '...' : stats.orders.toLocaleString(),
             change: '+15%',
             changeType: 'positive',
         },
         {
-            icon: <FaMoneyBillWave className="text-yellow-500 text-3xl" />,
+            icon: (
+                <FaMoneyBillWave
+                    className="text-3xl"
+                    style={{ color: settings.primaryColor }}
+                />
+            ),
             label: 'Total Revenue',
             value: loading ? '...' : `$${stats.revenue.toLocaleString()}`,
             change: '+23%',
@@ -98,61 +120,61 @@ const AdminPage = () => {
 
     const visitData = [
         { name: 'Mon', visits: 120, orders: 15 },
-        { name: 'Tue', visits: 210, orders: 25 },
-        { name: 'Wed', visits: 180, orders: 20 },
-        { name: 'Thu', visits: 260, orders: 30 },
-        { name: 'Fri', visits: 310, orders: 35 },
-        { name: 'Sat', visits: 400, orders: 45 },
-        { name: 'Sun', visits: 300, orders: 40 },
+        { name: 'Tue', visits: 150, orders: 22 },
+        { name: 'Wed', visits: 180, orders: 28 },
+        { name: 'Thu', visits: 220, orders: 35 },
+        { name: 'Fri', visits: 280, orders: 42 },
+        { name: 'Sat', visits: 320, orders: 48 },
+        { name: 'Sun', visits: 290, orders: 38 },
     ];
 
     const recentOrders = [
         {
-            id: '#001',
-            user: 'Alice Johnson',
-            total: '$49.99',
-            status: 'Paid',
-            date: '2024-01-15',
+            id: '1',
+            customer: 'John Doe',
+            product: 'iPhone 13 Pro',
+            amount: 999.99,
+            status: 'delivered',
         },
         {
-            id: '#002',
-            user: 'Bob Smith',
-            total: '$89.00',
-            status: 'Pending',
-            date: '2024-01-14',
+            id: '2',
+            customer: 'Jane Smith',
+            product: 'MacBook Air',
+            amount: 1299.99,
+            status: 'shipped',
         },
         {
-            id: '#003',
-            user: 'Charlie Brown',
-            total: '$120.00',
-            status: 'Delivered',
-            date: '2024-01-13',
+            id: '3',
+            customer: 'Bob Johnson',
+            product: 'AirPods Pro',
+            amount: 249.99,
+            status: 'pending',
         },
         {
-            id: '#004',
-            user: 'Diana Prince',
-            total: '$75.50',
-            status: 'Shipped',
-            date: '2024-01-12',
+            id: '4',
+            customer: 'Alice Brown',
+            product: 'iPad Air',
+            amount: 599.99,
+            status: 'delivered',
         },
     ];
 
     const getStatusColor = (status: string) => {
-        switch (status.toLowerCase()) {
-            case 'paid':
+        switch (status) {
             case 'delivered':
                 return 'bg-green-100 text-green-700';
-            case 'pending':
-                return 'bg-yellow-100 text-yellow-700';
             case 'shipped':
                 return 'bg-blue-100 text-blue-700';
+            case 'pending':
+                return 'bg-yellow-100 text-yellow-700';
             default:
                 return 'bg-gray-100 text-gray-700';
         }
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
+            {/* Header */}
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900">
@@ -162,39 +184,51 @@ const AdminPage = () => {
                         Welcome back! Here's what's happening with your store.
                     </p>
                 </div>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
-                    <FaDownload />
-                    Export Report
-                </button>
+                <div className="flex space-x-3">
+                    <button
+                        className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors flex items-center space-x-2"
+                        style={{ backgroundColor: settings.primaryColor }}
+                    >
+                        <FaDownload />
+                        <span>Export Report</span>
+                    </button>
+                    <button
+                        className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors flex items-center space-x-2"
+                        style={{ backgroundColor: settings.primaryColor }}
+                    >
+                        <FaPlus />
+                        <span>Add Product</span>
+                    </button>
+                </div>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {statsCards.map((stat, index) => (
+                {statsCards.map((card, index) => (
                     <div
                         key={index}
-                        className="bg-white shadow-sm rounded-xl p-6 border hover:shadow-md transition-shadow"
+                        className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow"
                     >
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                                <div>{stat.icon}</div>
-                                <div>
-                                    <div className="text-gray-600 text-sm font-medium">
-                                        {stat.label}
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900">
-                                        {stat.value}
-                                    </div>
-                                </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-600">
+                                    {card.label}
+                                </p>
+                                <p className="text-2xl font-bold text-gray-900 mt-1">
+                                    {card.value}
+                                </p>
                             </div>
-                            <div
-                                className={`text-sm font-medium ${
-                                    stat.changeType === 'positive'
-                                        ? 'text-green-600'
-                                        : 'text-red-600'
-                                }`}
-                            >
-                                {stat.change}
+                            <div className="text-right">
+                                {card.icon}
+                                <p
+                                    className={`text-xs mt-1 ${
+                                        card.changeType === 'positive'
+                                            ? 'text-green-600'
+                                            : 'text-red-600'
+                                    }`}
+                                >
+                                    {card.change}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -204,11 +238,11 @@ const AdminPage = () => {
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Visits Chart */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border">
-                    <h2 className="text-xl font-semibold mb-4">
-                        Weekly Activity
-                    </h2>
-                    <ResponsiveContainer width="100%" height={250}>
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                        Weekly Visits
+                    </h3>
+                    <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={visitData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
@@ -217,119 +251,89 @@ const AdminPage = () => {
                             <Line
                                 type="monotone"
                                 dataKey="visits"
-                                stroke="#6366f1"
-                                strokeWidth={3}
-                                name="Visits"
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="orders"
-                                stroke="#10b981"
-                                strokeWidth={3}
-                                name="Orders"
+                                stroke={settings.primaryColor}
+                                strokeWidth={2}
                             />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>
 
-                {/* Revenue Chart */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border">
-                    <h2 className="text-xl font-semibold mb-4">
-                        Revenue Overview
-                    </h2>
-                    <ResponsiveContainer width="100%" height={250}>
+                {/* Orders Chart */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                        Weekly Orders
+                    </h3>
+                    <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={visitData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
                             <Tooltip />
-                            <Bar dataKey="orders" fill="#6366f1" />
+                            <Bar
+                                dataKey="orders"
+                                fill={settings.primaryColor}
+                            />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
             </div>
 
-            {/* Recent Orders Table */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold">Recent Orders</h2>
-                    <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                        View All Orders →
-                    </button>
+            {/* Recent Orders */}
+            <div className="bg-white rounded-lg shadow-sm border">
+                <div className="p-6 border-b border-gray-200">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                        Recent Orders
+                    </h3>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead>
-                            <tr className="text-left border-b border-gray-200">
-                                <th className="pb-3 text-sm font-medium text-gray-600">
+                    <table className="min-w-full">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Order ID
                                 </th>
-                                <th className="pb-3 text-sm font-medium text-gray-600">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Customer
                                 </th>
-                                <th className="pb-3 text-sm font-medium text-gray-600">
-                                    Total
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Product
                                 </th>
-                                <th className="pb-3 text-sm font-medium text-gray-600">
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Amount
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Status
-                                </th>
-                                <th className="pb-3 text-sm font-medium text-gray-600">
-                                    Date
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="bg-white divide-y divide-gray-200">
                             {recentOrders.map((order) => (
-                                <tr
-                                    key={order.id}
-                                    className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                                >
-                                    <td className="py-3 text-sm font-medium text-gray-900">
-                                        {order.id}
+                                <tr key={order.id} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        #{order.id}
                                     </td>
-                                    <td className="py-3 text-sm text-gray-600">
-                                        {order.user}
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {order.customer}
                                     </td>
-                                    <td className="py-3 text-sm font-medium text-gray-900">
-                                        {order.total}
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        {order.product}
                                     </td>
-                                    <td className="py-3">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        ${order.amount}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <span
-                                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}
+                                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
+                                                order.status
+                                            )}`}
                                         >
                                             {order.status}
                                         </span>
-                                    </td>
-                                    <td className="py-3 text-sm text-gray-500">
-                                        {order.date}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border">
-                <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <button className="bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2">
-                        <FaPlus />
-                        <span>Add Product</span>
-                    </button>
-                    <button className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
-                        <FaUsers />
-                        <span>Manage Users</span>
-                    </button>
-                    <button className="bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2">
-                        <FaShoppingCart />
-                        <span>View Orders</span>
-                    </button>
-                    <button className="bg-yellow-600 text-white px-4 py-3 rounded-lg hover:bg-yellow-700 transition-colors flex items-center gap-2">
-                        <FaCogs />
-                        <span>Settings</span>
-                    </button>
                 </div>
             </div>
         </div>

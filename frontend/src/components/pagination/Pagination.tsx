@@ -1,3 +1,5 @@
+import { useAppearance } from '../../context/AppearanceContext';
+
 interface PaginationProps {
     currentPage: number;
     totalPages: number;
@@ -9,6 +11,8 @@ const Pagination: React.FC<PaginationProps> = ({
     totalPages,
     onPageChange,
 }) => {
+    const { settings } = useAppearance();
+
     const getPagination = () => {
         const pageNumbers = [];
         const delta = 2;
@@ -36,16 +40,29 @@ const Pagination: React.FC<PaginationProps> = ({
         return paginationWithEllipses;
     };
 
+    const getBorderRadius = () => {
+        switch (settings.borderRadius) {
+            case 'none':
+                return 'rounded-none';
+            case 'small':
+                return 'rounded';
+            case 'large':
+                return 'rounded-xl';
+            default:
+                return 'rounded-lg';
+        }
+    };
+
     return (
-        <div className="flex justify-between items-center pt-4 mt-4 border-t border-[var(--border-color)]">
+        <div className="flex justify-between items-center pt-4 mt-4 border-t border-gray-200">
             <button
-                className="pagination-button flex items-center space-x-2 cursor-pointer"
+                className={`flex items-center space-x-2 cursor-pointer px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed ${getBorderRadius()}`}
                 onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
                 disabled={currentPage === 1}
             >
                 <svg
                     focusable="false"
-                    className="icon icon--arrow-left w-2 h-2"
+                    className="w-4 h-4"
                     viewBox="0 0 8 12"
                     role="presentation"
                 >
@@ -57,19 +74,33 @@ const Pagination: React.FC<PaginationProps> = ({
                         strokeLinecap="square"
                     ></path>
                 </svg>
-                <h2 className="m-0">Précédent</h2>
+                <span>Previous</span>
             </button>
 
             <div className="flex items-center">
                 {getPagination().map((item, index) =>
                     item === '...' ? (
-                        <span key={index} className="mx-2">
+                        <span key={index} className="mx-2 text-gray-500">
                             ...
                         </span>
                     ) : (
                         <button
                             key={index}
-                            className={`px-3 py-1 ${item === currentPage ? 'pagination-button-selected' : 'bg-gray-300'} rounded mx-1`}
+                            className={`px-3 py-1 mx-1 text-sm font-medium transition-colors ${getBorderRadius()} ${
+                                item === currentPage
+                                    ? 'text-white'
+                                    : 'text-gray-700 hover:text-gray-900'
+                            }`}
+                            style={{
+                                backgroundColor:
+                                    item === currentPage
+                                        ? settings.primaryColor
+                                        : 'transparent',
+                                border:
+                                    item === currentPage
+                                        ? 'none'
+                                        : '1px solid #e5e7eb',
+                            }}
                             onClick={() => onPageChange(item as number)}
                         >
                             {item}
@@ -79,16 +110,16 @@ const Pagination: React.FC<PaginationProps> = ({
             </div>
 
             <button
-                className="pagination-button flex items-center space-x-2 cursor-pointer"
+                className={`flex items-center space-x-2 cursor-pointer px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed ${getBorderRadius()}`}
                 onClick={() =>
                     onPageChange(Math.min(currentPage + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
             >
-                <h2 className="m-0">Suivant</h2>
+                <span>Next</span>
                 <svg
                     focusable="false"
-                    className="pagination-icon icon icon--arrow-right w-2 h-2"
+                    className="w-4 h-4"
                     viewBox="0 0 8 12"
                     role="presentation"
                 >

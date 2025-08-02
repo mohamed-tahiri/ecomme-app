@@ -5,8 +5,10 @@ import ConfirmModal from '../../components/modals/ConfirmModal';
 import Pagination from '../../components/pagination/Pagination';
 import { getAllOrders, PaginatedOrders } from '../../services/orderService';
 import { Order } from '../../types/order';
+import { useAppearance } from '../../context/AppearanceContext';
 
 const AdminOrdersPage: React.FC = () => {
+    const { settings } = useAppearance();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -104,10 +106,13 @@ const AdminOrdersPage: React.FC = () => {
                         Orders Management
                     </h1>
                     <p className="text-gray-600 mt-1">
-                        Manage and track all orders ({totalCount} total)
+                        Manage and track all orders
                     </p>
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center space-x-2">
+                <button
+                    className="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors flex items-center space-x-2"
+                    style={{ backgroundColor: settings.primaryColor }}
+                >
                     <FaDownload />
                     <span>Export Orders</span>
                 </button>
@@ -121,7 +126,7 @@ const AdminOrdersPage: React.FC = () => {
                             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder="Search by order reference or customer name..."
+                                placeholder="Search orders by reference or customer name..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -129,7 +134,7 @@ const AdminOrdersPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="text-sm text-gray-500">
-                        {filteredOrders.length} of {orders.length} orders
+                        {filteredOrders.length} orders found
                     </div>
                 </div>
             </div>
@@ -141,7 +146,7 @@ const AdminOrdersPage: React.FC = () => {
                         <thead className="bg-gray-50 border-b">
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Order ID
+                                    Order
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Customer
@@ -155,9 +160,6 @@ const AdminOrdersPage: React.FC = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Payment
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Date
-                                </th>
                                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
@@ -167,7 +169,7 @@ const AdminOrdersPage: React.FC = () => {
                             {loading ? (
                                 <tr>
                                     <td
-                                        colSpan={7}
+                                        colSpan={6}
                                         className="px-6 py-4 text-center"
                                     >
                                         <div className="flex items-center justify-center">
@@ -181,7 +183,7 @@ const AdminOrdersPage: React.FC = () => {
                             ) : error ? (
                                 <tr>
                                     <td
-                                        colSpan={7}
+                                        colSpan={6}
                                         className="px-6 py-4 text-center text-red-500"
                                     >
                                         {error}
@@ -190,7 +192,7 @@ const AdminOrdersPage: React.FC = () => {
                             ) : filteredOrders.length === 0 ? (
                                 <tr>
                                     <td
-                                        colSpan={7}
+                                        colSpan={6}
                                         className="px-6 py-8 text-center"
                                     >
                                         <div className="text-gray-500">
@@ -207,13 +209,38 @@ const AdminOrdersPage: React.FC = () => {
                                         className="hover:bg-gray-50 transition-colors"
                                     >
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm font-medium text-gray-900">
-                                                {order.reference}
-                                            </span>
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0 h-10 w-10">
+                                                    <div
+                                                        className="h-10 w-10 rounded-lg flex items-center justify-center text-white"
+                                                        style={{
+                                                            backgroundColor:
+                                                                settings.primaryColor,
+                                                        }}
+                                                    >
+                                                        <span className="text-sm font-medium">
+                                                            {order.reference
+                                                                ?.charAt(0)
+                                                                .toUpperCase() ||
+                                                                'O'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="ml-4">
+                                                    <div className="text-sm font-medium text-gray-900">
+                                                        {order.reference}
+                                                    </div>
+                                                    <div className="text-sm text-gray-500">
+                                                        {new Date(
+                                                            order.createdAt
+                                                        ).toLocaleDateString()}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-gray-900">
-                                                {order.user?.name || 'Unknown'}
+                                                {order.user?.name || 'N/A'}
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 {order.user?.email}
@@ -221,38 +248,41 @@ const AdminOrdersPage: React.FC = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className="text-sm font-medium text-gray-900">
-                                                ${order.total.toFixed(2)}
+                                                $
+                                                {order.total?.toFixed(2) ||
+                                                    '0.00'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span
-                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}
+                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
+                                                    order.status || 'pending'
+                                                )}`}
                                             >
-                                                {order.status}
+                                                {order.status || 'pending'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span
-                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPaymentStatusColor(order.paymentStatus)}`}
+                                                className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPaymentStatusColor(
+                                                    order.paymentStatus ||
+                                                        'pending'
+                                                )}`}
                                             >
-                                                {order.paymentStatus}
+                                                {order.paymentStatus ||
+                                                    'pending'}
                                             </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {new Date(
-                                                order.createdAt
-                                            ).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end space-x-2">
                                                 <button
                                                     className="text-blue-600 hover:text-blue-900 transition-colors"
-                                                    title="View Details"
+                                                    title="View Order"
                                                 >
                                                     <MdVisibility className="w-4 h-4" />
                                                 </button>
                                                 <button
-                                                    className="text-yellow-600 hover:text-yellow-900 transition-colors"
+                                                    className="text-green-600 hover:text-green-900 transition-colors"
                                                     title="Edit Order"
                                                 >
                                                     <MdEdit className="w-4 h-4" />
@@ -287,6 +317,7 @@ const AdminOrdersPage: React.FC = () => {
                 </div>
             )}
 
+            {/* Confirmation Modal */}
             <ConfirmModal
                 isOpen={showDeleteModal}
                 title="Delete Order"

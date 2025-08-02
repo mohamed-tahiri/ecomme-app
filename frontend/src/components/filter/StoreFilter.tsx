@@ -1,6 +1,6 @@
 // src/components/filters/StoreFilter.tsx
 import React, { useState } from 'react';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 
 interface StoreFilterProps {
     searchTerm: string;
